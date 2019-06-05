@@ -1,16 +1,26 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import LoginPage from './app/src/main/activity/LoginPage';
-import MainPage from './app/src/main/activity/MainPage';
+import LoginPage from './android/app/src/main/activity/LoginPage';
+import MainPage from './android/app/src/main/activity/MainPage';
 
 const AppNavigator = createStackNavigator(
-{
-    Login: LoginPage,
-    Main: MainPage
-}
-{
-    initialRouteName: "Login"
-}
+    {
+        Login: {
+            screen: LoginPage,
+            navigationOptions: {
+                headerLeft: null
+            }
+        },
+        Main: {
+            screen: MainPage,
+            navigationOptions: {
+                headerLeft: null
+            }
+        }
+    },
+    {
+        initialRouteName: "Login"
+    }
 );
 
 export default createAppContainer(AppNavigator);
