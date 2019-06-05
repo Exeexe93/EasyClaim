@@ -5,21 +5,14 @@ import MainPage from './android/app/src/main/activity/MainPage';
 
 const AppNavigator = createStackNavigator(
     {
-        Login: {
-            screen: LoginPage,
-            navigationOptions: {
-                headerLeft: null
-            }
-        },
-        Main: {
-            screen: MainPage,
-            navigationOptions: {
-                headerLeft: null
-            }
-        }
+        Login: LoginPage,
+        Main: MainPage
     },
     {
-        initialRouteName: "Login"
+        initialRouteName: "Login",
+        navigationOptions: {
+            header: null
+        }
     }
 );
 
