@@ -7,11 +7,6 @@ import Styles from '../style/MainStyle'
 
 export default class Main extends Component{
 
-  state = {
-      username: '',
-      password: '',
-  }
-
   render() {
         return (
         <PaperProvider>

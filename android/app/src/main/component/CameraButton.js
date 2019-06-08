@@ -3,14 +3,15 @@ import { StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import Styles from '../style/ButtonStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withNavigation } from 'react-navigation';
 
-export default class CameraButton extends Component {
+class CameraButton extends Component {
     render() {
         return (
                 <Button
                     style = {Styles.claimButton}
                     mode = "contained"
-                    onPress = {() => console.log("Claim now")}>
+                    onPress = {() => this.props.navigation.navigate('FillDetails')}>
                     <Icon
                         name = "camera"
                         size={20}
@@ -24,3 +25,5 @@ export default class CameraButton extends Component {
         );
     }
 }
+
+export default withNavigation(CameraButton);

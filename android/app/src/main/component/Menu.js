@@ -8,21 +8,13 @@ export default class Menu extends Component {
 
     render() {
 
-        const Logout = StackActions.reset({
-          index: 0,
-          key: null,
-          actions: [
-            NavigationActions.navigate({ routeName: 'Login' }),
-          ],
-        });
-
         return (
             <View style = {Styles.container}>
                 <View style = { Styles.itemContainer }>
                     <Text
                       onPress = {() => this.props.navigation.navigate('Home')}
                       style = { Styles.drawerItem }
-                      >
+                    >
                       Main
                     </Text>
                 </View>

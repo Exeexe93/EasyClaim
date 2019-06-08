@@ -24,12 +24,12 @@ const Styles = StyleSheet.create({
         width: 250,
         height: 300,
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
   },
   textBox: {
         backgroundColor: 'white',
+        marginVertical: 10,
         flex: 1,
         height: 250,
         width: 200,

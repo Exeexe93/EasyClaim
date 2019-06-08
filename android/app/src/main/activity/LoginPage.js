@@ -22,6 +22,7 @@ export default class Login extends Component{
                     </Text>
                 </View>
                 <View style = {Styles.inputBox}>
+                    <View style = {{flex:2}}/>
                     <View style = {Styles.textBox}>
                         <TextInput
                             mode = {'outlined'}
@@ -40,7 +41,7 @@ export default class Login extends Component{
                             maxLength = {20}
                             placeholderTextColor = {'blue'}
                             placeholder = "Password"
-                            secureTextEntry = {true}
+                            secureTextEntry = { true }
                             style = {Styles.textInput}
                             selectionColor = {'skyblue'}
                             underlineColorAndroid = {'skyblue'}
