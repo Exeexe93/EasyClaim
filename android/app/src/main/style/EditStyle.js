@@ -5,24 +5,20 @@ const Styles = StyleSheet.create({
             flex: 1,
             backgroundColor: '#F1F9FF',
       },
-      imageContainer: {
-            flex: 1,
-      },
       textContainer: {
-            flex: 2,
+            flex: 1,
             backgroundColor: '#F1F9FF',
-            paddingTop: 20,
-            paddingHorizontal: 20
+            marginVertical: 20
       },
       title: {
-            fontSize: 16,
+            fontSize: 20,
             color: 'red',
             padding: 15,
             margin: 5,
             textAlign: 'left'
       },
       text: {
-            fontSize: 12,
+            fontSize: 15,
             textAlign: 'right'
       }
 })

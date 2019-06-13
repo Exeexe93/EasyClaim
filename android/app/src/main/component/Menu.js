@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Styles from '../style/MenuStyle';
-import LogoutDialog from '../component/LogoutDialog';
+import LogoutDialog from '../dialog/LogoutDialog';
 
 export default class Menu extends Component {
 
@@ -16,6 +16,12 @@ export default class Menu extends Component {
                       style = { Styles.drawerItem }
                     >
                       Main
+                    </Text>
+                    <Text
+                      onPress = {() => this.props.navigation.navigate('Notifications')}
+                      style = { Styles.drawerItem }
+                    >
+                      Notifications
                     </Text>
                 </View>
                 <View style = { Styles.logoutContainer}>

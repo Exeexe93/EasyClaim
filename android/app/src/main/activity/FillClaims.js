@@ -1,48 +1,37 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, StyleSheet} from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
-import CameraButton from '../component/CameraButton';
-import MenuButton from '../component/MenuButton';
+import { Button, ScrollView, TextInput, Text, View, StyleSheet} from 'react-native';
+import { Image } from 'react-native-elements';
 import Styles from '../style/EditStyle';
+import ClaimButton from '../component/ClaimButton';
 
 export default class Main extends Component{
 
-//  var date = "15/05/2019";
-//  var time = "15:13";
-//  var price = 19;
-
-  render() {
+    render() {
         return (
-        <PaperProvider>
-            <View style = {Styles.container}>
-                <View style = { Styles.ImageContainer }>
-                    <Text>
-                        This is pic
-                    </Text>
-                </View>
+
+            <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
+                                        style = { Styles.container }>
+                <Image
+                  source = {require('../assets/image/receipt.jpg')}
+                  style = {{ width: 400, height: 250 }}
+                />
                 <View style = { Styles.textContainer }>
                     <Text style = { Styles.title }>
                         Date:
                     </Text>
-                    <TextInput style = { Styles.text }>
-                        value1
-                    </TextInput>
+                    <TextInput placeholder = 'value1' style = { Styles.text }/>
                     <Text style = { Styles.title }>
                         Time:
                     </Text>
-                    <TextInput style = { Styles.text }>
-                         value2
-                    </TextInput>
+                    <TextInput placeholder = 'value2' style = { Styles.text }/>
                     <Text style = { Styles.title }>
                         Price:
                     </Text>
-                    <TextInput style = { Styles.text }>
-                         value3
-                    </TextInput>
+                    <TextInput placeholder = 'value3' style = { Styles.text }/>
+                    <ClaimButton/>
                 </View>
-            </View>
-        </PaperProvider>
+             </ScrollView>
         );
-  }
+    }
 }
 
