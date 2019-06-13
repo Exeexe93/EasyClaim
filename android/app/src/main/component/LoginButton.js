@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button } from 'react-native-elements';
 import Styles from '../style/ButtonStyle';
 import { StackActions, NavigationActions, withNavigation } from 'react-navigation';
 
@@ -16,12 +16,10 @@ class LoginButton extends Component {
     render() {
         return (
                 <Button
-                    style = {Styles.loginButton}
-                    mode = "contained"
+                    containerStyle = {Styles.loginButton}
                     color = 'skyblue'
-                    onPress = { () => this.props.navigation.dispatch(goToMain)}>
-                    Login
-                </Button>
+                    onPress = { () => this.props.navigation.dispatch(goToMain)}
+                    title = "Login"/>
         );
     }
 }
