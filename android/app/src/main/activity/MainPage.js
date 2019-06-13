@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, Text, View, StyleSheet} from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Header } from 'react-native-elements';
 import CameraButton from '../component/CameraButton';
 import MenuButton from '../component/MenuButton';
 import Styles from '../style/MainStyle'
@@ -9,20 +9,20 @@ export default class Main extends Component{
 
   render() {
         return (
-        <PaperProvider>
-            <MenuButton/>
-
-            <View style = {Styles.container}>
-                <View style = {Styles.logoBox}>
-                    <Text style = {Styles.logo}>
-                        EasyClaim
-                    </Text>
+                <View style = {Styles.container}>
+                    <Header
+                        containerStyle = {{ height: 50, paddingVertical: 20}}
+                        leftComponent={<MenuButton/>}
+                    />
+                    <View style = {Styles.logoBox}>
+                        <Text style = {Styles.logo}>
+                            EasyClaim
+                        </Text>
+                    </View>
+                    <View style = {Styles.loginBox}>
+                        <CameraButton/>
+                    </View>
                 </View>
-                <View style = {Styles.loginBox}>
-                    <CameraButton/>
-                </View>
-            </View>
-        </PaperProvider>
         );
   }
 }

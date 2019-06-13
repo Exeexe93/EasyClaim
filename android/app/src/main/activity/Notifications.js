@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, Text, View, StyleSheet} from 'react-native';
-import { ListItem } from 'react-native-elements'
+import { FlatList, ScrollView, Text, View, StyleSheet} from 'react-native';
+import { ListItem, Header } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
-import { Provider as PaperProvider } from 'react-native-paper';
 
 export default class Notifications extends Component{
 
@@ -36,16 +35,17 @@ export default class Notifications extends Component{
             },
         ]
       return (
-            <PaperProvider>
-                <MenuButton/>
-                <View style = {{ flex:1, backgroundColor: '#F1F9FF'}}>
-                    <FlatList
-                          keyExtractor = { this.keyExtractor }
-                          data = { list }
-                          renderItem = { this.renderItem }
-                    />
-                </View>
-            </PaperProvider>
+            <ScrollView style = {{ flex:1, backgroundColor: '#F1F9FF'}}>
+                <Header
+                    containerStyle = {{ height: 50, paddingVertical: 20}}
+                    leftComponent={<MenuButton/>}
+                />
+                <FlatList
+                      keyExtractor = { this.keyExtractor }
+                      data = { list }
+                      renderItem = { this.renderItem }
+                />
+            </ScrollView>
       )
     }
 }

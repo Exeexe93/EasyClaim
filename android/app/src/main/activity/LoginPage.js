@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { TextInput, Text, View, StyleSheet } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
 import Styles from '../style/LoginStyle'
 import LoginButton from '../component/LoginButton'
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -14,7 +13,6 @@ export default class Login extends Component{
 
   render() {
         return (
-        <PaperProvider>
             <View style = {Styles.container}>
                 <View style = {Styles.logoBox}>
                     <Text style = {Styles.logo}>
@@ -53,7 +51,6 @@ export default class Login extends Component{
                     <LoginButton/>
                 </View>
             </View>
-        </PaperProvider>
         );
   }
 }
