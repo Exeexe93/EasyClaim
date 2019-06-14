@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, StyleSheet} from 'react-native';
+import { TextInput, Text, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import CameraButton from '../component/CameraButton';
 import MenuButton from '../component/MenuButton';

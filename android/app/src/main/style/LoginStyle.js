@@ -38,12 +38,8 @@ const Styles = StyleSheet.create({
   },
   textInput: {
         borderColor: '#F1F9FF',
-        borderLeftWidth: 2,
-        borderRightWidth: 2,
-        borderBottomWidth: 2,
-        borderTopWidth: 2,
-        maxWidth: 150,
-        minWidth: 150,
+        borderWidth: 2,
+        width: "90%",
         height: 40,
         padding: 6
   },
@@ -52,6 +48,12 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
   },
+  registerText: {
+        lineHeight: 50,
+        fontSize: 14,
+        color: 'red',
+        textAlign: 'center'
+  }
 });
 
 export default Styles;

@@ -3,7 +3,8 @@ import MainPage from '../activity/MainPage';
 import Menu from '../component/Menu';
 import FillClaims from '../activity/FillClaims';
 import Notifications from '../activity/Notifications';
-import ReviewClaim from '../activity/ReviewClaim'
+import ReviewClaim from '../activity/ReviewClaim';
+import Profile from '../activity/Profile';
 
 const DrawerStack = createDrawerNavigator(
     {
@@ -21,6 +22,9 @@ const DrawerStack = createDrawerNavigator(
         },
         ReviewClaim: {
                 screen: ReviewClaim,
+        },
+        Profile: {
+                screen: Profile,
         }
     },
     {

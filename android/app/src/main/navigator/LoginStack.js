@@ -1,5 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
 import LoginPage from '../activity/LoginPage';
+import Register from '../activity/Register';
 
 const LoginStack = createStackNavigator(
     {
@@ -7,6 +8,14 @@ const LoginStack = createStackNavigator(
             screen: LoginPage,
             navigationOptions: {
                 header: null
+            }
+        },
+        Register: {
+            screen: Register,
+            navigationOptions: {
+                headerStyle: {
+                  backgroundColor: '#2699FB'
+                }
             }
         }
     },

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, StyleSheet } from 'react-native';
-import Styles from '../style/LoginStyle'
-import LoginButton from '../component/LoginButton'
+import { TextInput, Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
+import Styles from '../style/LoginStyle';
+import LoginButton from '../component/LoginButton';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 export default class Login extends Component{
@@ -23,7 +24,6 @@ export default class Login extends Component{
                     <View style = {{flex:2}}/>
                     <View style = {Styles.textBox}>
                         <TextInput
-                            mode = {'outlined'}
                             maxLength = {20}
                             placeholderTextColor = {'blue'}
                             placeholder = "Username"
@@ -35,7 +35,6 @@ export default class Login extends Component{
                     </View>
                     <View style = {Styles.textBox}>
                         <TextInput
-                            mode = {'outlined'}
                             maxLength = {20}
                             placeholderTextColor = {'blue'}
                             placeholder = "Password"
@@ -49,6 +48,10 @@ export default class Login extends Component{
                 </View>
                 <View style = {Styles.loginBox}>
                     <LoginButton/>
+                    <Text style = { Styles.registerText }
+                        onPress = {() => this.props.navigation.navigate('Register')}>
+                        Do not have an account? Register now !
+                    </Text>
                 </View>
             </View>
         );

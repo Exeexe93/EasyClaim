@@ -23,6 +23,12 @@ export default class Menu extends Component {
                     >
                       Notifications
                     </Text>
+                    <Text
+                      onPress = {() => this.props.navigation.navigate('Profile')}
+                      style = { Styles.drawerItem }
+                    >
+                      Profile
+                    </Text>
                 </View>
                 <View style = { Styles.logoutContainer}>
                     <LogoutDialog/>

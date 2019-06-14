@@ -4,24 +4,24 @@ import { Button } from 'react-native-elements';
 import Styles from '../style/ButtonStyle';
 import { StackActions, NavigationActions, withNavigation } from 'react-navigation';
 
-const goToMain = StackActions.reset({
+const goToLogin = StackActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'Drawer' }),
+        NavigationActions.navigate({ routeName: 'Login' }),
       ],
     });
 
-class LoginButton extends Component {
+class SignUpButton extends Component {
 
     render() {
         return (
                 <Button
-                    containerStyle = {Styles.loginButton}
+                    containerStyle = {Styles.signUpButton}
                     color = '#2699FB'
-                    onPress = { () => this.props.navigation.dispatch(goToMain)}
-                    title = "Login"/>
+                    onPress = { () => this.props.navigation.dispatch(goToLogin)}
+                    title = "Sign Up"/>
         );
     }
 }
 
-export default withNavigation(LoginButton);
+export default withNavigation(SignUpButton);
