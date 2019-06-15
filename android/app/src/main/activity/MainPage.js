@@ -19,7 +19,7 @@ export default class Main extends Component{
                             EasyClaim
                         </Text>
                     </View>
-                    <View style = {Styles.loginBox}>
+                    <View style = {Styles.cameraBox}>
                         <CameraButton/>
                     </View>
                 </View>

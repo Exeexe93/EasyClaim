@@ -5,6 +5,7 @@ import FillClaims from '../activity/FillClaims';
 import Notifications from '../activity/Notifications';
 import ReviewClaim from '../activity/ReviewClaim';
 import Profile from '../activity/Profile';
+import EditProfile from '../activity/EditProfile';
 
 const DrawerStack = createDrawerNavigator(
     {
@@ -25,6 +26,9 @@ const DrawerStack = createDrawerNavigator(
         },
         Profile: {
                 screen: Profile,
+        },
+        EditProfile: {
+                screen: EditProfile,
         }
     },
     {

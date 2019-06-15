@@ -11,7 +11,7 @@ export default class Main extends Component{
             <ScrollView keyboardDismissMode = "on-drag" overScrollMode ="always"
                             style = { Styles.textContainer }>
                 <Image
-                  source = {require('../assets/image/receipt.jpg')}
+                  source = {{uri: 'https://mothership.sg/wp-content/uploads/2015/02/10169165_10203599641304216_69228669637295842_n.jpg'}}
                   style = {{ width: 400, height: 250 }}
                 />
                 <Text style = { Styles.title }>

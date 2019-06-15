@@ -19,7 +19,7 @@ const Styles = StyleSheet.create({
         fontFamily: 'ScriptMTBold',
         color: '#2699FB',
    },
-  cameraBox: {
+  loginBox: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
