@@ -3,6 +3,7 @@ import LoginPage from '../activity/LoginPage';
 import Register from '../activity/Register';
 import ForgetPassword from '../activity/ForgetPassword';
 
+
 const LoginStack = createStackNavigator(
     {
         Login: {

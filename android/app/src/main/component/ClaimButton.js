@@ -21,7 +21,7 @@ class ClaimButton extends Component {
                 <Button
                     onPress = { ClaimAlert }
                     title = "Confirm"
-                    color =  "skyblue"
+                    color =  "#2699FB"
                     containerStyle = { Styles.claimButton }/>
             </View>
         );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextInput, Text, View} from 'react-native';
-import { Header, Image } from 'react-native-elements';
+import { Avatar, Header, Image } from 'react-native-elements';
 import MenuButton from '../component/MenuButton';
 import EditIcon from '../component/EditIcon';
 import Styles from '../style/ProfileStyle';
@@ -15,9 +15,14 @@ export default class Profile extends Component{
                         leftComponent = { <MenuButton/> }
                         rightComponent = { <EditIcon/> }
                     />
-                    <Image
-                      source = {{ uri: 'https://previews.123rf.com/images/vadymvdrobot/vadymvdrobot1509/vadymvdrobot150900446/45025475-closeup-portrait-of-a-handsome-man-at-gym.jpg' }}
-                      style = { Styles.picture }
+                    <Avatar
+                        rounded
+                        source = {{
+                        uri:
+                          'https://previews.123rf.com/images/vadymvdrobot/vadymvdrobot1509/vadymvdrobot150900446/45025475-closeup-portrait-of-a-handsome-man-at-gym.jpg'
+                        }}
+                        size = { 180 }
+                        containerStyle = {{ marginTop: 20, alignSelf: 'center' }}
                     />
                     <Text style = { Styles.name }>
                         Name: Admin

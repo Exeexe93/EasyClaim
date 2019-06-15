@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import { Button, ScrollView, TextInput, Text, View, StyleSheet} from 'react-native';
-import { Image } from 'react-native-elements';
+import { Avatar, Image } from 'react-native-elements';
 import Styles from '../style/EditStyle';
 import ClaimButton from '../component/ClaimButton';
 
-export default class Main extends Component{
+export default class FillClaims extends Component{
 
     render() {
         return (
 
             <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
                                         style = { Styles.container }>
-                <Image
-                  source = {{uri: 'https://mothership.sg/wp-content/uploads/2015/02/10169165_10203599641304216_69228669637295842_n.jpg'}}
-                  style = {{ width: 400, height: 250 }}
+                <Avatar
+                  rounded
+                  size = "xlarge"
+                  containerStyle = {{ alignSelf: 'center' }}
+                  onPress = { () => this.props.navigation.navigate('ShowImage')}
+                  source = {{
+                    uri:
+                      'https://mothership.sg/wp-content/uploads/2015/02/10169165_10203599641304216_69228669637295842_n.jpg'
+                  }}
                 />
                 <View style = { Styles.textContainer }>
                     <Text style = { Styles.title }>
