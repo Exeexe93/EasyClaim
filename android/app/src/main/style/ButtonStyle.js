@@ -25,6 +25,16 @@ const Styles = StyleSheet.create({
         height: 40,
         marginHorizontal: 50,
     },
+    retrieveButton: {
+        alignSelf: 'center',
+        width: 150,
+        height: 40
+    },
+    forgetButton: {
+        paddingTop: 10,
+        width: 250,
+        height: 40,
+    }
 });
 
 export default Styles;

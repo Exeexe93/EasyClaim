@@ -15,12 +15,12 @@ const Styles = StyleSheet.create({
         backgroundColor: '#F1F9FF',
   },
   logoBox: {
-        flex: 1,
+        flex: 0.5,
         justifyContent: 'center',
         alignItems: 'center',
   },
   inputBox: {
-        flex: 2,
+        flex: 0.5,
         width: 250,
         height: 300,
         flexDirection: 'column',
@@ -53,7 +53,7 @@ const Styles = StyleSheet.create({
         fontSize: 14,
         color: 'red',
         textAlign: 'center'
-  }
+  },
 });
 
 export default Styles;

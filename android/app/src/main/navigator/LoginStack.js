@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 import LoginPage from '../activity/LoginPage';
 import Register from '../activity/Register';
+import ForgetPassword from '../activity/ForgetPassword';
 
 const LoginStack = createStackNavigator(
     {
@@ -12,6 +13,14 @@ const LoginStack = createStackNavigator(
         },
         Register: {
             screen: Register,
+            navigationOptions: {
+                headerStyle: {
+                  backgroundColor: '#2699FB'
+                }
+            }
+        },
+        ForgetPassword: {
+            screen: ForgetPassword,
             navigationOptions: {
                 headerStyle: {
                   backgroundColor: '#2699FB'

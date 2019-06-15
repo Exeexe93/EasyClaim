@@ -3,6 +3,7 @@ import { TextInput, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Styles from '../style/LoginStyle';
 import LoginButton from '../component/LoginButton';
+import ForgetButton from '../component/ForgetButton';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 export default class Login extends Component{
@@ -48,6 +49,7 @@ export default class Login extends Component{
                 </View>
                 <View style = {Styles.loginBox}>
                     <LoginButton/>
+                    <ForgetButton/>
                     <Text style = { Styles.registerText }
                         onPress = {() => this.props.navigation.navigate('Register')}>
                         Do not have an account? Register now !
