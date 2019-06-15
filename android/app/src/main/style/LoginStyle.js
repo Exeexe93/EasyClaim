@@ -6,7 +6,7 @@ const Styles = StyleSheet.create({
         textAlign: 'center',
         margin: 20,
         fontFamily: 'ScriptMTBold',
-        color: '#2699FB',
+        color: '#0FA1FF',
   },
   container: {
         flex: 1,
@@ -19,26 +19,24 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
   },
-  inputBox: {
+    inputBox: {
         flex: 0.5,
         width: 250,
         height: 300,
         flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        alignSelf: 'center',
   },
   textBox: {
-        backgroundColor: 'white',
+        alignItems: 'center',
         marginVertical: 10,
         flex: 1,
         height: 250,
         width: 200,
-        justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'center'
   },
   textInput: {
-        borderColor: '#F1F9FF',
-        borderWidth: 2,
+  opacity: 10,
         width: "90%",
         height: 40,
         padding: 6

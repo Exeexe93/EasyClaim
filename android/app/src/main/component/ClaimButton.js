@@ -9,7 +9,7 @@ class ClaimButton extends Component {
     render() {
         const ClaimAlert = () => Alert.alert(
               'Claim Success',
-              'Claim Success',
+              ' ',
               [
                 {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
               ],

@@ -18,6 +18,7 @@ const Styles = StyleSheet.create({
             textAlign: 'left'
       },
       text: {
+            paddingRight: 20,
             fontSize: 15,
             textAlign: 'right'
       }
