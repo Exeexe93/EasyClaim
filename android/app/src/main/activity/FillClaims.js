@@ -18,7 +18,7 @@ export default class FillClaims extends Component{
                   onPress = { () => this.props.navigation.navigate('ShowImage')}
                   source = {{
                     uri:
-                      'https://mothership.sg/wp-content/uploads/2015/02/10169165_10203599641304216_69228669637295842_n.jpg'
+                      global.FileUri
                   }}
                 />
                 <View style = { Styles.textContainer }>

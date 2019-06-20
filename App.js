@@ -7,6 +7,7 @@ import ReviewClaim from './android/app/src/main/activity/ReviewClaim';
 import EditProfile from './android/app/src/main/activity/EditProfile';
 import ShowImage from './android/app/src/main/activity/ShowImage';
 import FillClaims from './android/app/src/main/activity/FillClaims';
+import Camera from './android/app/src/main/activity/Camera';
 
 const AppNavigator = createStackNavigator(
     {
@@ -22,30 +23,36 @@ const AppNavigator = createStackNavigator(
                 header: null
             }
         },
-        FillDetails: {
+        FillClaims: {
                 screen: FillClaims,
                 navigationOptions: {
-                                header: null
+                    header: null
                 }
         },
         ReviewClaim: {
                 screen: ReviewClaim,
                 navigationOptions: {
-                                header: null
+                    header: null
                 }
         },
         EditProfile: {
                 screen: EditProfile,
                 navigationOptions: {
-                                header: null
+                    header: null
                 }
         },
         ShowImage: {
              screen: ShowImage,
              navigationOptions: {
-                             header: null
+                 header: null
              }
-        }
+        },
+        Camera: {
+            screen: Camera,
+            navigationOptions: {
+                header: null
+            }
+        },
     },
     {
         initialRouteName: "Login"

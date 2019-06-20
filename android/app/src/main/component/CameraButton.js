@@ -11,7 +11,7 @@ class CameraButton extends Component {
                 <Button
                     containerStyle = {Styles.cameraButton}
                     titleStyle = {{ marginHorizontal : 30}}
-                    onPress = {() => this.props.navigation.navigate('FillDetails')}
+                    onPress = {() => this.props.navigation.navigate('Camera')}
                     icon = {
                         <Icon
                             name = "camera"
