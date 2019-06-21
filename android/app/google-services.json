@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "867454206549",
+    "firebase_url": "https://easyclaim-dcb42.firebaseio.com",
+    "project_id": "easyclaim-dcb42",
+    "storage_bucket": "easyclaim-dcb42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867454206549:android:645513aecbf91738",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867454206549-djniomo71nj8j8s8u2ploj2kra672i9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn_GrIxq7eOvB0f_8Px8QKMv1cmNoNbBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867454206549-djniomo71nj8j8s8u2ploj2kra672i9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
