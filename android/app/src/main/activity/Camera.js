@@ -8,15 +8,6 @@ const flashModeOrder = {
   on: 'off',
 };
 
-const wbOrder = {
-  auto: 'sunny',
-  sunny: 'cloudy',
-  cloudy: 'shadow',
-  shadow: 'fluorescent',
-  fluorescent: 'incandescent',
-  incandescent: 'auto',
-};
-
 export default class CameraScreen extends React.Component {
     constructor() {
         super();
@@ -29,7 +20,7 @@ export default class CameraScreen extends React.Component {
         type: 'back',
         whiteBalance: 'auto',
         ratio: '16:9',
-        canDetectText: false,
+        canDetectText: true,
         textBlocks: [],
     };
 
@@ -45,6 +36,7 @@ export default class CameraScreen extends React.Component {
       const options = { quality: 0.5, base64: true, fixOrientation: true };
       const data = await this.camera.takePictureAsync(options);
       FileUri = data.uri;
+      console.log(this.state.textBlock);
       this.props.navigation.navigate('FillClaims');
     }
     };
@@ -126,13 +118,6 @@ export default class CameraScreen extends React.Component {
                               size = { 25 }
                               color =  {this.state.flash == 'on'? 'yellow': 'white'}
                         />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress = { this.toggle('canDetectText') }
-                        style = { styles.flipButton }>
-                      <Text style = { styles.flipText }>
-                        { !canDetectText ? 'Detect Text' : 'Detecting Text' }
-                      </Text>
                     </TouchableOpacity>
                   </View>
                   <View
