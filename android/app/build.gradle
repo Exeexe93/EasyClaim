@@ -136,11 +136,19 @@ android {
             }
         }
     }
+    packagingOptions {
+        exclude 'META-INF/androidx.exifinterface_exifinterface.version'
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
     implementation project(':react-native-camera')
     implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
+    implementation (project(':react-native-text-detector')) {
+        exclude group: 'com.google.firebase'
+    }
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -154,3 +162,8 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
+
+// Work around for onesignal-gradle-plugin compatibility
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

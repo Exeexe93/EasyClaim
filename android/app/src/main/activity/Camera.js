@@ -8,15 +8,6 @@ const flashModeOrder = {
   on: 'off',
 };
 
-const wbOrder = {
-  auto: 'sunny',
-  sunny: 'cloudy',
-  cloudy: 'shadow',
-  shadow: 'fluorescent',
-  fluorescent: 'incandescent',
-  incandescent: 'auto',
-};
-
 export default class CameraScreen extends React.Component {
     constructor() {
         super();
@@ -41,12 +32,12 @@ export default class CameraScreen extends React.Component {
     }
 
     takePicture = async() => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
-      const data = await this.camera.takePictureAsync(options);
-      FileUri = data.uri;
-      this.props.navigation.navigate('FillClaims');
-    }
+        if (this.camera) {
+          const options = { quality: 0.5, base64: true, fixOrientation: true };
+          const data = await this.camera.takePictureAsync(options);
+          FileUri = data.uri;
+          this.props.navigation.navigate('FillClaims');
+        }
     };
 
     toggle = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
@@ -103,7 +94,6 @@ export default class CameraScreen extends React.Component {
                     buttonPositive: 'Ok',
                     buttonNegative: 'Cancel',
                 }}
-                onTextRecognized = {canDetectText ? this.textRecognized : null}
                 >
                 <View
                   style = {{
@@ -111,30 +101,6 @@ export default class CameraScreen extends React.Component {
                     justifyContent: 'flex-start',
                   }}
                 >
-                  <View
-                    style = {{
-                      backgroundColor: 'transparent',
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}
-                  >
-                    <TouchableOpacity style={styles.flipButton}
-                        onPress = {this.toggleFlash.bind(this)}>
-                        <Icon
-                              name = 'flash'
-                              type = 'entypo'
-                              size = { 25 }
-                              color =  {this.state.flash == 'on'? 'yellow': 'white'}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress = { this.toggle('canDetectText') }
-                        style = { styles.flipButton }>
-                      <Text style = { styles.flipText }>
-                        { !canDetectText ? 'Detect Text' : 'Detecting Text' }
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
                   <View
                             style = {{
                               backgroundColor: 'transparent',
@@ -159,22 +125,39 @@ export default class CameraScreen extends React.Component {
                           </View>
                 </View>
                 <View
-                  style={{
-                    flex: 0.2,
-                    backgroundColor: 'transparent',
-                    alignSelf: 'center',
-                  }}
-                >
-                <Icon
-                    style = {{ }}
-                    name = 'camera'
-                    type = 'material'
-                    size = { 80 }
-                    color = 'white'
-                    onPress = { this.takePicture.bind(this) }
-                />
+                    style = {{
+                        flex: 0.2,
+                        flexDirection: 'row',
+                        backgroundColor: 'transparent',
+                        alignContent: 'center',
+                        justifyContent: 'flex-end',
+                }}>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 40,
+                        backgroundColor: 'transparent',
+                      }}
+                    >
+                    <Icon
+                        name = 'camera'
+                        type = 'material'
+                        size = { 80 }
+                        color = 'white'
+                        onPress = { this.takePicture.bind(this) }
+                    />
+                    </View>
+
+                    <TouchableOpacity style={styles.flipButton}
+                        onPress = {this.toggleFlash.bind(this)}>
+                        <Icon
+                              name = 'flash'
+                              type = 'entypo'
+                              size = { 35 }
+                              color =  {this.state.flash == 'on'? 'yellow': 'white'}
+                        />
+                    </TouchableOpacity>
                 </View>
-                {!!canDetectText && this.renderTextBlocks()}
             </RNCamera>
         );
     }
@@ -191,15 +174,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     flipButton: {
-        flex: 0.3,
+        alignSelf: 'center',
         height: 40,
-        marginHorizontal: 2,
+        marginHorizontal: 40,
         marginBottom: 10,
         marginTop: 10,
-        borderRadius: 8,
         padding: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     flipText: {
         color: 'white',
