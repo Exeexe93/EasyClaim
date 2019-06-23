@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
+import RNTextDetector from "react-native-text-detector";
 
 const flashModeOrder = {
   off: 'on',
@@ -32,11 +33,18 @@ export default class CameraScreen extends React.Component {
     }
 
     takePicture = async() => {
-        if (this.camera) {
-          const options = { quality: 0.5, base64: true, fixOrientation: true };
-          const data = await this.camera.takePictureAsync(options);
-          FileUri = data.uri;
-          this.props.navigation.navigate('FillClaims');
+        try{
+            if (this.camera) {
+              const options = { quality: 0.5, base64: true, fixOrientation: true };
+              const data = await this.camera.takePictureAsync(options);
+              FileUri = data.uri;
+              const textData = await RNTextDetector.detectFromUri(FileUri);
+              this.setState({textBlocks: textData});
+              console.warn(this.state.textBlocks);
+              //this.props.navigation.navigate('FillClaims');
+            }
+        } catch (e) {
+            console.warn(e);
         }
     };
 
