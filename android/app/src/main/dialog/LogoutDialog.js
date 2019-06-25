@@ -29,7 +29,7 @@ class LogoutDialog extends Component {
                 </Text>
                 <ConfirmDialog
                     messageStyle = {{ alignSelf: 'center', color: "black"}}
-                    dialogStyle = {{ borderRadius: 20,}}
+                    dialogStyle = {{ borderRadius: 20}}
                     message = "Confirm Logout?"
                     visible = { this.state.visible }
                     onTouchOutside = {() => this.setState({visible: false}) }

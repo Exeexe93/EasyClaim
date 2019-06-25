@@ -13,6 +13,9 @@ export default class CameraScreen extends React.Component {
     constructor() {
         super();
         global.FileUri = '';
+        global.date = '';
+        global.time = '';
+        global.price = '';
     }
 
     state = {
@@ -21,7 +24,6 @@ export default class CameraScreen extends React.Component {
         type: 'back',
         whiteBalance: 'auto',
         ratio: '16:9',
-        canDetectText: false,
         textBlocks: [],
     };
 
@@ -32,16 +34,53 @@ export default class CameraScreen extends React.Component {
 
     }
 
+    searchInfo = ({ text }) => {
+        text.split('/n').map((v) => {
+            this.searchDateAndTime(v);
+            this.searchPrice(v);
+        })
+    }
+
+    searchDateAndTime(value) {
+        posOfStart = value.toUpperCase().indexOf('START');
+        posOfSlash = value.indexOf('/');
+        posOfColon = value.indexOf(':');
+        // Check if this is the start date and time
+        if (posOfStart != -1 && posOfSlash != -1 && posOfColon != -1)  {
+            // Date in dd/mm/yyyy so is 10 number
+            date = value.substr(posOfSlash - 2, 10);
+            // Time in hh:mm so is 5 number
+            time = value.substr(posOfColon - 2, 5);
+        }
+    }
+
+    searchPrice(value) {
+        var number = '';
+        posOfDot = value.indexOf('.');
+        posOfKM = value.toUpperCase().indexOf('KM');
+        // Check whether there are . in the string and 'km' word afterward
+        if (posOfDot != -1 && posOfKM == -1) {
+            number = parseFloat(value.substr(posOfDot - 2, 5)).toString();
+            // Add zero behind when is only 1 decimal place
+            if (number.length - number.indexOf('.') == 2) {
+               number = number + '0';
+            }
+            price = '$' + number;
+        }
+    }
+
     takePicture = async() => {
         try{
             if (this.camera) {
               const options = { quality: 0.5, base64: true, fixOrientation: true };
               const data = await this.camera.takePictureAsync(options);
               FileUri = data.uri;
-              const textData = await RNTextDetector.detectFromUri(FileUri);
-              this.setState({textBlocks: textData});
-              console.warn(this.state.textBlocks);
-              //this.props.navigation.navigate('FillClaims');
+              const visionResp = await RNTextDetector.detectFromUri(FileUri);
+              this.setState({ textBlocks: visionResp });
+              if (this.state.textBlocks.length > 0) {
+                 this.state.textBlocks.map(this.searchInfo);
+                 this.props.navigation.navigate('FillClaims');
+             }
             }
         } catch (e) {
             console.warn(e);
@@ -49,35 +88,6 @@ export default class CameraScreen extends React.Component {
     };
 
     toggle = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
-
-    renderTextBlocks = () => (
-    <View style={styles.facesContainer} pointerEvents="none">
-      {this.state.textBlocks.map(this.renderTextBlock)}
-    </View>
-    );
-
-    renderTextBlock = ({ bounds, value }) => (
-    <React.Fragment key={value + bounds.origin.x}>
-      <Text style={[styles.textBlock, { left: bounds.origin.x, top: bounds.origin.y }]}>
-        {value}
-      </Text>
-      <View
-        style={[
-          styles.text,
-          {
-            ...bounds.size,
-            left: bounds.origin.x,
-            top: bounds.origin.y,
-          },
-        ]}
-      />
-    </React.Fragment>
-    );
-
-    textRecognized = object => {
-    const { textBlocks } = object;
-    this.setState({ textBlocks });
-    };
 
     renderCamera() {
         const { canDetectText } = this.state;
@@ -171,7 +181,11 @@ export default class CameraScreen extends React.Component {
     }
 
     render() {
-        return <View style={styles.container}>{this.renderCamera()}</View>;
+        return (
+            <View style = { styles.container }>
+                {this.renderCamera()}
+            </View>
+        );
     }
 }
 
@@ -188,32 +202,5 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         padding: 5,
-    },
-    flipText: {
-        color: 'white',
-        fontSize: 15,
-    },
-    zoomText: {
-        position: 'absolute',
-        bottom: 70,
-        zIndex: 2,
-        left: 2,
-    },
-    picButton: {
-        backgroundColor: 'skyblue',
-    },
-    text: {
-        padding: 10,
-        borderWidth: 2,
-        borderRadius: 2,
-        position: 'absolute',
-        borderColor: '#F00',
-        justifyContent: 'center',
-    },
-    textBlock: {
-        color: '#F00',
-        position: 'absolute',
-        textAlign: 'center',
-        backgroundColor: 'transparent',
     },
 });
