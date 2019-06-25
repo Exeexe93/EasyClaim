@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
+import RNTextDetector from "react-native-text-detector";
 
 const flashModeOrder = {
   off: 'on',
@@ -12,6 +13,9 @@ export default class CameraScreen extends React.Component {
     constructor() {
         super();
         global.FileUri = '';
+        global.date = '';
+        global.time = '';
+        global.price = '';
     }
 
     state = {
@@ -20,7 +24,6 @@ export default class CameraScreen extends React.Component {
         type: 'back',
         whiteBalance: 'auto',
         ratio: '16:9',
-        canDetectText: true,
         textBlocks: [],
     };
 
@@ -31,46 +34,60 @@ export default class CameraScreen extends React.Component {
 
     }
 
-    takePicture = async() => {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true, fixOrientation: true };
-      const data = await this.camera.takePictureAsync(options);
-      FileUri = data.uri;
-      console.log(this.state.textBlock);
-      this.props.navigation.navigate('FillClaims');
+    searchInfo = ({ text }) => {
+        text.split('/n').map((v) => {
+            this.searchDateAndTime(v);
+            this.searchPrice(v);
+        })
     }
+
+    searchDateAndTime(value) {
+        posOfStart = value.toUpperCase().indexOf('START');
+        posOfSlash = value.indexOf('/');
+        posOfColon = value.indexOf(':');
+        // Check if this is the start date and time
+        if (posOfStart != -1 && posOfSlash != -1 && posOfColon != -1)  {
+            // Date in dd/mm/yyyy so is 10 number
+            date = value.substr(posOfSlash - 2, 10);
+            // Time in hh:mm so is 5 number
+            time = value.substr(posOfColon - 2, 5);
+        }
+    }
+
+    searchPrice(value) {
+        var number = '';
+        posOfDot = value.indexOf('.');
+        posOfKM = value.toUpperCase().indexOf('KM');
+        // Check whether there are . in the string and 'km' word afterward
+        if (posOfDot != -1 && posOfKM == -1) {
+            number = parseFloat(value.substr(posOfDot - 2, 5)).toString();
+            // Add zero behind when is only 1 decimal place
+            if (number.length - number.indexOf('.') == 2) {
+               number = number + '0';
+            }
+            price = '$' + number;
+        }
+    }
+
+    takePicture = async() => {
+        try{
+            if (this.camera) {
+              const options = { quality: 0.5, base64: true, fixOrientation: true };
+              const data = await this.camera.takePictureAsync(options);
+              FileUri = data.uri;
+              const visionResp = await RNTextDetector.detectFromUri(FileUri);
+              this.setState({ textBlocks: visionResp });
+              if (this.state.textBlocks.length > 0) {
+                 this.state.textBlocks.map(this.searchInfo);
+                 this.props.navigation.navigate('FillClaims');
+             }
+            }
+        } catch (e) {
+            console.warn(e);
+        }
     };
 
     toggle = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
-
-    renderTextBlocks = () => (
-    <View style={styles.facesContainer} pointerEvents="none">
-      {this.state.textBlocks.map(this.renderTextBlock)}
-    </View>
-    );
-
-    renderTextBlock = ({ bounds, value }) => (
-    <React.Fragment key={value + bounds.origin.x}>
-      <Text style={[styles.textBlock, { left: bounds.origin.x, top: bounds.origin.y }]}>
-        {value}
-      </Text>
-      <View
-        style={[
-          styles.text,
-          {
-            ...bounds.size,
-            left: bounds.origin.x,
-            top: bounds.origin.y,
-          },
-        ]}
-      />
-    </React.Fragment>
-    );
-
-    textRecognized = object => {
-    const { textBlocks } = object;
-    this.setState({ textBlocks });
-    };
 
     renderCamera() {
         const { canDetectText } = this.state;
@@ -95,7 +112,6 @@ export default class CameraScreen extends React.Component {
                     buttonPositive: 'Ok',
                     buttonNegative: 'Cancel',
                 }}
-                onTextRecognized = {canDetectText ? this.textRecognized : null}
                 >
                 <View
                   style = {{
@@ -103,23 +119,6 @@ export default class CameraScreen extends React.Component {
                     justifyContent: 'flex-start',
                   }}
                 >
-                  <View
-                    style = {{
-                      backgroundColor: 'transparent',
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
-                    }}
-                  >
-                    <TouchableOpacity style={styles.flipButton}
-                        onPress = {this.toggleFlash.bind(this)}>
-                        <Icon
-                              name = 'flash'
-                              type = 'entypo'
-                              size = { 25 }
-                              color =  {this.state.flash == 'on'? 'yellow': 'white'}
-                        />
-                    </TouchableOpacity>
-                  </View>
                   <View
                             style = {{
                               backgroundColor: 'transparent',
@@ -144,28 +143,49 @@ export default class CameraScreen extends React.Component {
                           </View>
                 </View>
                 <View
-                  style={{
-                    flex: 0.2,
-                    backgroundColor: 'transparent',
-                    alignSelf: 'center',
-                  }}
-                >
-                <Icon
-                    style = {{ }}
-                    name = 'camera'
-                    type = 'material'
-                    size = { 80 }
-                    color = 'white'
-                    onPress = { this.takePicture.bind(this) }
-                />
+                    style = {{
+                        flex: 0.2,
+                        flexDirection: 'row',
+                        backgroundColor: 'transparent',
+                        alignContent: 'center',
+                        justifyContent: 'flex-end',
+                }}>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 40,
+                        backgroundColor: 'transparent',
+                      }}
+                    >
+                    <Icon
+                        name = 'camera'
+                        type = 'material'
+                        size = { 80 }
+                        color = 'white'
+                        onPress = { this.takePicture.bind(this) }
+                    />
+                    </View>
+
+                    <TouchableOpacity style={styles.flipButton}
+                        onPress = {this.toggleFlash.bind(this)}>
+                        <Icon
+                              name = 'flash'
+                              type = 'entypo'
+                              size = { 35 }
+                              color =  {this.state.flash == 'on'? 'yellow': 'white'}
+                        />
+                    </TouchableOpacity>
                 </View>
-                {!!canDetectText && this.renderTextBlocks()}
             </RNCamera>
         );
     }
 
     render() {
-        return <View style={styles.container}>{this.renderCamera()}</View>;
+        return (
+            <View style = { styles.container }>
+                {this.renderCamera()}
+            </View>
+        );
     }
 }
 
@@ -176,41 +196,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     flipButton: {
-        flex: 0.3,
+        alignSelf: 'center',
         height: 40,
-        marginHorizontal: 2,
+        marginHorizontal: 40,
         marginBottom: 10,
         marginTop: 10,
-        borderRadius: 8,
         padding: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    flipText: {
-        color: 'white',
-        fontSize: 15,
-    },
-    zoomText: {
-        position: 'absolute',
-        bottom: 70,
-        zIndex: 2,
-        left: 2,
-    },
-    picButton: {
-        backgroundColor: 'skyblue',
-    },
-    text: {
-        padding: 10,
-        borderWidth: 2,
-        borderRadius: 2,
-        position: 'absolute',
-        borderColor: '#F00',
-        justifyContent: 'center',
-    },
-    textBlock: {
-        color: '#F00',
-        position: 'absolute',
-        textAlign: 'center',
-        backgroundColor: 'transparent',
     },
 });

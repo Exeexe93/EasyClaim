@@ -25,15 +25,21 @@ export default class FillClaims extends Component{
                     <Text style = { Styles.title }>
                         Date:
                     </Text>
-                    <TextInput placeholder = 'value1' style = { Styles.text }/>
+                    <TextInput style = { Styles.text }>
+                        { global.date }
+                    </TextInput>
                     <Text style = { Styles.title }>
                         Time:
                     </Text>
-                    <TextInput placeholder = 'value2' style = { Styles.text }/>
+                    <TextInput style = { Styles.text }>
+                        { global.time }
+                    </TextInput>
                     <Text style = { Styles.title }>
                         Price:
                     </Text>
-                    <TextInput placeholder = 'value3' style = { Styles.text }/>
+                    <TextInput style = { Styles.text }>
+                        { global.price }
+                    </TextInput>
                     <ClaimButton/>
                 </View>
              </ScrollView>

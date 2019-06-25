@@ -31,3 +31,15 @@ allprojects {
         }
     }
 }
+
+/**
+ * Project-wide gradle configuration properties for use by all modules
+ */
+ext {
+    compileSdkVersion           = 28
+    targetSdkVersion            = 28
+    buildToolsVersion           = "28.0.3"
+    googlePlayServicesVersion   = "12.0.1"
+    googlePlayServicesVisionVersion = "15.0.2"
+    supportLibVersion           = "28.0.0"
+}
