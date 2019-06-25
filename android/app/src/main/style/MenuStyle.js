@@ -10,6 +10,20 @@ const Styles = StyleSheet.create({
             paddingTop: 20,
             paddingHorizontal: 20
       },
+      profilePic: {
+            height: "25%",
+            justifyContent: 'space-around',
+            backgroundColor: '#2699FB'
+      },
+      profileName: {
+            alignSelf: 'center',
+            fontSize: 18,
+            color: 'white'
+      },
+      icon: {
+            flexDirection: 'row',
+            alignItems: 'center'
+      },
       drawerItem: {
             fontSize: 16,
             color: '#FFFFFF',

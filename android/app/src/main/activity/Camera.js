@@ -25,6 +25,7 @@ export default class CameraScreen extends React.Component {
         whiteBalance: 'auto',
         ratio: '16:9',
         textBlocks: [],
+        detectDate: false,
     };
 
     toggleFlash() {
@@ -42,15 +43,17 @@ export default class CameraScreen extends React.Component {
     }
 
     searchDateAndTime(value) {
-        posOfStart = value.toUpperCase().indexOf('START');
+        //posOfStart = value.toUpperCase().indexOf('START');
         posOfSlash = value.indexOf('/');
         posOfColon = value.indexOf(':');
         // Check if this is the start date and time
-        if (posOfStart != -1 && posOfSlash != -1 && posOfColon != -1)  {
+        //if (posOfStart != -1 && posOfSlash != -1 && posOfColon != -1)  {
+        if (this.state.detectDate == false && posOfSlash != -1 && posOfColon != -1) {
             // Date in dd/mm/yyyy so is 10 number
             date = value.substr(posOfSlash - 2, 10);
             // Time in hh:mm so is 5 number
             time = value.substr(posOfColon - 2, 5);
+            this.setState({ detectDate: true })
         }
     }
 
@@ -72,15 +75,13 @@ export default class CameraScreen extends React.Component {
     takePicture = async() => {
         try{
             if (this.camera) {
-              const options = { quality: 0.5, base64: true, fixOrientation: true };
-              const data = await this.camera.takePictureAsync(options);
-              FileUri = data.uri;
-              const visionResp = await RNTextDetector.detectFromUri(FileUri);
-              this.setState({ textBlocks: visionResp });
-              if (this.state.textBlocks.length > 0) {
-                 this.state.textBlocks.map(this.searchInfo);
-                 this.props.navigation.navigate('FillClaims');
-             }
+                const options = { quality: 0.5, base64: true, fixOrientation: true };
+                const data = await this.camera.takePictureAsync(options);
+                FileUri = data.uri;
+                const visionResp = await RNTextDetector.detectFromUri(FileUri);
+                this.setState({ textBlocks: visionResp });
+                this.state.textBlocks.map(this.searchInfo);
+                this.props.navigation.navigate('FillClaims');
             }
         } catch (e) {
             console.warn(e);
@@ -90,7 +91,6 @@ export default class CameraScreen extends React.Component {
     toggle = value => () => this.setState(prevState => ({ [value]: !prevState[value] }));
 
     renderCamera() {
-        const { canDetectText } = this.state;
         return (
             <RNCamera
                 ref = { ref => {
@@ -129,7 +129,7 @@ export default class CameraScreen extends React.Component {
                           >
                             <Slider
                               style = {{width: 40, height: 200,
-                                marginHorizontal: 10, alignSelf: 'flex-start'}}
+                              marginHorizontal: 10, alignSelf: 'flex-start'}}
                               thumbTintColor = '#307ecc'
                               orientation = {'vertical'}
                               maximumValue = { 1 }
