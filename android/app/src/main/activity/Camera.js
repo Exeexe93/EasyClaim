@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
-import RNTextDetector from "react-native-text-detector";
+//import RNTextDetector from "react-native-text-detector";
+import RNMlKit from 'react-native-firebase-mlkit';
 
 const flashModeOrder = {
   off: 'on',
@@ -35,8 +36,8 @@ export default class CameraScreen extends React.Component {
 
     }
 
-    searchInfo = ({ text }) => {
-        text.split('/n').map((v) => {
+    searchInfo = ({ blockText }) => {
+        blockText.split('/n').map((v) => {
             this.searchDateAndTime(v);
             this.searchPrice(v);
         })
@@ -78,8 +79,11 @@ export default class CameraScreen extends React.Component {
                 const options = { quality: 0.5, base64: true, fixOrientation: true };
                 const data = await this.camera.takePictureAsync(options);
                 FileUri = data.uri;
-                const visionResp = await RNTextDetector.detectFromUri(FileUri);
-                this.setState({ textBlocks: visionResp });
+                //const visionResp = await RNTextDetector.detectFromUri(FileUri);
+                //this.setState({ textBlocks: visionResp });
+                const cloudTextRecognition = await RNMlKit.cloudTextRecognition(data.uri);
+                this.setState({ textBlocks: cloudTextRecognition });
+                console.warn(this.state.textBlocks);
                 this.state.textBlocks.map(this.searchInfo);
                 this.props.navigation.navigate('FillClaims');
             }
