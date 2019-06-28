@@ -3,6 +3,8 @@ package com.test;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -28,11 +30,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RNFirebasePackage(),
             new RNCameraPackage(),
             new RNGestureHandlerPackage(),
             new VectorIconsPackage(),
             new RNTextDetectorPackage(),
-            new RNMlKitPackage()
+            new RNMlKitPackage(),
+            new RNFirebaseAuthPackage()
       );
     }
 

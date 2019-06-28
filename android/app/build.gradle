@@ -1,4 +1,4 @@
-apply plugin: "com.android.application"
+    apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
@@ -106,6 +106,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         missingDimensionStrategy 'react-native-camera', 'mlkit'
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
@@ -143,9 +144,11 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
     implementation project(':react-native-camera')
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
+    implementation "com.google.firebase:firebase-auth:17.0.0"
     implementation (project(':react-native-text-detector')) {
         exclude group: 'com.google.firebase'
     }

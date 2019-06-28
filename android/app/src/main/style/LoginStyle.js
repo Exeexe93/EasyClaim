@@ -52,6 +52,10 @@ const Styles = StyleSheet.create({
         color: 'red',
         textAlign: 'center'
   },
+  loginButton: {
+      width: 250,
+      height: 40,
+  },
 });
 
 export default Styles;
