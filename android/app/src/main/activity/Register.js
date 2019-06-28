@@ -15,6 +15,9 @@ const goToMain = StackActions.reset({
 export default class Register extends Component{
 
     state = {
+        name: '',
+        position: '',
+        company: '',
         email: '',
         password: '',
         errorMessage: '',
@@ -25,7 +28,20 @@ export default class Register extends Component{
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
-          .then(() => this.props.navigation.dispatch(goToMain))
+          .then(() => {
+                const id = firebase.auth().currentUser.uid;
+                const { name, position, company }  = this.state;
+                firebase.database()
+                    .ref('Users/' + id)
+                    .set(
+                    {
+                        name,
+                        position,
+                        company,
+                    }
+                );
+                this.props.navigation.dispatch(goToMain);
+                })
           .catch(error => this.updateError(error))
       }
 
@@ -49,6 +65,27 @@ export default class Register extends Component{
                     </Text>
                 }
                 <View style = { Styles.textContainer }>
+                        <TextInput
+                            placeholder = 'Name'
+                            style = { Styles.textInput }
+                            selectionColor = {'skyblue'}
+                            underlineColorAndroid = {'skyblue'}
+                            onChangeText={(name) => this.setState({name})}
+                            value = {this.state.name}/>
+                        <TextInput
+                            placeholder = 'Position'
+                            style = { Styles.textInput }
+                            selectionColor = {'skyblue'}
+                            underlineColorAndroid = {'skyblue'}
+                            onChangeText={(position) => this.setState({position})}
+                            value = {this.state.position}/>
+                        <TextInput
+                            placeholder = 'Company'
+                            style = { Styles.textInput }
+                            selectionColor = {'skyblue'}
+                            underlineColorAndroid = {'skyblue'}
+                            onChangeText={(company) => this.setState({company})}
+                            value = {this.state.company}/>
                         <TextInput
                             placeholder = 'Email'
                             style = { Styles.textInput }
