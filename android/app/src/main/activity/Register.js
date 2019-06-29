@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TextInput, Text, View, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Styles from '../style/RegisterStyle';
-import firebase from 'react-native-firebase'
+import firebase from 'react-native-firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
 
 const goToMain = StackActions.reset({
@@ -31,24 +31,28 @@ export default class Register extends Component{
           .then(() => {
                 const id = firebase.auth().currentUser.uid;
                 const { name, position, company }  = this.state;
-                firebase.database()
-                    .ref('Users/' + id)
-                    .set(
-                    {
-                        name,
-                        position,
-                        company,
-                    }
-                );
+                this.uploadProfile(id, name, position, company);
                 this.props.navigation.dispatch(goToMain);
                 })
           .catch(error => this.updateError(error))
-      }
+    }
 
-      updateError(error) {
-            this.setState({ errorMessage: error.message });
-            this.setState({ error: true });
-      }
+    uploadProfile(id, name, position, company) {
+        firebase.database()
+            .ref('Users/' + id)
+            .set(
+            {
+                name: name,
+                position: position,
+                company: company,
+            }
+        );
+    }
+
+    updateError(error) {
+        this.setState({ errorMessage: error.message });
+        this.setState({ error: true });
+    }
 
     render() {
         return (

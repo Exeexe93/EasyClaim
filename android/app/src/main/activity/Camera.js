@@ -1,16 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
-//import RNTextDetector from "react-native-text-detector";
 import RNMlKit from 'react-native-firebase-mlkit';
+import Styles from'../style/CameraStyle';
 
 const flashModeOrder = {
   off: 'on',
   on: 'off',
 };
 
-export default class CameraScreen extends React.Component {
+export default class Camera extends Component {
     constructor() {
         super();
         global.FileUri = '';
@@ -44,17 +44,16 @@ export default class CameraScreen extends React.Component {
     }
 
     searchDateAndTime(value) {
-        //posOfStart = value.toUpperCase().indexOf('START');
-        posOfSlash = value.indexOf('/');
-        posOfColon = value.indexOf(':');
-        // Check if this is the start date and time
-        //if (posOfStart != -1 && posOfSlash != -1 && posOfColon != -1)  {
-        if (this.state.detectDate == false && posOfSlash != -1 && posOfColon != -1) {
+        if (this.state.detectDate == false ) {
+            posOfSlash = value.indexOf('/');
+            posOfColon = value.indexOf(':');
+            if(posOfSlash != -1 && posOfColon != -1) {
             // Date in dd/mm/yyyy so is 10 number
             date = value.substr(posOfSlash - 2, 10);
             // Time in hh:mm so is 5 number
             time = value.substr(posOfColon - 2, 5);
             this.setState({ detectDate: true })
+            }
         }
     }
 
@@ -64,7 +63,11 @@ export default class CameraScreen extends React.Component {
         posOfKM = value.toUpperCase().indexOf('KM');
         // Check whether there are . in the string and 'km' word afterward
         if (posOfDot != -1 && posOfKM == -1) {
-            number = parseFloat(value.substr(posOfDot - 2, 5)).toString();
+            if(posOfDot - 2 == -1) {
+                number = parseFloat(value.substr(posOfDot - 1, 4)).toString();
+            } else {
+                number = parseFloat(value.substr(posOfDot - 2, 5)).toString();
+            }
             // Add zero behind when is only 1 decimal place
             if (number.length - number.indexOf('.') == 2) {
                number = number + '0';
@@ -79,11 +82,8 @@ export default class CameraScreen extends React.Component {
                 const options = { quality: 0.5, base64: true, fixOrientation: true };
                 const data = await this.camera.takePictureAsync(options);
                 FileUri = data.uri;
-                //const visionResp = await RNTextDetector.detectFromUri(FileUri);
-                //this.setState({ textBlocks: visionResp });
                 const cloudTextRecognition = await RNMlKit.cloudTextRecognition(data.uri);
                 this.setState({ textBlocks: cloudTextRecognition });
-                console.warn(this.state.textBlocks);
                 this.state.textBlocks.map(this.searchInfo);
                 this.props.navigation.navigate('FillClaims');
             }
@@ -118,22 +118,13 @@ export default class CameraScreen extends React.Component {
                 }}
                 >
                 <View
-                  style = {{
-                    flex: 1,
-                    justifyContent: 'flex-start',
-                  }}
+                  style = { Styles.topContainer }
                 >
                   <View
-                            style = {{
-                              backgroundColor: 'transparent',
-                              alignSelf: 'flex-start',
-                              justifyContent: 'center',
-                              width: "100%", height: "90%",
-                            }}
+                            style = { Styles.sliderContainer }
                           >
                             <Slider
-                              style = {{width: 40, height: 200,
-                              marginHorizontal: 10, alignSelf: 'flex-start'}}
+                              style = { Styles.slider }
                               thumbTintColor = '#307ecc'
                               orientation = {'vertical'}
                               maximumValue = { 1 }
@@ -147,19 +138,9 @@ export default class CameraScreen extends React.Component {
                           </View>
                 </View>
                 <View
-                    style = {{
-                        flex: 0.2,
-                        flexDirection: 'row',
-                        backgroundColor: 'transparent',
-                        alignContent: 'center',
-                        justifyContent: 'flex-end',
-                }}>
+                    style = { Styles.bottomContainer }>
                     <View
-                      style={{
-                        alignSelf: 'center',
-                        marginHorizontal: 40,
-                        backgroundColor: 'transparent',
-                      }}
+                      style={ Styles.buttonContainer }
                     >
                     <Icon
                         name = 'camera'
@@ -170,7 +151,7 @@ export default class CameraScreen extends React.Component {
                     />
                     </View>
 
-                    <TouchableOpacity style={styles.flipButton}
+                    <TouchableOpacity style={Styles.flipButton}
                         onPress = {this.toggleFlash.bind(this)}>
                         <Icon
                               name = 'flash'
@@ -186,25 +167,9 @@ export default class CameraScreen extends React.Component {
 
     render() {
         return (
-            <View style = { styles.container }>
+            <View style = { Styles.container }>
                 {this.renderCamera()}
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 10,
-        backgroundColor: '#000',
-    },
-    flipButton: {
-        alignSelf: 'center',
-        height: 40,
-        marginHorizontal: 40,
-        marginBottom: 10,
-        marginTop: 10,
-        padding: 5,
-    },
-});

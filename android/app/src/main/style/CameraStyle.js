@@ -3,28 +3,46 @@ import { StyleSheet } from 'react-native';
 const Styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: 'black',
+        paddingTop: 10,
+        backgroundColor: '#000',
     },
-    preview: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    capture: {
-        flex: 0,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
+    flipButton: {
         alignSelf: 'center',
-        margin: 20,
+        height: 40,
+        marginHorizontal: 40,
+        marginBottom: 10,
+        marginTop: 10,
+        padding: 5,
     },
-    button: {
-        flex: 0,
+    sliderContainer: {
+        backgroundColor: 'transparent',
+        alignSelf: 'flex-start',
+        justifyContent: 'center',
+        width: "100%",
+        height: "90%",
+    },
+    slider: {
+        width: 40,
+        height: 200,
+        marginHorizontal: 10,
+        alignSelf: 'flex-start'
+    },
+    topContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+    },
+    bottomContainer: {
+        flex: 0.2,
         flexDirection: 'row',
-        justifyContent: 'center'
-    }
+        backgroundColor: 'transparent',
+        alignContent: 'center',
+        justifyContent: 'flex-end',
+    },
+    buttonContainer: {
+        alignSelf: 'center',
+        marginHorizontal: 40,
+        backgroundColor: 'transparent',
+    },
 });
 
 export default Styles;

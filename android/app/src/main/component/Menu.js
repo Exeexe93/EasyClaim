@@ -5,8 +5,28 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import Styles from '../style/MenuStyle';
 import LogoutDialog from '../dialog/LogoutDialog';
 import MenuDivider from '../component/MenuDivider';
+import firebase from 'react-native-firebase';
 
 export default class Menu extends Component {
+    constructor() {
+        super();
+        global.currentId = '';
+    }
+    state = {
+        profilePicUri: null,
+        profileName: 'hi',
+    }
+    componentDidMount() {
+            currentId = firebase.auth().currentUser.uid;
+            firebase.database().ref('Users/' + currentId )
+                                 .once('value').then((data) => this.getProfileName(data.val().name));
+    }
+
+    getProfileName(value) {
+        this.setState({
+            profileName: value,
+        });
+    }
 
     render() {
 
@@ -23,7 +43,7 @@ export default class Menu extends Component {
                         containerStyle = {{ marginTop: 20, alignSelf: 'center' }}
                     />
                     <Text style = { Styles.profileName } >
-                        John
+                        { this.state.profileName }
                     </Text>
                 </View>
                 <View style = { Styles.itemContainer }>
