@@ -31,6 +31,7 @@ export default class FillClaims extends Component{
                     </Text>
                     <TextInput
                         style = { Styles.text }
+                        placeholder = { 'dd/mm/yyyy' }
                         onChangeText={(date) => this.setState({date})}
                         value = {this.state.date}/>
                     <Text style = { Styles.title }>
@@ -38,13 +39,15 @@ export default class FillClaims extends Component{
                     </Text>
                     <TextInput
                         style = { Styles.text }
-                        onChangeText={(time) => this.setState({time})}
-                        value = {this.state.time}/>
+                        placeholder = { 'hh:mm' }
+                        onChangeText = { (time) => this.setState({time}) }
+                        value = { this.state.time }/>
                     <Text style = { Styles.title }>
                         Price:
                     </Text>
                     <TextInput
                         style = { Styles.text }
+                        placeholder = { '$0.00' }
                         onChangeText={(price) => this.setState({price})}
                         value = {this.state.price}/>
                     <ClaimButton

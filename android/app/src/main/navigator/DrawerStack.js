@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from 'react-navigation';
 import MainPage from '../activity/MainPage';
 import Menu from '../component/Menu';
-import Notifications from '../activity/Notifications';
+import History from '../activity/History';
 import Profile from '../activity/Profile';
 
 const DrawerStack = createDrawerNavigator(
@@ -9,8 +9,8 @@ const DrawerStack = createDrawerNavigator(
         Home: {
                 screen: MainPage,
         },
-        Notifications: {
-                screen: Notifications,
+        History: {
+                screen: History,
         },
         Profile: {
                 screen: Profile,

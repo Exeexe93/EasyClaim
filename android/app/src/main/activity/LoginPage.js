@@ -53,7 +53,7 @@ export default class Login extends Component{
                 <View style = {Styles.inputBox}>
                     <View style = {Styles.textBox}>
                         <TextInput
-                            maxLength = {20}
+                            maxLength = {25}
                             placeholderTextColor = {'white'}
                             placeholder = "Email"
                             style = {Styles.textInput}

@@ -14,7 +14,7 @@ export default class Menu extends Component {
     }
     state = {
         profilePicUri: null,
-        profileName: 'hi',
+        profileName: ' ',
     }
     componentDidMount() {
             currentId = firebase.auth().currentUser.uid;
@@ -71,7 +71,7 @@ export default class Menu extends Component {
 
                         />
                         <Text
-                          onPress = {() => this.props.navigation.navigate('Notifications')}
+                          onPress = {() => this.props.navigation.navigate('History')}
                           style = { Styles.drawerItem }
                         >
                           History

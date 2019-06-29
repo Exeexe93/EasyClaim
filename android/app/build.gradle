@@ -147,6 +147,7 @@ dependencies {
     implementation project(':react-native-firebase')
     implementation project(':react-native-camera')
     implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation "com.google.firebase:firebase-storage:17.0.0"
     implementation "com.google.firebase:firebase-database:17.0.0"
     implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
     implementation "com.google.firebase:firebase-auth:17.0.0"

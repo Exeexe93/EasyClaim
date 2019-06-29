@@ -3,8 +3,9 @@ import { FlatList, ScrollView, Text, View, StyleSheet} from 'react-native';
 import { ListItem, Header } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
+import firebase from 'react-native-firebase';
 
-export default class Notifications extends Component{
+export default class History extends Component{
 
     keyExtractor = (item, index) => index.toString()
 
@@ -38,7 +39,7 @@ export default class Notifications extends Component{
             <ScrollView style = {{ flex:1, backgroundColor: '#F1F9FF'}}>
                 <Header
                     containerStyle = {{ height: 50, paddingVertical: 20}}
-                    leftComponent={<MenuButton/>}
+                    leftComponent = {<MenuButton/>}
                 />
                 <FlatList
                       keyExtractor = { this.keyExtractor }
