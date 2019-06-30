@@ -8,9 +8,6 @@ import firebase from 'react-native-firebase';
 class ClaimButton extends Component {
     constructor() {
         super();
-//        state = {
-//            imageUrl: '',
-//        }
     }
 
     getImageUrl(id, sortDate, date, time, price) {

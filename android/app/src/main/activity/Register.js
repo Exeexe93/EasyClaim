@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import Styles from '../style/RegisterStyle';
 import firebase from 'react-native-firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
+import GenderDropDown from '../drop-down-box/GenderDropDown'
 
 const goToMain = StackActions.reset({
       index: 0,
@@ -18,6 +19,7 @@ export default class Register extends Component{
         name: '',
         position: '',
         company: '',
+        picture: '',
         email: '',
         password: '',
         errorMessage: '',
@@ -30,14 +32,14 @@ export default class Register extends Component{
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then(() => {
                 const id = firebase.auth().currentUser.uid;
-                const { name, position, company }  = this.state;
-                this.uploadProfile(id, name, position, company);
+                const { name, position, company, picture }  = this.state;
+                this.uploadProfile(id, name, position, company, picture);
                 this.props.navigation.dispatch(goToMain);
-                })
+          })
           .catch(error => this.updateError(error))
     }
 
-    uploadProfile(id, name, position, company) {
+    uploadProfile(id, name, position, company, picture) {
         firebase.database()
             .ref('Users/' + id)
             .set(
@@ -45,6 +47,7 @@ export default class Register extends Component{
                 name: name,
                 position: position,
                 company: company,
+                picture: picture,
             }
         );
     }
@@ -52,6 +55,22 @@ export default class Register extends Component{
     updateError(error) {
         this.setState({ errorMessage: error.message });
         this.setState({ error: true });
+    }
+
+    getGender(gender) {
+        this.setPicture(gender);
+    }
+
+    setPicture(gender) {
+        if (gender == 'Male') {
+            firebase.storage()
+                .ref("Profile Picture/Default/men profile pic.png")
+                .getDownloadURL().then((url) => this.setState({ picture: url}));
+        } else {
+            firebase.storage()
+                .ref("Profile Picture/Default/female profile pic.png")
+                .getDownloadURL().then((url) => this.setState({ picture: url}));
+        }
     }
 
     render() {
@@ -104,6 +123,7 @@ export default class Register extends Component{
                             underlineColorAndroid = {'skyblue'}
                             onChangeText={(password) => this.setState({password})}
                             value = {this.state.password}/>
+                        <GenderDropDown callback = { this.getGender.bind(this) }/>
                 </View>
                 <View style ={ Styles.button }>
                     <Button

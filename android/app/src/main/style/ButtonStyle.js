@@ -12,9 +12,10 @@ const Styles = StyleSheet.create({
         height: 40
     },
     reviewButton: {
+        marginTop: 40,
         alignSelf: 'center',
         width: 150,
-        height: 40
+        height: 50
     },
     forgetButton: {
         paddingTop: 10,

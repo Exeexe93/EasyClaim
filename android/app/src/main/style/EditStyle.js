@@ -12,15 +12,15 @@ const Styles = StyleSheet.create({
       },
       title: {
             fontSize: 20,
-            color: 'red',
+            color: 'blue',
             padding: 15,
             margin: 5,
             textAlign: 'left'
       },
       text: {
-            paddingRight: 20,
+            fontWeight: 'bold',
             fontSize: 15,
-            textAlign: 'right'
+            textAlign: 'center'
       }
 })
 

@@ -1,11 +1,40 @@
 import React, { Component } from 'react';
-import { FlatList, ScrollView, Text, View, StyleSheet} from 'react-native';
+import { FlatList, ScrollView, Text, View, ActivityIndicator} from 'react-native';
 import { ListItem, Header } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
 import firebase from 'react-native-firebase';
 
 export default class History extends Component{
+
+    state = {
+        data: [],
+        load: false,
+    };
+
+    componentDidMount() {
+        this.getJsonFile();
+    }
+
+    getJsonFile() {
+        firebase.database().ref("Transport Claim/"
+            + global.currentId).once('value').then((data) => {
+                this.getInfo(data.toJSON());
+            });
+        }
+
+    getInfo(info) {
+        for (year in info) {
+            for (month in info[year]) {
+                for (day in info[year][month]) {
+                    let result = this.state.data;
+                    result.push(info[year][month][day]);
+                    this.setState({ data:  result });
+                }
+            }
+        }
+        this.setState({ done: true });
+    }
 
     keyExtractor = (item, index) => index.toString()
 
@@ -16,38 +45,29 @@ export default class History extends Component{
         title = { item.date }
         subtitle = { item.price }
         rightIcon = {<Icon name = "arrow-right" size = {15}
-            onPress = {() => this.props.navigation.navigate('ReviewClaim')}/>}
+            onPress = {() => this.props.navigation.navigate('ReviewClaim', {
+                            item: item,
+                            })}/>}
       />
     )
 
     render () {
-        const list = [
-            {
-                date: '12/08/2016',
-                price: '$5.24'
-            },
-            {
-                  date: '15/04/2017',
-                  price: '$3.68'
-            },
-            {
-                date: '18/08/2018',
-                price: '$15.24'
-            },
-        ]
-      return (
+        return (
             <ScrollView style = {{ flex:1, backgroundColor: '#F1F9FF'}}>
                 <Header
                     containerStyle = {{ height: 50, paddingVertical: 20}}
                     leftComponent = {<MenuButton/>}
                 />
-                <FlatList
-                      keyExtractor = { this.keyExtractor }
-                      data = { list }
-                      renderItem = { this.renderItem }
-                />
+                { this.state.done == false && <ActivityIndicator size = { 100 }/>}
+                {this.state.done &&
+                    <FlatList
+                          keyExtractor = { this.keyExtractor }
+                          data = { this.state.data }
+                          renderItem = { this.renderItem }
+                    />
+                }
             </ScrollView>
-      )
+        );
     }
 }
 

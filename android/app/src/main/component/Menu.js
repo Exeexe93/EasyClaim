@@ -19,8 +19,19 @@ export default class Menu extends Component {
     componentDidMount() {
             currentId = firebase.auth().currentUser.uid;
             firebase.database().ref('Users/' + currentId )
-                                 .once('value').then((data) => this.getProfileName(data.val().name));
+                                 .once('value').then((data) => this.getProfileInfo(data.val()));
     }
+
+    getProfileInfo(value) {
+        this.getProfileName(value.name);
+        this.getProfilePic(value.picture);
+    }
+
+    getProfilePic(value) {
+        this.setState({
+            profilePicUri: value
+        });
+    };
 
     getProfileName(value) {
         this.setState({
@@ -35,10 +46,7 @@ export default class Menu extends Component {
                 <View style = { Styles.profilePic }>
                     <Avatar
                         rounded
-                        source = {{
-                        uri:
-                          'https://previews.123rf.com/images/vadymvdrobot/vadymvdrobot1509/vadymvdrobot150900446/45025475-closeup-portrait-of-a-handsome-man-at-gym.jpg'
-                        }}
+                        source = {{ uri: this.state.profilePicUri }}
                         size = { 120 }
                         containerStyle = {{ marginTop: 20, alignSelf: 'center' }}
                     />
