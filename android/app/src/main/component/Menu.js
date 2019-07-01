@@ -13,8 +13,7 @@ export default class Menu extends Component {
         global.currentId = '';
     }
     state = {
-        profilePicUri: null,
-        profileName: ' ',
+        profile: '',
     }
     componentDidMount() {
             currentId = firebase.auth().currentUser.uid;
@@ -23,20 +22,7 @@ export default class Menu extends Component {
     }
 
     getProfileInfo(value) {
-        this.getProfileName(value.name);
-        this.getProfilePic(value.picture);
-    }
-
-    getProfilePic(value) {
-        this.setState({
-            profilePicUri: value
-        });
-    };
-
-    getProfileName(value) {
-        this.setState({
-            profileName: value,
-        });
+        this.setState({ profile: value });
     }
 
     render() {
@@ -46,12 +32,12 @@ export default class Menu extends Component {
                 <View style = { Styles.profilePic }>
                     <Avatar
                         rounded
-                        source = {{ uri: this.state.profilePicUri }}
+                        source = {{ uri: this.state.profile.picture }}
                         size = { 120 }
                         containerStyle = {{ marginTop: 20, alignSelf: 'center' }}
                     />
                     <Text style = { Styles.profileName } >
-                        { this.state.profileName }
+                        { this.state.profile.name }
                     </Text>
                 </View>
                 <View style = { Styles.itemContainer }>
@@ -94,7 +80,10 @@ export default class Menu extends Component {
 
                         />
                         <Text
-                          onPress = {() => this.props.navigation.navigate('Profile')}
+                          onPress = {() => this.props.navigation.navigate('Profile',
+                          {
+                              profile: this.state.profile
+                          })}
                           style = { Styles.drawerItem }
                         >
                           Profile

@@ -26,7 +26,7 @@ const Styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 30,
         fontSize: 16,
-        alignSelf: 'flex-end'
+        alignSelf: 'center'
   }
 });
 

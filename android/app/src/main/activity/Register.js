@@ -22,6 +22,7 @@ export default class Register extends Component{
         picture: '',
         email: '',
         password: '',
+        gender: '',
         errorMessage: '',
         error: false,
     }
@@ -32,14 +33,14 @@ export default class Register extends Component{
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then(() => {
                 const id = firebase.auth().currentUser.uid;
-                const { name, position, company, picture }  = this.state;
-                this.uploadProfile(id, name, position, company, picture);
+                const { name, position, company, picture, gender }  = this.state;
+                this.uploadProfile(id, name, position, company, picture, gender);
                 this.props.navigation.dispatch(goToMain);
           })
           .catch(error => this.updateError(error))
     }
 
-    uploadProfile(id, name, position, company, picture) {
+    uploadProfile(id, name, position, company, picture, gender) {
         firebase.database()
             .ref('Users/' + id)
             .set(
@@ -48,6 +49,7 @@ export default class Register extends Component{
                 position: position,
                 company: company,
                 picture: picture,
+                gender: gender,
             }
         );
     }
@@ -58,6 +60,7 @@ export default class Register extends Component{
     }
 
     getGender(gender) {
+        this.setState({gender});
         this.setPicture(gender);
     }
 

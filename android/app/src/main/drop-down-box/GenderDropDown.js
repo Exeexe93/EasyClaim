@@ -3,7 +3,6 @@ import { Dropdown } from 'react-native-material-dropdown';
 
 export default class GenderDropDown extends Component {
 
-
     render() {
         let data = [{
             value: 'Male',
