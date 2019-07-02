@@ -11,7 +11,7 @@ const Styles = StyleSheet.create({
             paddingHorizontal: 20
       },
       profilePic: {
-            height: "25%",
+            height: "30%",
             justifyContent: 'space-around',
             backgroundColor: '#2699FB'
       },

@@ -16,6 +16,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.fetchsky.RNTextDetector.RNTextDetectorPackage;
 import com.mlkit.RNMlKitPackage;
+import com.imagepicker.ImagePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNMlKitPackage(),
                     new RNFirebaseAuthPackage(),
                     new RNFirebaseDatabasePackage(),
-                    new RNFirebaseStoragePackage()
+                    new RNFirebaseStoragePackage(),
+                    new ImagePickerPackage()
             );
         }
 

@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { TextInput, Text, ScrollView} from 'react-native';
+import { Alert, TextInput, Text, ScrollView} from 'react-native';
 import { Avatar, Header, Image } from 'react-native-elements';
 import MenuButton from '../component/MenuButton';
 import BackIcon from '../component/BackIcon';
 import SaveIcon from '../component/SaveIcon';
 import Styles from '../style/ProfileStyle';
+import ImagePicker from 'react-native-image-picker';
 
 export default class EditProfile extends Component{
+
+   constructor() {
+        super();
+
+        this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+   }
 
    state = {
         name: ' ',
@@ -14,6 +21,7 @@ export default class EditProfile extends Component{
         position: ' ',
         gender: ' ',
         picUrl: ' ',
+        selectedPic: null,
    }
 
    componentDidMount() {
@@ -32,6 +40,44 @@ export default class EditProfile extends Component{
         })
    }
 
+   selectPhotoTapped() {
+        const options = {
+            quality: 1.0,
+            maxWidth: 500,
+            maxHeight: 500,
+            storageOptions: {
+                skipBackup: true,
+            },
+        };
+
+   ImagePicker.showImagePicker(options, (response) => {
+
+     if (response.didCancel) {
+     } else if (response.error) {
+            Alert.alert(
+              'Alert',
+              ' ',
+              [
+                {text: response.error, onPress: () => {}},
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () => {}},
+              ],
+              {cancelable: false},
+            );
+     } else if (response.customButton) {
+     } else {
+        this.setState({
+            selectedPic: response.uri,
+        });
+
+     }
+   });
+ }
+
   render() {
         return (
                 <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
@@ -44,13 +90,19 @@ export default class EditProfile extends Component{
                                                 company = { this.state.company }
                                                 position = { this.state.position }
                                                 gender = { this.state.gender }
-                                                picUrl = { this.state.picUrl }/> }
+                                                picUrl = { this.state.picUrl }
+                                                selectedPic = { this.state.selectedPic }
+                                         /> }
                     />
                     <Avatar
                         rounded
-                        source = {{ uri: this.state.picUrl }}
+                        source = {{ uri: this.state.selectedPic == null?
+                                            this.state.picUrl: this.state.selectedPic }}
                         size = { 180 }
-                        containerStyle = {{ marginTop: 20, alignSelf: 'center' }}
+                        containerStyle = {{ marginTop: 50, alignSelf: 'center' }}
+                        editButton = {{ size: 40 }}
+                        onEditPress = { this.selectPhotoTapped.bind(this) }
+                        showEditButton = { true }
                     />
                     <Text style = { Styles.name }>
                         Name:

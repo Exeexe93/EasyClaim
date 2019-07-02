@@ -42,8 +42,6 @@ class ClaimButton extends Component {
                     }
                 },
             );
-
-
     }
 
     splitDate(date) {
