@@ -9,7 +9,7 @@ const Styles = StyleSheet.create({
     claimButton: {
         alignSelf: 'center',
         width: 150,
-        height: 40
+        height: 40,
     },
     reviewButton: {
         marginTop: 40,

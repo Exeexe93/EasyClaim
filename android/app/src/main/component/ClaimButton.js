@@ -6,10 +6,6 @@ import { withNavigation } from 'react-navigation';
 import firebase from 'react-native-firebase';
 
 class ClaimButton extends Component {
-    constructor() {
-        super();
-    }
-
     getImageUrl(id, sortDate, date, time, price) {
         firebase.storage()
             .ref('Transport Claim/' + id + "/" + sortDate + "/image.jpg")
@@ -33,7 +29,7 @@ class ClaimButton extends Component {
         const sortDate = this.splitDate(date);
         // Upload picture to firebase storage
         firebase.storage()
-            .ref('Transport Claim/' + id + "/" + sortDate + "/image.jpg")
+            .ref('Transport Claim/' + id + '/' + sortDate + '/image.jpg')
             .putFile(picUri).on(
                 firebase.storage.TaskEvent.STATE_CHANGED,
                 (snapshot) => {
@@ -45,10 +41,7 @@ class ClaimButton extends Component {
     }
 
     splitDate(date) {
-        const year = date.substr(6, 4);
-        const month = date.substr(2, 4);
-        const day = date.substr(0, 2);
-        return year + month + day;
+        return date.split('/').reverse().join('/');
     }
 
     render() {

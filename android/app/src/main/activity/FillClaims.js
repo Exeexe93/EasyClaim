@@ -17,8 +17,8 @@ export default class FillClaims extends Component{
                                         style = { Styles.container }>
                 <Avatar
                   rounded
-                  size = "xlarge"
-                  containerStyle = {{ alignSelf: 'center' }}
+                  size = { 200 }
+                  containerStyle = {{ alignSelf: 'center', marginVertical: 30 }}
                   onPress = { () => this.props.navigation.navigate('ShowImage')}
                   source = {{
                     uri:
@@ -50,11 +50,11 @@ export default class FillClaims extends Component{
                         placeholder = { '$0.00' }
                         onChangeText={(price) => this.setState({price})}
                         value = {this.state.price}/>
-                    <ClaimButton
-                        date = {this.state.date}
-                        price = {this.state.price}
-                        time = {this.state.time} />
                 </View>
+                <ClaimButton
+                    date = {this.state.date}
+                    price = {this.state.price}
+                    time = {this.state.time} />
              </ScrollView>
         );
     }

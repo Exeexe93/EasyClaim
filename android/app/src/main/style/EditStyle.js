@@ -8,7 +8,7 @@ const Styles = StyleSheet.create({
       textContainer: {
             flex: 1,
             backgroundColor: '#F1F9FF',
-            marginVertical: 20
+            marginVertical: 30
       },
       title: {
             fontSize: 20,

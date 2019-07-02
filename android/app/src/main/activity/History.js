@@ -9,19 +9,24 @@ export default class History extends Component{
 
     state = {
         data: [],
-        load: false,
+        done: false,
     };
 
     componentDidMount() {
-        this.getJsonFile();
+        this.refresh = this.props.navigation.addListener("didFocus", this.getJsonFile);
     }
 
-    getJsonFile() {
+    componentWillUnmount() {
+        this.refresh.remove();
+    }
+
+    getJsonFile = () => {
+        this.setState({data: [], done: false});
         firebase.database().ref("Transport Claim/"
             + global.currentId).once('value').then((data) => {
                 this.getInfo(data.toJSON());
             });
-        }
+        };
 
     getInfo(info) {
         for (year in info) {
@@ -33,7 +38,21 @@ export default class History extends Component{
                 }
             }
         }
+        this.ascendingSort(this.state.data);
         this.setState({ done: true });
+    }
+
+    ascendingSort(data) {
+        var result = data;
+
+        function compare(a, b) {
+            var aDate = new Date(a.date.split('/').reverse().join('/'));
+            var bDate = new Date(b.date.split('/').reverse().join('/'));
+            return  bDate - aDate;
+        }
+        result.sort((a, b) => compare(a, b));
+        this.setState({ data, result });
+        console.log(this.state.data);
     }
 
     keyExtractor = (item, index) => index.toString()
@@ -47,7 +66,7 @@ export default class History extends Component{
         rightIcon = {<Icon name = "arrow-right" size = {15}
             onPress = {() => this.props.navigation.navigate('ReviewClaim', {
                             item: item,
-                            })}/>}
+                      })}/>}
       />
     )
 
@@ -58,7 +77,10 @@ export default class History extends Component{
                     containerStyle = {{ height: 50, paddingVertical: 20}}
                     leftComponent = {<MenuButton/>}
                 />
-                { this.state.done == false && <ActivityIndicator size = { 100 }/>}
+                { this.state.done == false &&
+                    <View style = {{ height: 600, justifyContent: 'center' }}>
+                    <ActivityIndicator size = { 100 }/>
+                    </View>}
                 {this.state.done &&
                     <FlatList
                           keyExtractor = { this.keyExtractor }
