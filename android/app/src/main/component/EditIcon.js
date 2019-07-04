@@ -10,7 +10,7 @@ class EditIcon extends Component {
                     name = 'account-edit'
                     type = 'material-community'
                     size = { 25 }
-                    onPress = { () => this.props.navigation.replace('EditProfile',
+                    onPress = { () => this.props.navigation.navigate('EditProfile',
                                     {
                                         profile: this.props.profile,
                                     })}/>

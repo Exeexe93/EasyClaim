@@ -6,19 +6,19 @@ import { withNavigation } from 'react-navigation';
 import firebase from 'react-native-firebase';
 
 class ClaimButton extends Component {
-    getImageUrl(id, sortDate, date, time, price) {
+    getImageUrl(id, sortDate, time, price) {
         firebase.storage()
             .ref('Transport Claim/' + id + "/" + sortDate + "/image.jpg")
-            .getDownloadURL().then((url) => this.uploadInfo(id, sortDate, date, time, price, url));
+            .getDownloadURL().then((url) => this.uploadInfo(id, sortDate, time, price, url));
     }
 
-    uploadInfo(id, sortDate, date, time, price, picUri) {
+    uploadInfo(id, sortDate, time, price, picUri) {
         firebase.database()
             .ref('Transport Claim/' + id + "/" + sortDate)
             .set(
             {
                 picUri: picUri,
-                date: date,
+                date: sortDate,
                 time: time,
                 price: price,
             }
@@ -34,14 +34,14 @@ class ClaimButton extends Component {
                 firebase.storage.TaskEvent.STATE_CHANGED,
                 (snapshot) => {
                     if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
-                        this.getImageUrl(id, sortDate, date, time, price);
+                        this.getImageUrl(id, sortDate, time, price);
                     }
                 },
             );
     }
 
     splitDate(date) {
-        return date.split('/').reverse().join('/');
+        return date.split('/').reverse().join('-');
     }
 
     render() {

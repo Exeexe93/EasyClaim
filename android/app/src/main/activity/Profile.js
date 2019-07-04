@@ -13,9 +13,21 @@ export default class Profile extends Component{
     }
 
     componentDidMount() {
+
+    }
+
+     componentDidMount() {
+            this.refresh = this.props.navigation.addListener("didFocus", this.initialiseScreen);
+        }
+
+    componentWillUnmount() {
+        this.refresh.remove();
+    }
+
+    initialiseScreen = () => {
         const currentId = firebase.auth().currentUser.uid;
         firebase.database().ref('Users/' + currentId )
-                             .once('value').then((data) => this.getProfileInfo(data.val()));
+                            .once('value').then((data) => this.getProfileInfo(data.val()));
     }
 
     getProfileInfo(value) {
