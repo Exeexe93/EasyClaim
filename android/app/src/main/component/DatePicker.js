@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Modal, Alert } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import CalendarPicker from 'react-native-calendar-picker';
+import Styles from '../style/DatePickerStyle';
 
 export default class DatePicker extends Component {
   constructor(props) {
@@ -76,8 +77,17 @@ export default class DatePicker extends Component {
               transparent = { false }
               visible = { this.state.modalVisible }
             >
-                <View style = { styles.container }>
-                    <View style = { styles.date }>
+
+                <View style = { Styles.container }>
+                    <View style = { Styles.backButton }>
+                        <Icon
+                          name = 'back'
+                          type = 'entypo'
+                          size = { 25 }
+                          onPress = { () => this.setState({ modalVisible: false })}
+                        />
+                    </View>
+                    <View style = { Styles.date }>
                         <View>
                             <Text>  Start Date </Text>
                             <Text>{ startDate }</Text>
@@ -99,7 +109,7 @@ export default class DatePicker extends Component {
                     />
 
                     <Button
-                        buttonStyle = { styles.button }
+                        buttonStyle = { Styles.button }
                         title = "Search"
                         onPress = { () => this.checkDates(startDate, endDate)}
                     />
@@ -109,25 +119,3 @@ export default class DatePicker extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F1F9FF',
-    width: '100%',
-    height: '60%'
-  },
-  date: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-around'
-  },
-  button: {
-    backgroundColor: 'skyblue',
-    borderRadius: 30,
-    width: 150
-  }
-});
