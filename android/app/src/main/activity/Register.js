@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, ScrollView } from 'react-native';
+import { Alert, TextInput, Text, View, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Styles from '../style/RegisterStyle';
 import firebase from 'react-native-firebase';
@@ -32,10 +32,21 @@ export default class Register extends Component{
           .auth()
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then(() => {
-                const id = firebase.auth().currentUser.uid;
+                const user = firebase.auth().currentUser;
                 const { name, position, company, picture, gender }  = this.state;
-                this.uploadProfile(id, name, position, company, picture, gender);
-                this.props.navigation.dispatch(goToMain);
+                this.uploadProfile(user.uid, name, position, company, picture, gender);
+                //this.props.navigation.dispatch(goToMain);
+                // Send user email
+                user.sendEmailVerification()
+                    .then(() => Alert.alert(
+                                  'An email has been send to ' + user.email,
+                                  'Please verify your email',
+                                  [
+                                    {text: 'OK', onPress: () => {}},
+                                  ],
+                                  {cancelable: false},
+                                )
+                        )
           })
           .catch(error => this.updateError(error))
     }

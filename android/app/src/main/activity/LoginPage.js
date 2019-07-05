@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, TextInput, Text, View } from 'react-native';
+import { Alert, ImageBackground, TextInput, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Styles from '../style/LoginStyle';
 import ForgetButton from '../component/ForgetButton';
@@ -26,9 +26,22 @@ export default class Login extends Component{
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.dispatch(goToMain))
-      .catch(error => this.updateError(error))
-  }
+      .then(() => {
+            const user = firebase.auth().currentUser;
+            if (user.emailVerified) {
+                this.props.navigation.dispatch(goToMain)
+            } else {
+                Alert.alert(
+                  'Email has not been verified',
+                  'Please verify your email !',
+                  [
+                    {text: 'OK', onPress: () => {}},
+                  ],
+                  {cancelable: false},
+                );
+            }
+        }).catch(error => this.updateError(error))
+      }
 
   updateError(error) {
         this.setState({ errorMessage: error.message });

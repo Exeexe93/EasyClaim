@@ -59,11 +59,11 @@ export default class EditProfile extends Component{
               ' ',
               [
                 {text: response.error, onPress: () => {}},
-                {
-                  text: 'Cancel',
-                  onPress: () => {},
-                  style: 'cancel',
-                },
+//                {
+//                  text: 'Cancel',
+//                  onPress: () => {},
+//                  style: 'cancel',
+//                },
                 {text: 'OK', onPress: () => {}},
               ],
               {cancelable: false},
@@ -73,7 +73,6 @@ export default class EditProfile extends Component{
         this.setState({
             selectedPic: response.uri,
         });
-
      }
    });
  }
