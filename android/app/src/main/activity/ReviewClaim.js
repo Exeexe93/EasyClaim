@@ -6,7 +6,15 @@ import Styles from '../style/EditStyle';
 
 export default class Main extends Component{
 
-  render() {
+    componentDidMount() {
+        console.log('review');
+    }
+
+    componentWillUnmount() {
+        console.log('unmount');
+    }
+
+    render() {
         const { navigation } = this.props;
         const item = navigation.getParam('item');
 
@@ -38,6 +46,6 @@ export default class Main extends Component{
                 <ReviewButton/>
             </ScrollView>
         );
-  }
+    }
 }
 

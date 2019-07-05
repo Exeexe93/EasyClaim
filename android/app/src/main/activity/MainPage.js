@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View } from 'react-native';
+import { Alert, BackHandler, TextInput, Text, View } from 'react-native';
 import { Header } from 'react-native-elements';
+import { StackActions, NavigationActions } from 'react-navigation';
 import CameraButton from '../component/CameraButton';
 import MenuButton from '../component/MenuButton';
 import Styles from '../style/MainStyle';
@@ -11,15 +12,43 @@ export default class Main extends Component{
 
   // When showing the page, get the user email and store it
   componentDidMount() {
-      const { currentUser } = firebase.auth()
-      this.setState({ currentUser })
+      const { currentUser } = firebase.auth();
+      this.setState({ currentUser });
+      this.props.navigation.addListener("didFocus", this.backHandler);
+      this.props.navigation.addListener("willBlur", () => BackHandler.removeEventListener('hardwareBackPress', this.logoutConfirmation));
   }
+
+  backHandler = () => BackHandler.addEventListener('hardwareBackPress', this.logoutConfirmation);
+
+  logoutConfirmation = () => {
+                 const Logout = StackActions.reset({
+                     index: 0,
+                     key: null,
+                     actions: [
+                         NavigationActions.navigate({ routeName: 'Login' }),
+                     ],
+                 });
+                 Alert.alert(
+                   'Confirm logout ?',
+                   ' ',
+                   [
+                     {
+                       text: 'Cancel',
+                       onPress: () => {},
+                       style: 'cancel',
+                     },
+                     {text: 'OK', onPress: () => this.props.navigation.dispatch(Logout)},
+                   ],
+                   {cancelable: false},
+                 );
+                 return true;
+           }
 
   render() {
         return (
                 <View style = {Styles.container}>
                     <Header
-                        containerStyle = {{ height: 50, paddingVertical: 20}}
+                        containerStyle = { Styles.headerContainer }
                         leftComponent={<MenuButton/>}
                     />
                     <View style = {Styles.logoBox}>

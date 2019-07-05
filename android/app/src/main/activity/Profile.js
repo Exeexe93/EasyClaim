@@ -12,10 +12,6 @@ export default class Profile extends Component{
         profile: ' ',
     }
 
-    componentDidMount() {
-
-    }
-
      componentDidMount() {
             this.refresh = this.props.navigation.addListener("didFocus", this.initialiseScreen);
         }

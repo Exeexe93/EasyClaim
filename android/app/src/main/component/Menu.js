@@ -65,7 +65,7 @@ export default class Menu extends Component {
 
                         />
                         <Text
-                          onPress = {() => this.props.navigation.navigate('History')}
+                          onPress = {() => this.props.navigation.navigate('History', {refresh: true})}
                           style = { Styles.drawerItem }
                         >
                           History

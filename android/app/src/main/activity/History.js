@@ -22,12 +22,14 @@ export default class History extends Component{
     }
 
     getJsonFile = () => {
-        this.setState({data: [], done: false});
-        firebase.database().ref("Transport Claim/" + global.currentId)
-        .once('value').then((data) => {
-                this.getInfo(data.toJSON());
-            }
-        );
+        if (this.props.navigation.getParam('refresh')) {
+            this.setState({data: [], done: false});
+            firebase.database().ref("Transport Claim/" + global.currentId)
+            .once('value').then((data) => {
+                    this.getInfo(data.toJSON());
+                }
+            );
+        }
     };
 
     getRangeDate = (startDate, endDate) => {
@@ -41,8 +43,6 @@ export default class History extends Component{
     }
 
     getInfo = (info) => {
-        console.log('information: ');
-        console.log(info);
         for (date in info) {
             let result = this.state.data;
             result.push(info[date]);
@@ -50,7 +50,6 @@ export default class History extends Component{
         }
         this.ascendingSort(this.state.data);
         this.setState({ done: true });
-        console.log(this.state.data);
     }
 
     ascendingSort = (data) => {
@@ -94,6 +93,7 @@ export default class History extends Component{
                 <Header
                     containerStyle = {{ height: 50, paddingVertical: 20}}
                     leftComponent = {<MenuButton/>}
+                    centerComponent={{ text: 'History', style: { fontSize: 20 }}}
                     rightComponent = {<DatePicker getSearchDates = {this.getSearchDates} />}
                 />
                 { this.state.done == false &&

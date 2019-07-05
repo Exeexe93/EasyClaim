@@ -8,7 +8,7 @@ class ReviewButton extends Component {
     render() {
         return (
                 <Button color = "skyblue" title = "Ok" containerStyle = { Styles.reviewButton }
-                    onPress = { () => this.props.navigation.goBack() }/>
+                    onPress = { () => this.props.navigation.navigate('History', {refresh: false}) }/>
         );
     }
 }
