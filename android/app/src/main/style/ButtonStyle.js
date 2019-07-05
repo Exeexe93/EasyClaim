@@ -21,7 +21,12 @@ const Styles = StyleSheet.create({
         paddingTop: 10,
         width: 250,
         height: 40,
-    }
+    },
+    uploadButton: {
+        backgroundColor: '#2699FB',
+        width: 200,
+        height: 40,
+    },
 });
 
 export default Styles;

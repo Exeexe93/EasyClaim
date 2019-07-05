@@ -4,21 +4,21 @@ import Styles from '../style/ButtonStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { withNavigation } from 'react-navigation';
 
-class CameraButton extends Component {
+class uploadButton extends Component {
     render() {
         return (
                 <Button
-                    containerStyle = {Styles.cameraButton}
+                    containerStyle = {Styles.uploadButton}
                     titleStyle = {{ marginHorizontal : 30}}
                     onPress = {() => this.props.navigation.navigate('Camera')}
                     icon = {
                         <Icon
-                            name = "camera"
+                            name = "image"
                             size = { 20 }
                             color = "black"
                         />
                     }
-                    title = "Camera"
+                    title = "Upload image"
                 />
         );
     }
@@ -26,4 +26,4 @@ class CameraButton extends Component {
 
 
 
-export default withNavigation(CameraButton);
+export default withNavigation(uploadButton);
