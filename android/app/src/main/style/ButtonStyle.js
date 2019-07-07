@@ -18,6 +18,7 @@ const Styles = StyleSheet.create({
         height: 50
     },
     forgetButton: {
+        marginTop: 7,
         paddingTop: 10,
         width: 250,
         height: 40,

@@ -16,6 +16,7 @@ const Styles = StyleSheet.create({
   textInput: {
         height: 40,
         width: 250,
+        textAlign: 'center',
         paddingHorizontal: 10,
         borderColor: 'skyblue',
         borderWidth: 2,

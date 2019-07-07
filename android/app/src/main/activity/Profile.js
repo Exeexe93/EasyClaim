@@ -14,7 +14,7 @@ export default class Profile extends Component{
 
      componentDidMount() {
             this.refresh = this.props.navigation.addListener("didFocus", this.initialiseScreen);
-        }
+     }
 
     componentWillUnmount() {
         this.refresh.remove();

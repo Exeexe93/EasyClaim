@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
-import { Button, ScrollView, TextInput, Text, View, StyleSheet} from 'react-native';
+import { TouchableHighlight, Button, ScrollView,
+            TextInput, Text, View, StyleSheet } from 'react-native';
 import { Image } from 'react-native-elements';
 import ReviewButton from '../component/ReviewButton';
 import Styles from '../style/EditStyle';
 
 export default class Main extends Component{
 
-    componentDidMount() {
-        console.log('review');
-    }
-
-    componentWillUnmount() {
-        console.log('unmount');
-    }
-
     render() {
         const { navigation } = this.props;
         const item = navigation.getParam('item');
 
         return (
-            <ScrollView keyboardDismissMode = "on-drag" overScrollMode ="always"
+            <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
                             style = { Styles.textContainer }>
-                <Image
-                  source = {{ uri: item.picUri }}
-                  style = {{ width: 400, height: 350 }}
-                />
+                <TouchableHighlight
+                    onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: item.picUri})}>
+                    <Image
+                      source = {{ uri: item.picUri }}
+                      style = {{ width: 400, height: 350 }}
+                    />
+                </TouchableHighlight>
                 <Text style = { Styles.title }>
                     Date:
                 </Text>

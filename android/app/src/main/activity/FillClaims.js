@@ -19,7 +19,7 @@ export default class FillClaims extends Component{
                   rounded
                   size = { 200 }
                   containerStyle = {{ alignSelf: 'center', marginVertical: 30 }}
-                  onPress = { () => this.props.navigation.navigate('ShowImage')}
+                  onPress = { () => this.props.navigation.navigate('ShowImage', { fileUri: global.FileUri })}
                   source = {{
                     uri:
                       global.FileUri

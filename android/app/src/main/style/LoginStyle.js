@@ -28,34 +28,50 @@ const Styles = StyleSheet.create({
   },
   textBox: {
         alignItems: 'center',
-        marginVertical: 10,
+        marginVertical: 20,
         flex: 1,
         height: 250,
         width: 200,
         alignItems: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
   },
   textInput: {
-  opacity: 10,
+        color: 'white',
         width: "90%",
+        fontSize: 15,
         height: 40,
         padding: 6
   },
   loginBox: {
+        marginTop: 40,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
   },
+  text: {
+      lineHeight: 50,
+      fontSize: 14,
+      color: 'black',
+      textAlign: 'center',
+  },
   registerText: {
         lineHeight: 50,
         fontSize: 14,
-        color: 'red',
-        textAlign: 'center'
+        color: '#0000CD',
+        textAlign: 'center',
+        textAlignVertical: 'top',
+        textDecorationLine: 'underline',
   },
   loginButton: {
       width: 250,
       height: 40,
+      marginBottom: 20,
   },
+  registerBox: {
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      width:'75%'
+  }
 });
 
 export default Styles;

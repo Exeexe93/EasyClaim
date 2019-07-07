@@ -8,7 +8,7 @@ export default class ShowImage extends Component{
                 <View style = {{ flex: 1 }}>
                     <Image
                         source = {{ uri:
-                             global.FileUri
+                             this.props.navigation.getParam('fileUri')
                         }}
                         style = {{ width: '100%', height: '100%' }}/>
                 </View>

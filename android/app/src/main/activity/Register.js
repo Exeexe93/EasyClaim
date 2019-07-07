@@ -42,7 +42,7 @@ export default class Register extends Component{
                                   'An email has been send to ' + user.email,
                                   'Please verify your email',
                                   [
-                                    {text: 'OK', onPress: () => {}},
+                                    {text: 'OK', onPress: () => this.props.navigation.navigate('Login')},
                                   ],
                                   {cancelable: false},
                                 )
@@ -117,7 +117,7 @@ export default class Register extends Component{
                             onChangeText={(position) => this.setState({position})}
                             value = {this.state.position}/>
                         <TextInput
-                            placeholder = 'Company'
+                            placeholder = ' Company'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
                             underlineColorAndroid = {'skyblue'}

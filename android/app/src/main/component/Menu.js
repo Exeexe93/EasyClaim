@@ -16,9 +16,17 @@ export default class Menu extends Component {
         profile: '',
     }
     componentDidMount() {
-            currentId = firebase.auth().currentUser.uid;
-            firebase.database().ref('Users/' + currentId )
-                                 .once('value').then((data) => this.getProfileInfo(data.val()));
+        this.refresh = this.props.navigation.addListener("didFocus", this.initialiseScreen);
+    }
+
+    componentWillUnmount() {
+        this.refresh.remove();
+    }
+
+    initialiseScreen = () => {
+        currentId = firebase.auth().currentUser.uid;
+        firebase.database().ref('Users/' + currentId )
+                            .once('value').then((data) => this.getProfileInfo(data.val()));
     }
 
     getProfileInfo(value) {

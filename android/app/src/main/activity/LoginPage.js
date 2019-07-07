@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, ImageBackground, TextInput, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
 import Styles from '../style/LoginStyle';
 import ForgetButton from '../component/ForgetButton';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -68,29 +68,25 @@ export default class Login extends Component{
                     }
                 </View>
                 <View style = {Styles.inputBox}>
-                    <View style = {Styles.textBox}>
-                        <TextInput
-                            maxLength = {25}
-                            placeholderTextColor = {'white'}
-                            placeholder = "Email"
-                            style = {Styles.textInput}
-                            selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
-                            onChangeText={(email) => this.setState({email})}
-                            value = {this.state.email}/>
-                    </View>
-                    <View style = {Styles.textBox}>
-                        <TextInput
-                            maxLength = {20}
-                            placeholderTextColor = {'white'}
-                            placeholder = "Password"
-                            secureTextEntry = { true }
-                            style = {Styles.textInput}
-                            selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
-                            onChangeText={(password) => this.setState({password})}
-                            value = {this.state.password}/>
-                    </View>
+                    <Input
+                        label = 'Email'
+                        labelStyle = {{ fontSize: 12 }}
+                        containerStyle ={{ marginVertical: 10 }}
+                        inputContainerStyle = {{ height: 30 }}
+                        inputStyle = { Styles.textInput }
+                        onChangeText={(email) => this.setState({email})}
+                        value = {this.state.email}
+                    />
+                    <Input
+                        label = 'Password'
+                        labelStyle = {{ fontSize: 12 }}
+                        containerStyle ={{ marginVertical: 10 }}
+                        inputContainerStyle = {{ height: 30 }}
+                        inputStyle = { Styles.textInput }
+                        secureTextEntry = { true }
+                        onChangeText={(password) => this.setState({password})}
+                        value = {this.state.password}
+                    />
                 </View>
                 <View style = {Styles.loginBox}>
                     <Button
@@ -98,14 +94,46 @@ export default class Login extends Component{
                         color = '#2699FB'
                         onPress = { this.handleLogin }
                         title = "Login"/>
-                    <ForgetButton/>
-                    <Text style = { Styles.registerText }
-                        onPress = { () => this.props.navigation.navigate('Register') }>
-                        Do not have an account? Register now !
+                    <Text style ={{ textAlign: 'center', textAlignVertical: 'center', color: 'blue' }}>
+                        Forgot Password ?
                     </Text>
+                    <View style = { Styles.registerBox }>
+                        <Text style = { Styles.text }>
+                            Do not have an account?
+                        </Text>
+                        <Text style = { Styles.registerText }
+                            onPress = { () => this.props.navigation.navigate('Register') }>
+                            Join now
+                        </Text>
+                    </View>
                 </View>
             </ImageBackground>
             </View>
         );
   }
 }
+
+ //<ForgetButton/>
+// <View style = {Styles.textBox}>
+// <TextInput
+//     maxLength = {25}
+//     placeholderTextColor = {'white'}
+//     placeholder = "Email"
+//     style = {Styles.textInput}
+//     selectionColor = {'skyblue'}
+//     underlineColorAndroid = {'skyblue'}
+//     onChangeText={(email) => this.setState({email})}
+//     value = {this.state.email}/>
+// </View>
+//                    <View style = {Styles.textBox}>
+//<TextInput
+//    maxLength = {20}
+//    placeholderTextColor = {'white'}
+//    placeholder = "Password"
+//    secureTextEntry = { true }
+//    style = {Styles.textInput}
+//    selectionColor = {'skyblue'}
+//    underlineColorAndroid = {'skyblue'}
+//    onChangeText={(password) => this.setState({password})}
+//    value = {this.state.password}/>
+//                 </View>

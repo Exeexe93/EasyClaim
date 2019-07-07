@@ -12,7 +12,7 @@ class ForgetButton extends Component {
                     containerStyle = { Styles.forgetButton }
                     color = '#2699FB'
                     onPress = { () => this.props.navigation.navigate('ForgetPassword') }
-                    title = "Forget Password"/>
+                    title = "Forgot Password"/>
         );
     }
 }
