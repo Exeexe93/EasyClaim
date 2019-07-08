@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
 import RNMlKit from 'react-native-firebase-mlkit';
@@ -27,6 +27,7 @@ export default class Camera extends Component {
         ratio: '16:9',
         textBlocks: [],
         detectDate: false,
+        loading: false,
     };
 
     toggleFlash() {
@@ -82,9 +83,11 @@ export default class Camera extends Component {
                 const options = { quality: 0.5, base64: true, fixOrientation: true };
                 const data = await this.camera.takePictureAsync(options);
                 FileUri = data.uri;
+                this.setState({ loading: true });
                 const cloudTextRecognition = await RNMlKit.cloudTextRecognition(data.uri);
                 this.setState({ textBlocks: cloudTextRecognition });
                 this.state.textBlocks.map(this.searchInfo);
+                this.setState({ loading: false });
                 this.props.navigation.navigate('FillClaims');
             }
         } catch (e) {
@@ -166,10 +169,21 @@ export default class Camera extends Component {
     }
 
     render() {
-        return (
-            <View style = { Styles.container }>
-                {this.renderCamera()}
-            </View>
-        );
+        const { loading } = this.state;
+        if (loading) {
+            return (
+                <View style = {{ flex:1 , backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style = {{fontSize: 20}}> Please wait ! </Text>
+                <Text style = {{fontSize: 15}}> Processing Image </Text>
+                <ActivityIndicator size = "large" />
+                </View>
+            );
+        } else {
+            return (
+                <View style = { Styles.container }>
+                    {this.renderCamera()}
+                </View>
+            );
+        }
     }
 }

@@ -29,8 +29,8 @@ export default class Main extends Component{
                      ],
                  });
                  Alert.alert(
-                   'Confirm logout ?',
-                   ' ',
+                   '               Confirm logout?',
+                   '',
                    [
                      {
                        text: 'Cancel',
