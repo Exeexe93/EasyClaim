@@ -13,10 +13,6 @@ const flashModeOrder = {
 export default class Camera extends Component {
     constructor() {
         super();
-        global.FileUri = '';
-        global.date = '';
-        global.time = '';
-        global.price = '';
     }
 
     state = {
@@ -28,6 +24,9 @@ export default class Camera extends Component {
         textBlocks: [],
         detectDate: false,
         loading: false,
+        date: '',
+        time: '',
+        price: '',
     };
 
     toggleFlash() {
@@ -49,11 +48,13 @@ export default class Camera extends Component {
             posOfSlash = value.indexOf('/');
             posOfColon = value.indexOf(':');
             if(posOfSlash != -1 && posOfColon != -1) {
-            // Date in dd/mm/yyyy so is 10 number
-            date = value.substr(posOfSlash - 2, 10);
-            // Time in hh:mm so is 5 number
-            time = value.substr(posOfColon - 2, 5);
-            this.setState({ detectDate: true })
+                // Date in dd/mm/yyyy so is 10 number
+                const date = value.substr(posOfSlash - 2, 10);
+                this.setState ({ date: date });
+                // Time in hh:mm so is 5 number
+                const time = value.substr(posOfColon - 2, 5);
+                this.setState({ time: time });
+                this.setState({ detectDate: true })
             }
         }
     }
@@ -65,15 +66,16 @@ export default class Camera extends Component {
         // Check whether there are . in the string and 'km' word afterward
         if (posOfDot != -1 && posOfKM == -1) {
             if(posOfDot - 2 == -1) {
-                number = parseFloat(value.substr(posOfDot - 1, 4)).toString();
+                number = parseFloat(value.substr(posOfDot - 1, 4)).toFixed(2).toString();
             } else {
-                number = parseFloat(value.substr(posOfDot - 2, 5)).toString();
+                number = parseFloat(value.substr(posOfDot - 2, 5)).toFixed(2).toString();
             }
-            // Add zero behind when is only 1 decimal place
-            if (number.length - number.indexOf('.') == 2) {
-               number = number + '0';
-            }
-            price = '$' + number;
+//            // Add zero behind when is only 1 decimal place
+//            if (number.length - number.indexOf('.') == 2) {
+//               number = number + '0';
+//            }
+            number = '$' + number;
+            this.setState({ price: number });
         }
     }
 
@@ -82,13 +84,19 @@ export default class Camera extends Component {
             if (this.camera) {
                 const options = { quality: 0.5, base64: true, fixOrientation: true };
                 const data = await this.camera.takePictureAsync(options);
-                FileUri = data.uri;
+                const uri = data.uri;
                 this.setState({ loading: true });
                 const cloudTextRecognition = await RNMlKit.cloudTextRecognition(data.uri);
                 this.setState({ textBlocks: cloudTextRecognition });
                 this.state.textBlocks.map(this.searchInfo);
                 this.setState({ loading: false });
-                this.props.navigation.navigate('FillClaims');
+                this.props.navigation.navigate('FillClaims',
+                    {
+                        uri: uri,
+                        price: this.state.price,
+                        time: this.state.time,
+                        date: this.state.date,
+                    });
             }
         } catch (e) {
             console.warn(e);
@@ -123,9 +131,9 @@ export default class Camera extends Component {
                 <View
                   style = { Styles.topContainer }
                 >
-                  <View
-                            style = { Styles.sliderContainer }
-                          >
+                    <View
+                        style = { Styles.sliderContainer }
+                    >
                             <Slider
                               style = { Styles.slider }
                               thumbTintColor = '#307ecc'
@@ -138,7 +146,7 @@ export default class Camera extends Component {
                               value = { this.state.zoom }
                               onValueChange = { (sliderValue) => this.setState({ zoom: sliderValue })}
                             />
-                          </View>
+                    </View>
                 </View>
                 <View
                     style = { Styles.bottomContainer }>

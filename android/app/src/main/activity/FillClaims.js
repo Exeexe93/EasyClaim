@@ -6,9 +6,10 @@ import ClaimButton from '../component/ClaimButton';
 
 export default class FillClaims extends Component{
     state = {
-        date: global.date,
-        time: global.time,
-        price: global.price,
+        date: this.props.navigation.getParam('date'),
+        time: this.props.navigation.getParam('time'),
+        price: this.props.navigation.getParam('price'),
+        uri: this.props.navigation.getParam('uri'),
     }
 
     render() {
@@ -19,10 +20,10 @@ export default class FillClaims extends Component{
                   rounded
                   size = { 200 }
                   containerStyle = {{ alignSelf: 'center', marginVertical: 30 }}
-                  onPress = { () => this.props.navigation.navigate('ShowImage', { fileUri: global.FileUri })}
+                  onPress = { () => this.props.navigation.navigate('ShowImage', { fileUri: this.state.uri })}
                   source = {{
                     uri:
-                      global.FileUri
+                      this.state.uri
                   }}
                 />
                 <View style = { Styles.textContainer }>

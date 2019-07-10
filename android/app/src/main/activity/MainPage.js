@@ -6,6 +6,7 @@ import CameraButton from '../component/CameraButton';
 import MenuButton from '../component/MenuButton';
 import Styles from '../style/MainStyle';
 import firebase from 'react-native-firebase';
+import UploadFile from './UploadFile';
 
 export default class Main extends Component{
   state = { currentUser: null }
@@ -58,6 +59,7 @@ export default class Main extends Component{
                     </View>
                     <View style = {Styles.cameraBox}>
                         <CameraButton/>
+                        <UploadFile/>
                     </View>
                 </View>
         );

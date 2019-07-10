@@ -59,11 +59,6 @@ export default class EditProfile extends Component{
               ' ',
               [
                 {text: response.error, onPress: () => {}},
-//                {
-//                  text: 'Cancel',
-//                  onPress: () => {},
-//                  style: 'cancel',
-//                },
                 {text: 'OK', onPress: () => {}},
               ],
               {cancelable: false},
