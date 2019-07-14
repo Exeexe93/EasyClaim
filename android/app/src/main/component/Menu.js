@@ -8,13 +8,11 @@ import MenuDivider from '../component/MenuDivider';
 import firebase from 'react-native-firebase';
 
 export default class Menu extends Component {
-    constructor() {
-        super();
-        global.currentId = '';
-    }
+
     state = {
         profile: '',
     }
+
     componentDidMount() {
         this.refresh = this.props.navigation.addListener("didFocus", this.initialiseScreen);
     }
@@ -24,8 +22,7 @@ export default class Menu extends Component {
     }
 
     initialiseScreen = () => {
-        currentId = firebase.auth().currentUser.uid;
-        firebase.database().ref('Users/' + currentId )
+        firebase.database().ref('Users/' + global.currentId )
                             .once('value').then((data) => this.getProfileInfo(data.val()));
     }
 

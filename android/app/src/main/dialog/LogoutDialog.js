@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { StackActions, NavigationActions, withNavigation } from 'react-navigation';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import Styles from '../style/MenuStyle';
@@ -21,7 +22,16 @@ class LogoutDialog extends Component {
         });
 
         return (
-            <View>
+            <View style = {{flexDirection: 'row'}}>
+                <Icon
+                     name = 'logout'
+                     type = 'antdesign'
+                     color = '#FFFFFF'
+                     underlayColor = '#2699FB'
+                     size = { 20 }
+                     containerStyle = {{ justifyContent: 'center' }}
+                     onPress = { () => this.setState({ visible: true }) }
+                />
                 <Text
                     onPress = { () => this.setState({ visible: true }) }
                     style = { Styles.drawerItem }>

@@ -55,14 +55,14 @@ class UploadFile extends Component{
         this.setState({ uri: uri });
         const cloudTextRecognition = await RNMlKit.cloudTextRecognition(uri);
         this.setState({ textBlocks: cloudTextRecognition });
-        console.log(this.state.textBlocks);
         this.state.textBlocks.map(this.searchInfo);
-        this.props.navigation.navigate('FillClaims', {
-                                                        date: this.state.date,
-                                                        time: this.state.time,
-                                                        price: this.state.price,
-                                                        uri: this.state.uri
-                                                    });
+        this.props.navigation.navigate('FillClaims',
+            {
+                date: this.state.date,
+                time: this.state.time,
+                price: this.state.price,
+                uri: this.state.uri,
+            });
     }
 
     searchInfo = ({ blockText }) => {
@@ -88,13 +88,11 @@ class UploadFile extends Component{
             date = day + "/" + month + "/" + year;
             // Required to change to DD/MM/YYYY instead of MM/DD/YYYY
             this.setState ({ date: date });
-            console.log('date: ' + this.state.date);
         }
         if (posOfColon != -1 && posOfPlus != -1) {
             // Time in 04:39 +0800
             const time = value.substr(posOfColon - 2, 5);
             this.setState({ time: time });
-            console.log('time: ' + this.state.time);
         }
     }
 
@@ -111,7 +109,6 @@ class UploadFile extends Component{
             if (!isNaN(number)) {
                 number = '$' + number;
                 this.setState({ price: number });
-                console.log('price: ' + this.state.price);
             }
         }
     }

@@ -30,9 +30,7 @@ const Styles = StyleSheet.create({
             padding: 15,
             margin: 5,
             borderRadius: 2,
-            borderColor: '#2699FB',
-            borderWidth: 1,
-            textAlign: 'left'
+            textAlign: 'left',
       },
       logoutContainer: {
             flex: 1,

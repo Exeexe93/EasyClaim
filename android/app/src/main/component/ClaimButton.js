@@ -46,7 +46,7 @@ class ClaimButton extends Component {
 
     render() {
         const ClaimAlert = () => {
-            this.uploadClaim(global.currentId, global.FileUri,
+            this.uploadClaim(global.currentId, this.props.uri,
                 this.props.date, this.props.time, this.props.price);
             Alert.alert(
                   'Claim Success',
@@ -59,7 +59,7 @@ class ClaimButton extends Component {
         }
 
         return (
-            <View>
+            <View >
                 <Button
                     onPress = { ClaimAlert }
                     title = "Confirm"

@@ -70,10 +70,6 @@ export default class Camera extends Component {
             } else {
                 number = parseFloat(value.substr(posOfDot - 2, 5)).toFixed(2).toString();
             }
-//            // Add zero behind when is only 1 decimal place
-//            if (number.length - number.indexOf('.') == 2) {
-//               number = number + '0';
-//            }
             number = '$' + number;
             this.setState({ price: number });
         }

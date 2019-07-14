@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, ScrollView, Text, View, ActivityIndicator} from 'react-native';
+import { FlatList, ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { ListItem, Header } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
@@ -11,6 +11,7 @@ export default class History extends Component{
     state = {
         data: [],
         done: false,
+        loading: false,
     };
 
     componentDidMount() {
@@ -55,13 +56,15 @@ export default class History extends Component{
     ascendingSort = (data) => {
         var result = data;
 
-        function compare(a, b) {
-            var aDate = new Date(a.date.split('-').reverse().join('/'));
-            var bDate = new Date(b.date.split('-').reverse().join('/'));
-            return  bDate - aDate;
+        //function compare(a, b) {
+        //    return  b.date - a.date;
+        //}
+        //result.sort((a, b) => compare(a, b));
+        // Convert the date into dd/mm/yyyy instead of yyyy-mm-dd
+        for (item in result) {
+            result[item].date = result[item].date.split('-').reverse().join('/');
         }
-        result.sort((a, b) => compare(a, b));
-        this.setState({ data, result });
+        this.setState({ data: result });
     }
 
     getSearchDates = (startDate, endDate) => {
@@ -76,11 +79,11 @@ export default class History extends Component{
 
     renderItem = ({ item }) => (
       <ListItem
-        containerStyle = {{backgroundColor: '#F1F9FF'}}
-        bottomDivider = {true}
+        containerStyle = {{ backgroundColor: '#F1F9FF' }}
+        bottomDivider =  {true }
         title = { item.date }
         subtitle = { item.price }
-        rightIcon = {<Icon name = "arrow-right" size = {15}
+        rightIcon = {<Icon name = "arrow-right" size = { 15 }
             onPress = {() => this.props.navigation.navigate('ReviewClaim', {
                             item: item,
                       })}/>}
@@ -89,7 +92,7 @@ export default class History extends Component{
 
     render () {
         return (
-            <ScrollView style = {{ flex:1, backgroundColor: '#F1F9FF'}}>
+            <>
                 <Header
                     containerStyle = {{ height: 50, paddingVertical: 20}}
                     leftComponent = {<MenuButton/>}
@@ -98,8 +101,15 @@ export default class History extends Component{
                 />
                 { this.state.done == false &&
                     <View style = {{ height: 600, justifyContent: 'center' }}>
-                    <ActivityIndicator size = { 100 }/>
+                        <ActivityIndicator size = { 100 }/>
                     </View>
+                }
+                { (this.state.done && this.state.data.length < 1) &&
+                        <View style = {{ height: 600, justifyContent: 'center' }}>
+                            <Text style = {{ textAlign: 'center', fontSize: 20 }}>
+                                Yeah ! No Claim !
+                            </Text>
+                        </View>
                 }
                 { this.state.done &&
                     <FlatList
@@ -108,12 +118,8 @@ export default class History extends Component{
                           renderItem = { this.renderItem }
                     />
                 }
-                { (this.state.done && this.state.data == []) &&
-                    <View style = {{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 600 }}>
-                    <Text> No data found </Text>
-                    </View>
-                }
-            </ScrollView>
+
+                </>
         );
     }
 }

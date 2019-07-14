@@ -4,7 +4,6 @@ const Styles = StyleSheet.create({
       textContainer: {
             flex: 1,
             backgroundColor: '#F1F9FF',
-            marginVertical: 30
       },
       title: {
             fontSize: 20,
@@ -17,6 +16,10 @@ const Styles = StyleSheet.create({
             fontWeight: 'bold',
             fontSize: 15,
             textAlign: 'center'
+      },
+      container: {
+            flex: 1,
+            backgroundColor: '#F1F9FF',
       }
 })
 

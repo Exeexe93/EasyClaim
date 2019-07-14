@@ -8,8 +8,8 @@ class uploadButton extends Component {
     render() {
         return (
                 <Button
-                    containerStyle = {Styles.uploadButton}
-                    titleStyle = {{ marginHorizontal : 30}}
+                    containerStyle = { Styles.uploadButton }
+                    titleStyle = {{ marginHorizontal : 30 }}
                     onPress = {() => this.props.navigation.navigate('Camera')}
                     icon = {
                         <Icon

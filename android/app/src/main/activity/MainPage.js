@@ -9,12 +9,15 @@ import firebase from 'react-native-firebase';
 import UploadFile from './UploadFile';
 
 export default class Main extends Component{
-  state = { currentUser: null }
+
+    constructor() {
+        super();
+        global.currentId = '';
+    }
 
   // When showing the page, get the user email and store it
   componentDidMount() {
-      const { currentUser } = firebase.auth();
-      this.setState({ currentUser });
+      currentId  = firebase.auth().currentUser.uid;
       this.props.navigation.addListener("didFocus", this.backHandler);
       this.props.navigation.addListener("willBlur", () => BackHandler.removeEventListener('hardwareBackPress', this.logoutConfirmation));
   }

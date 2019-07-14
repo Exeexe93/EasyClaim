@@ -55,7 +55,8 @@ export default class FillClaims extends Component{
                 <ClaimButton
                     date = {this.state.date}
                     price = {this.state.price}
-                    time = {this.state.time} />
+                    time = {this.state.time}
+                    uri = {this.state.uri}/>
              </ScrollView>
         );
     }
