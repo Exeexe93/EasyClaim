@@ -106,35 +106,30 @@ export default class Register extends Component{
                             placeholder = 'Name'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(name) => this.setState({name})}
                             value = {this.state.name}/>
                         <TextInput
                             placeholder = 'Position'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(position) => this.setState({position})}
                             value = {this.state.position}/>
                         <TextInput
                             placeholder = ' Company'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(company) => this.setState({company})}
                             value = {this.state.company}/>
                         <TextInput
                             placeholder = 'Email'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(email) => this.setState({email})}
                             value = {this.state.email}/>
                         <TextInput
                             placeholder = 'Password'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(password) => this.setState({password})}
                             value = {this.state.password}/>
                         <GenderDropDown callback = { this.getGender.bind(this) }/>

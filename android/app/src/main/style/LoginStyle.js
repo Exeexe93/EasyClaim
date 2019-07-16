@@ -63,14 +63,19 @@ const Styles = StyleSheet.create({
         textDecorationLine: 'underline',
   },
   loginButton: {
-      width: 250,
-      height: 40,
-      marginBottom: 20,
+        width: 250,
+        height: 40,
+        marginBottom: 20,
   },
   registerBox: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      width:'75%'
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        width:'75%'
+  },
+  forgotText: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        color: 'blue'
   }
 });
 

@@ -42,7 +42,7 @@ const Styles = StyleSheet.create({
   retrieveButton: {
       alignSelf: 'center',
       width: 150,
-      height: 40
+      height: 40,
   },
 });
 

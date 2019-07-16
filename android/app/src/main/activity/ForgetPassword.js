@@ -67,7 +67,6 @@ export default class ForgotPassword extends Component{
                             placeholder = 'Email'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
-                            underlineColorAndroid = {'skyblue'}
                             onChangeText={(email) => this.setState({email})}
                             value = {this.state.email}/>
                 </View>
@@ -75,7 +74,8 @@ export default class ForgotPassword extends Component{
                    <Button
                        onPress = { this.resetPassword }
                        title = "Retrieve password!"
-                       containerStyle = { Styles.retrieveButton }/>
+                       containerStyle = { Styles.retrieveButton }
+                       buttonStyle = {{borderRadius: 80}}/>
                    <ConfirmDialog
                        messageStyle = {{ alignSelf: 'center'}}
                        message = "Please check your email!"

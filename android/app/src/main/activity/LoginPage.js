@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Alert, ImageBackground, TextInput, Text, View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import Styles from '../style/LoginStyle';
-import ForgetButton from '../component/ForgetButton';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'react-native-firebase';
 
@@ -94,7 +93,9 @@ export default class Login extends Component{
                         color = '#2699FB'
                         onPress = { this.handleLogin }
                         title = "Login"/>
-                    <Text style ={{ textAlign: 'center', textAlignVertical: 'center', color: 'blue' }}>
+                    <Text
+                        style ={ Styles.forgotText }
+                        onPress = { () => this.props.navigation.navigate('ForgetPassword') }>
                         Forgot Password ?
                     </Text>
                     <View style = { Styles.registerBox }>
