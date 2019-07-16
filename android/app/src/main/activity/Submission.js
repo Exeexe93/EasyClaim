@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SectionList, ScrollView, Text, View, ActivityIndicator } from 'react-native';
-import { Header } from 'react-native-elements'
+import { Header, Divider } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
 import firebase from 'react-native-firebase';
@@ -44,19 +44,22 @@ export default class Submission extends Component{
             const month = months[current.getMonth()];
             const year = current.getFullYear();
             for (time in info[date]) {
-                var item = {"data": [], "title": ""};
+                var item = {"data": [], "title": [{"date":"", "price": ""}]};
                 let result = this.state.result;
                 var containTitle = false;
                 for (each in result) {
-                    if (result[each].title == month + " " + year) {
+                    if (result[each].title.date == month + " " + year) {
                        result[each].data.push(info[date][time]);
+                       result[each].title.price =
+                            this.sumPrice(result[each].title.price, info[date][time].price);
                        containTitle = true;
                     }
                 }
                 // Create new array for the month
                 if (containTitle == false) {
-                    item.title = month + " " + year;
+                    item.title.date = month + " " + year;
                     item.data.push(info[date][time]);
+                    item.title.price = info[date][time].price;
                     result.push(item);
                 }
                 this.setState({ result:  result });
@@ -66,6 +69,13 @@ export default class Submission extends Component{
         this.setState({ done: true });
     }
 
+    sumPrice = (first, second) => {
+        var result = parseFloat(first.substr(1, 4));
+        const addValue = parseFloat(second.substr(1, 4));
+        result += addValue;
+        result = result.toFixed(2);
+        return "$" + result ;
+    }
     /*ascendingSort = (data) => {
         var result = data;
 
@@ -83,11 +93,17 @@ export default class Submission extends Component{
     keyExtractor = (item, index) => item + index;
 
     renderHeader = ({ section }) => (
-        <Text style = {{ color: 'blue', fontSize: 20, textAlign: 'center' }}>
-            { section.title }
-        </Text>
+        <View style = {{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style = {{ color: 'blue', fontSize: 20, marginLeft: 10 }}>
+                { section.title.date }
+            </Text>
+            <Text style = {{ marginRight: 10, fontSize: 15 }}>
+                Total claim: { section.title.price }
+            </Text>
+        </View>
     )
     renderItem = ({ item }) => (
+       <>
       <View style = {{ backgroundColor: '#F1F9FF', flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style = {{ flexDirection: 'column', marginLeft: 10 }}>
             <Text style = {{ fontSize: 18 }}>
@@ -106,6 +122,8 @@ export default class Submission extends Component{
             />
         </View>
       </View>
+      <Divider/>
+      </>
     )
 
     render () {
