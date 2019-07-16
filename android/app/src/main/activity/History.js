@@ -45,9 +45,11 @@ export default class History extends Component{
 
     getInfo = (info) => {
         for (date in info) {
-            let result = this.state.data;
-            result.push(info[date]);
-            this.setState({ data:  result });
+            for (time in info[date]) {
+                let result = this.state.data;
+                result.push(info[date][time]);
+                this.setState({ data:  result });
+            }
         }
         this.ascendingSort(this.state.data);
         this.setState({ done: true });
