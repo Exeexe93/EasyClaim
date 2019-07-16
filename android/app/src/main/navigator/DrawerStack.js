@@ -3,6 +3,7 @@ import MainPage from '../activity/MainPage';
 import Menu from '../component/Menu';
 import History from '../activity/History';
 import Profile from '../activity/Profile';
+import Submission from '../activity/Submission';
 
 const DrawerStack = createDrawerNavigator(
     {
@@ -15,6 +16,9 @@ const DrawerStack = createDrawerNavigator(
         Profile: {
                 screen: Profile,
         },
+        Submission: {
+                screen: Submission,
+        }
     },
     {
         contentComponent: Menu

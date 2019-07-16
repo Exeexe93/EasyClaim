@@ -60,7 +60,7 @@ export default class History extends Component{
 
         //function compare(a, b) {
         //    return  b.date - a.date;
-        //}
+        //
         //result.sort((a, b) => compare(a, b));
         // Convert the date into dd/mm/yyyy instead of yyyy-mm-dd
         for (item in result) {

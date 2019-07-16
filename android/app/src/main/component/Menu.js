@@ -95,6 +95,21 @@ export default class Menu extends Component {
                         </Text>
                     </View>
                     <MenuDivider/>
+                     <View style = { Styles.icon }>
+                        <Icon
+                            name = 'send-o'
+                            type = 'font-awesome'
+                            color = '#FFFFFF'
+
+                        />
+                        <Text
+                          onPress = {() => this.props.navigation.navigate('Submission', { refresh: true })}
+                          style = { Styles.drawerItem }
+                        >
+                          Submission
+                        </Text>
+                    </View>
+                    <MenuDivider/>
                 </View>
                 <View style = { Styles.logoutContainer}>
                     <LogoutDialog/>
