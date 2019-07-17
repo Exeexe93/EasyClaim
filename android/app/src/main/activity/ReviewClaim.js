@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Button, ScrollView,
             TextInput, Text, View, StyleSheet } from 'react-native';
-import { Image } from 'react-native-elements';
+import { Image, Header } from 'react-native-elements';
 import ReviewButton from '../component/ReviewButton';
+import DeleteIcon from '../component/DeleteIcon';
 import Styles from '../style/EditStyle';
 
 export default class Main extends Component{
@@ -28,46 +29,57 @@ export default class Main extends Component{
     render() {
         if (this.props.navigation.getParam('editing')) {
             return (
-                <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
-                                style = { Styles.textContainer }>
-                    <TouchableHighlight
-                        onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: this.state.picUri})}>
-                        <Image
-                          source = {{ uri: this.state.picUri }}
-                          style = {{ width: 400, height: 350 }}
-                        />
-                    </TouchableHighlight>
-                    <Text style = { Styles.title }>
-                        Date:
-                    </Text>
-                    <TextInput
-                        style = { Styles.text }
-                        onChangeText = { (date) => this.setState({date}) }
-                        value = { this.state.date }/>
-                    <Text style = { Styles.title }>
-                        Time:
-                    </Text>
-                    <TextInput
-                        style = { Styles.text }
-                        onChangeText = { (time) => this.setState({time}) }
-                        value = { this.state.time }/>
-                    <Text style = { Styles.title }>
-                        Price:
-                    </Text>
-                    <TextInput
-                        style = { Styles.text }
-                        onChangeText = { (price) => this.setState({price}) }
-                        value = { this.state.price }/>
-                    <ReviewButton
-                        editing = { this.props.navigation.getParam('editing') }
-                        checkEdit = { this.checkEdit }
-                        date = { this.state.date }
-                        originalDate = { this.props.navigation.getParam('item').date }
-                        originalTime = { this.props.navigation.getParam('item').time }
-                        time = { this.state.time }
-                        price = { this.state.price }
-                        picUri = { this.state.picUri }/>
-                </ScrollView>
+                <>
+                    <Header
+                        containerStyle = { Styles.header }
+                        rightComponent =
+                        {
+                            <DeleteIcon
+                                time = { this.props.navigation.getParam('item').time }
+                                date = { this.props.navigation.getParam('item').date }/>
+                        }
+                    />
+                    <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
+                                    style = { Styles.textContainer }>
+                        <TouchableHighlight
+                            onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: this.state.picUri})}>
+                            <Image
+                              source = {{ uri: this.state.picUri }}
+                              style = {{ width: 400, height: 350 }}
+                            />
+                        </TouchableHighlight>
+                        <Text style = { Styles.title }>
+                            Date:
+                        </Text>
+                        <TextInput
+                            style = { Styles.text }
+                            onChangeText = { (date) => this.setState({date}) }
+                            value = { this.state.date }/>
+                        <Text style = { Styles.title }>
+                            Time:
+                        </Text>
+                        <TextInput
+                            style = { Styles.text }
+                            onChangeText = { (time) => this.setState({time}) }
+                            value = { this.state.time }/>
+                        <Text style = { Styles.title }>
+                            Price:
+                        </Text>
+                        <TextInput
+                            style = { Styles.text }
+                            onChangeText = { (price) => this.setState({price}) }
+                            value = { this.state.price }/>
+                        <ReviewButton
+                            editing = { this.props.navigation.getParam('editing') }
+                            checkEdit = { this.checkEdit }
+                            date = { this.state.date }
+                            originalDate = { this.props.navigation.getParam('item').date }
+                            originalTime = { this.props.navigation.getParam('item').time }
+                            time = { this.state.time }
+                            price = { this.state.price }
+                            picUri = { this.state.picUri }/>
+                    </ScrollView>
+                </>
             );
         } else {
             return (

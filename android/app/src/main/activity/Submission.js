@@ -127,7 +127,7 @@ export default class Submission extends Component{
                 <Header
                     containerStyle = {{ height: 50, paddingVertical: 20}}
                     leftComponent = {<MenuButton/>}
-                    centerComponent={{ text: 'Submission', style: { fontSize: 20 }}}
+                    centerComponent = {{ text: 'Submission', style: { fontSize: 20 }}}
                 />
                 { this.state.done == false &&
                     <View style = {{ height: 600, justifyContent: 'center' }}>

@@ -20,6 +20,10 @@ const Styles = StyleSheet.create({
       container: {
             flex: 1,
             backgroundColor: '#F1F9FF',
+      },
+      header: {
+            height: 50,
+            paddingVertical: 20
       }
 })
 
