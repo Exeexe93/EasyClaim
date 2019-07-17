@@ -14,6 +14,17 @@ export default class Main extends Component{
         picUri: this.props.navigation.getParam('item').picUri,
     }
 
+    checkEdit = () => {
+        if (this.state.date != this.props.navigation.getParam('item').date ||
+            this.state.time != this.props.navigation.getParam('item').time) {
+            return 2;
+        } else if (this.state.price != this.props.navigation.getParam('item').price) {
+            // If price is edit
+            return 1;
+        } else {
+            return 0;
+        }
+    }
     render() {
         if (this.props.navigation.getParam('editing')) {
             return (
@@ -47,7 +58,15 @@ export default class Main extends Component{
                         style = { Styles.text }
                         onChangeText = { (price) => this.setState({price}) }
                         value = { this.state.price }/>
-                    <ReviewButton editing = { this.props.navigation.getParam('editing') }/>
+                    <ReviewButton
+                        editing = { this.props.navigation.getParam('editing') }
+                        checkEdit = { this.checkEdit }
+                        date = { this.state.date }
+                        originalDate = { this.props.navigation.getParam('item').date }
+                        originalTime = { this.props.navigation.getParam('item').time }
+                        time = { this.state.time }
+                        price = { this.state.price }
+                        picUri = { this.state.picUri }/>
                 </ScrollView>
             );
         } else {
