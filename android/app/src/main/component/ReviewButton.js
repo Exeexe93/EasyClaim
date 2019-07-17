@@ -6,10 +6,17 @@ import { withNavigation } from 'react-navigation';
 
 class ReviewButton extends Component {
     render() {
-        return (
-                <Button color = "skyblue" title = "Ok" containerStyle = { Styles.reviewButton }
-                    onPress = { () => this.props.navigation.navigate('History', {refresh: false}) }/>
-        );
+        if (this.props.editing) {
+            return (
+                    <Button color = "skyblue" title = "Ok" containerStyle = { Styles.reviewButton }
+                        onPress = { () => this.props.navigation.navigate('Submission', {refresh: false}) }/>
+            );
+        } else {
+            return (
+                    <Button color = "skyblue" title = "Ok" containerStyle = { Styles.reviewButton }
+                        onPress = { () => this.props.navigation.navigate('History', {refresh: false}) }/>
+            );
+        }
     }
 }
 

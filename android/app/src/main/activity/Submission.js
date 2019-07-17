@@ -49,7 +49,7 @@ export default class Submission extends Component{
                 var containTitle = false;
                 for (each in result) {
                     if (result[each].title.date == month + " " + year) {
-                       result[each].data.push(info[date][time]);
+                       result[each].data.push(this.convertDate(info[date][time]));
                        result[each].title.price =
                             this.sumPrice(result[each].title.price, info[date][time].price);
                        containTitle = true;
@@ -58,7 +58,7 @@ export default class Submission extends Component{
                 // Create new array for the month
                 if (containTitle == false) {
                     item.title.date = month + " " + year;
-                    item.data.push(info[date][time]);
+                    item.data.push(this.convertDate(info[date][time]));
                     item.title.price = info[date][time].price;
                     result.push(item);
                 }
@@ -69,6 +69,12 @@ export default class Submission extends Component{
         this.setState({ done: true });
     }
 
+    convertDate(data) {
+        let value = data;
+        value.date = value.date.split('-').reverse().join('/');
+        return value;
+    }
+
     sumPrice = (first, second) => {
         var result = parseFloat(first.substr(1, 4));
         const addValue = parseFloat(second.substr(1, 4));
@@ -76,25 +82,12 @@ export default class Submission extends Component{
         result = result.toFixed(2);
         return "$" + result ;
     }
-    /*ascendingSort = (data) => {
-        var result = data;
-
-        //function compare(a, b) {
-        //    return  b.date - a.date;
-        //
-        //result.sort((a, b) => compare(a, b));
-        // Convert the date into dd/mm/yyyy instead of yyyy-mm-dd
-        for (item in result) {
-            result[item].date = result[item].date.split('-').reverse().join('/');
-        }
-        this.setState({ result: result });
-    }*/
 
     keyExtractor = (item, index) => item + index;
 
     renderHeader = ({ section }) => (
         <View style = {{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style = {{ color: 'blue', fontSize: 20, marginLeft: 10 }}>
+            <Text style = {{ fontSize: 20, marginLeft: 10 }}>
                 { section.title.date }
             </Text>
             <Text style = {{ marginRight: 10, fontSize: 15 }}>
@@ -102,6 +95,7 @@ export default class Submission extends Component{
             </Text>
         </View>
     )
+
     renderItem = ({ item }) => (
        <>
       <View style = {{ backgroundColor: '#F1F9FF', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -118,6 +112,7 @@ export default class Submission extends Component{
                 name = "arrow-right" size = { 15 }
                 onPress = {() => this.props.navigation.navigate('ReviewClaim', {
                                 item: item,
+                                editing: true,
                           })}
             />
         </View>
@@ -159,4 +154,3 @@ export default class Submission extends Component{
         );
     }
 }
-
