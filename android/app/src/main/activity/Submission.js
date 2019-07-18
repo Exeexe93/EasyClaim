@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SectionList, ScrollView, Text, View, ActivityIndicator } from 'react-native';
-import { Header, Divider } from 'react-native-elements'
+import { Header, Divider, CheckBox } from 'react-native-elements'
 import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
 import firebase from 'react-native-firebase';
@@ -11,6 +11,7 @@ export default class Submission extends Component{
         result: [],
         done: false,
         loading: false,
+        checked: false,
     };
 
     componentDidMount() {
@@ -44,7 +45,7 @@ export default class Submission extends Component{
             const month = months[current.getMonth()];
             const year = current.getFullYear();
             for (time in info[date]) {
-                var item = {"data": [], "title": [{"date":"", "price": ""}]};
+                var item = {"data": [], "title": {date: "", price: "", checked: false}};
                 let result = this.state.result;
                 var containTitle = false;
                 for (each in result) {
@@ -58,8 +59,8 @@ export default class Submission extends Component{
                 // Create new array for the month
                 if (containTitle == false) {
                     item.title.date = month + " " + year;
-                    item.data.push(this.convertDate(info[date][time]));
                     item.title.price = info[date][time].price;
+                    item.data.push(this.convertDate(info[date][time]));
                     result.push(item);
                 }
                 this.setState({ result:  result });
@@ -83,16 +84,44 @@ export default class Submission extends Component{
         return "$" + result ;
     }
 
+/*    toggleBox(item) {
+        let checkBox = this.state.result;
+        for (box in checkBox) {
+            if (checkBox[box].title.date == item.title.date) {
+                checkBox[box].title.checked = !checkBox[box].title.checked;
+                this.setState({ result: checkBox });
+            }
+        }
+    }
+
+    check(item) {
+        let checkBox = this.state.result;
+        for (box in checkBox) {
+            if (checkBox[box].title.date == item.title.date) {
+                return checkBox[box].title.checked;
+            }
+        }
+    }*/
+
     keyExtractor = (item, index) => item + index;
 
     renderHeader = ({ section }) => (
         <View style = {{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style = {{ fontSize: 20, marginLeft: 10 }}>
-                { section.title.date }
-            </Text>
-            <Text style = {{ marginRight: 10, fontSize: 15 }}>
-                Total claim: { section.title.price }
-            </Text>
+            <View style = {{ flexDirection: 'column' }}>
+                <Text style = {{ fontSize: 20, marginLeft: 10 }}>
+                    { section.title.date }
+                </Text>
+                <Text style = {{ marginLeft: 10, fontSize: 15 }}>
+                    Total claim: { section.title.price }
+                </Text>
+            </View>
+            <CheckBox
+                right
+                checkedIcon = 'check-circle-o'
+                uncheckedIcon = 'circle-o'
+                checked = { section.title.checked }
+                onPress = { () => { section.title.checked = !section.title.checked
+                                    this.setState({ checked: !this.state.checked})} }/>
         </View>
     )
 
@@ -141,13 +170,21 @@ export default class Submission extends Component{
                             </Text>
                         </View>
                 }
-                { this.state.done &&
+                { this.state.done && this.state.checked &&
                     <SectionList
                         renderItem = { this.renderItem }
                         renderSectionHeader = { this.renderHeader }
                         sections = { this.state.result }
                         keyExtractor = { this.keyExtractor }
                     />
+                }
+                { this.state.done && !this.state.checked &&
+                  <SectionList
+                      renderItem = { this.renderItem }
+                      renderSectionHeader = { this.renderHeader }
+                      sections = { this.state.result }
+                      keyExtractor = { this.keyExtractor }
+                  />
                 }
 
             </>
