@@ -159,8 +159,9 @@ export default class Submission extends Component{
                     centerComponent = {{ text: 'Submission', style: { fontSize: 20 }}}
                 />
                 { this.state.done == false &&
-                    <View style = {{ height: 600, justifyContent: 'center' }}>
+                    <View style = {{ height: 600, justifyContent: 'center', flexDirection: 'column' }}>
                         <ActivityIndicator size = { 100 }/>
+                        <Text style = {{ fontSize: 15, textAlign: 'center' }}> Getting information </Text>
                     </View>
                 }
                 { (this.state.done && this.state.result.length < 1) &&

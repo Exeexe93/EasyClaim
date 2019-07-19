@@ -6,6 +6,11 @@ import { withNavigation } from 'react-navigation';
 import firebase from 'react-native-firebase';
 
 class ReviewButton extends Component {
+    processClaim = () => {
+        if (!this.props.validate()) {
+            this.processDetails();
+        }
+    }
 
     processDetails = () => {
         if (this.props.checkEdit() == 0) {
@@ -46,7 +51,7 @@ class ReviewButton extends Component {
         if (this.props.editing) {
                 return (
                         <Button color = "skyblue" title = "Ok" containerStyle = { Styles.reviewButton }
-                            onPress = { this.processDetails }/>
+                            onPress = { this.processClaim }/>
                 );
         } else {
             return (
