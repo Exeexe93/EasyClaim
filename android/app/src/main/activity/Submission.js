@@ -12,6 +12,7 @@ export default class Submission extends Component{
         done: false,
         loading: false,
         checked: false,
+        sendDetails: [],
     };
 
     componentDidMount() {
@@ -83,6 +84,24 @@ export default class Submission extends Component{
         return "$" + result ;
     }
 
+    addOrRemoveInfo = (Info) => {
+        Info.title.checked = !Info.title.checked
+        this.setState({ checked: !this.state.checked});
+        if (Info.title.checked == true) {
+            let result = this.state.sendDetails;
+            result.push(Info.data);
+            this.setState({sendDetails: result});
+        } else {
+            let result = this.state.sendDetails;
+            for (data in result) {
+                if (result[data] == Info.data) {
+                    result.splice(data, 1);
+                }
+            }
+            this.setState({sendDetails: result});
+        }
+    }
+
     keyExtractor = (item, index) => item + index;
 
     renderHeader = ({ section }) => (
@@ -100,8 +119,7 @@ export default class Submission extends Component{
                 checkedIcon = 'check-circle-o'
                 uncheckedIcon = 'circle-o'
                 checked = { section.title.checked }
-                onPress = { () => { section.title.checked = !section.title.checked
-                                    this.setState({ checked: !this.state.checked})} }/>
+                onPress = { () => this.addOrRemoveInfo(section) }/>
         </View>
     )
 
