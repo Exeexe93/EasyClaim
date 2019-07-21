@@ -130,6 +130,7 @@ export default class Register extends Component{
                             placeholder = 'Password'
                             style = { Styles.textInput }
                             selectionColor = {'skyblue'}
+                            secureTextEntry = { true }
                             onChangeText={(password) => this.setState({password})}
                             value = {this.state.password}/>
                         <GenderDropDown callback = { this.getGender.bind(this) }/>

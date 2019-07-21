@@ -8,19 +8,20 @@ import firebase from 'react-native-firebase';
 class ClaimButton extends Component {
     getImageUrl(id, sortDate, time, price) {
         firebase.storage()
-            .ref('Transport Claim/' + id + "/" + sortDate + "/" + time + "/image.jpg")
+            .ref('Transport Claim/' + id + "/" + sortDate + " " + time + "/image.jpg")
             .getDownloadURL().then((url) => this.uploadInfo(id, sortDate, time, price, url));
     }
 
     uploadInfo(id, sortDate, time, price, picUri) {
         firebase.database()
-            .ref('Transport Claim/' + id + "/" + sortDate + "/" + time)
+            .ref('Transport Claim/' + id + "/" + sortDate + " " + time)
             .set(
             {
                 picUri: picUri,
                 date: sortDate,
                 time: time,
                 price: price,
+                submitted: false,
             }
         );
     }
@@ -29,7 +30,7 @@ class ClaimButton extends Component {
         const sortDate = this.splitDate(date);
         // Upload picture to firebase storage
         firebase.storage()
-            .ref('Transport Claim/' + id + '/' + sortDate + "/" + time + '/image.jpg')
+            .ref('Transport Claim/' + id + "/" + sortDate + " " + time + '/image.jpg')
             .putFile(picUri).on(
                 firebase.storage.TaskEvent.STATE_CHANGED,
                 (snapshot) => {

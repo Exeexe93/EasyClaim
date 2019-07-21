@@ -26,6 +26,7 @@ export default class Submission extends Component{
         if (this.props.navigation.getParam('refresh')) {
             this.setState({result: [], done: false});
             firebase.database().ref("Transport Claim/" + global.currentId)
+            .orderByChild('submitted').equalTo(false)
             .once('value').then((data) => {
                     this.getInfo(data.toJSON());
                 }
@@ -41,30 +42,28 @@ export default class Submission extends Component{
 
         for (date in info) {
             // Finding the month for the date
-            const current = new Date(date);
+            const current = new Date(date.split(" ")[0]);
             const month = months[current.getMonth()];
             const year = current.getFullYear();
-            for (time in info[date]) {
-                var item = {"data": [], "title": {date: "", price: "", checked: false}};
-                let result = this.state.result;
-                var containTitle = false;
-                for (each in result) {
-                    if (result[each].title.date == month + " " + year) {
-                       result[each].data.push(this.convertDate(info[date][time]));
-                       result[each].title.price =
-                            this.sumPrice(result[each].title.price, info[date][time].price);
-                       containTitle = true;
-                    }
+            var item = {"data": [], "title": {date: "", price: "", checked: false}};
+            let result = this.state.result;
+            var containTitle = false;
+            for (each in result) {
+                if (result[each].title.date == month + " " + year) {
+                   result[each].data.push(this.convertDate(info[date]));
+                   result[each].title.price =
+                        this.sumPrice(result[each].title.price, info[date].price);
+                   containTitle = true;
                 }
-                // Create new array for the month
-                if (containTitle == false) {
-                    item.title.date = month + " " + year;
-                    item.title.price = info[date][time].price;
-                    item.data.push(this.convertDate(info[date][time]));
-                    result.push(item);
-                }
-                this.setState({ result:  result });
             }
+            // Create new array for the month
+            if (containTitle == false) {
+                item.title.date = month + " " + year;
+                item.title.price = info[date].price;
+                item.data.push(this.convertDate(info[date]));
+                result.push(item);
+            }
+            this.setState({ result:  result });
         }
         //this.ascendingSort(this.state.result);
         this.setState({ done: true });
@@ -83,25 +82,6 @@ export default class Submission extends Component{
         result = result.toFixed(2);
         return "$" + result ;
     }
-
-/*    toggleBox(item) {
-        let checkBox = this.state.result;
-        for (box in checkBox) {
-            if (checkBox[box].title.date == item.title.date) {
-                checkBox[box].title.checked = !checkBox[box].title.checked;
-                this.setState({ result: checkBox });
-            }
-        }
-    }
-
-    check(item) {
-        let checkBox = this.state.result;
-        for (box in checkBox) {
-            if (checkBox[box].title.date == item.title.date) {
-                return checkBox[box].title.checked;
-            }
-        }
-    }*/
 
     keyExtractor = (item, index) => item + index;
 
