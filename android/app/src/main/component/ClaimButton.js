@@ -44,8 +44,8 @@ class ClaimButton extends Component {
         return date.split('/').reverse().join('-');
     }
 
-    render() {
-        const ClaimAlert = () => {
+    processClaim = () => {
+        if (!this.props.validate()) {
             this.uploadClaim(global.currentId, this.props.uri,
                 this.props.date, this.props.time, this.props.price);
             Alert.alert(
@@ -57,11 +57,13 @@ class ClaimButton extends Component {
                   {cancelable: false},
             );
         }
+    }
 
+    render() {
         return (
             <View >
                 <Button
-                    onPress = { ClaimAlert }
+                    onPress = { this.processClaim }
                     title = "Confirm"
                     color =  "#2699FB"
                     containerStyle = { Styles.claimButton }/>

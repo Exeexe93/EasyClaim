@@ -57,12 +57,12 @@ class UploadFile extends Component{
         this.setState({ textBlocks: cloudTextRecognition });
         this.state.textBlocks.map(this.searchInfo);
         this.props.navigation.navigate('FillClaims',
-            {
-                date: this.state.date,
-                time: this.state.time,
-                price: this.state.price,
-                uri: this.state.uri,
-            });
+        {
+            date: this.state.date,
+            time: this.state.time,
+            price: this.state.price,
+            uri: this.state.uri,
+        });
     }
 
     searchInfo = ({ blockText }) => {

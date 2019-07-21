@@ -28,7 +28,11 @@ const Styles = StyleSheet.create({
   headerContainer: {
         height: 50,
         paddingVertical: 20
-  }
+  },
+  text: {
+        textAlign: 'center',
+        fontSize: 15,
+  },
 });
 
 export default Styles;

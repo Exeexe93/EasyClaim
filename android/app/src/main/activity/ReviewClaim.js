@@ -19,36 +19,57 @@ export default class Main extends Component{
     }
 
     checkForm = () =>
-    {
-        let valid = false;
-        // regular expression to match required date format
-        dFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+        {
+            let valid = false;
+            // regular expression to match required date format
+            dFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
 
-        if (this.state.date != '' && !this.state.date.match(dFormat)) {
-            this.setState({ invalidDate: true});
-            valid = true;
-        } else {
-            this.setState({ invalidDate: false});
+            if (this.state.date.trim() != '') {
+                if (new Date(this.formatDate(this.state.date)) == 'Invalid Date') {
+                    this.setState({ invalidDate: true });
+                    valid = true;
+                } else {
+                    this.setState({ invalidDate: false });
+                }
+            }
+
+            // regular expression to match required time format
+            tFormat = /^\d{1,2}\:\d{2}$/;
+
+            if (this.state.time.trim() != '') {
+                if (this.state.time.match(tFormat)) {
+                    regs = this.state.time.split(':');
+                    if (regs[0] > 23) {
+                        this.setState({ invalidTime: true });
+                        valid = true;
+                    } else {
+                        this.setState({ invalidTime: false });
+                    }
+                    if (regs[1] > 59) {
+                        this.setState({ invalidTime: true });
+                        valid = true;
+                    }
+                } else {
+                     this.setState({ invalidTime: true });
+                     valid = true;
+                }
+            } else {
+                this.setState({ invalidTime: true });
+                valid = true;
+            }
+
+           pFormat = /^\$\d{1,3}\.\d{2}$/;
+           if (this.state.price.trim() != '' && !this.state.price.match(pFormat)) {
+              this.setState({ invalidPrice: true });
+              valid = true;
+           } else {
+               this.setState({ invalidPrice: false });
+           }
+           return valid;
         }
 
-        // regular expression to match required time format
-        tFormat = /^\d{1,2}:\d{2}$/;
-
-        if (this.state.time != '' && !this.state.time.match(tFormat)) {
-           this.setState({ invalidTime: true });
-           valid = true;
-        } else {
-            this.setState({ invalidTime: false});
-        }
-
-       pFormat = /^\$\d{1,3}\.\d{2}$/;
-       if (this.state.price != '' && !this.state.price.match(pFormat)) {
-          this.setState({ invalidPrice: true });
-          valid = true;
-       } else {
-           this.setState({ invalidPrice: false});
-       }
-       return valid;
+    formatDate(date) {
+        return date.split('/').reverse().join('-');
     }
 
     checkEdit = () => {
@@ -135,7 +156,7 @@ export default class Main extends Component{
                         onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: this.state.picUri})}>
                         <Image
                           source = {{ uri: this.state.picUri }}
-                          style = {{ width: 400, height: 350 }}
+                          style = { Styles.picture }
                         />
                     </TouchableHighlight>
                     <Text style = { Styles.title }>

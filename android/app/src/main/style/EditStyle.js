@@ -4,6 +4,7 @@ const Styles = StyleSheet.create({
       textContainer: {
             flex: 1,
             backgroundColor: '#F1F9FF',
+            marginVertical: 20,
       },
       error: {
             color: 'red',
@@ -15,7 +16,8 @@ const Styles = StyleSheet.create({
       title: {
             fontSize: 20,
             textAlign: 'left',
-            paddingLeft: 20
+            paddingLeft: 20,
+            marginVertical: 10,
       },
       text: {
             fontWeight: 'bold',
@@ -32,11 +34,15 @@ const Styles = StyleSheet.create({
       },
       picture: {
             width: 400,
-            height: 350
+            height: 350,
       },
       inputContainer: {
             width: '70%',
             alignSelf: 'center'
+      },
+      avatar: {
+            alignSelf: 'center',
+            marginVertical: 30
       }
 })
 
