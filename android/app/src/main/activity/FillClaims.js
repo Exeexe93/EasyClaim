@@ -79,9 +79,8 @@ export default class FillClaims extends Component{
        if (!valid) {
             valid = this.checkLateSubmission();
        }
-       console.log(valid);
-       //return valid;
-       return true;
+
+       return valid;
     }
 
     checkLateSubmission = () => {
@@ -112,6 +111,7 @@ export default class FillClaims extends Component{
                 return true;
             }
         }
+        return false;
     }
 
     formatDate(date) {
