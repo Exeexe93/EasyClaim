@@ -177,9 +177,9 @@ export default class Camera extends Component {
         if (loading) {
             return (
                 <View style = {{ flex:1 , backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style = {{fontSize: 20}}> Please wait ! </Text>
-                <Text style = {{fontSize: 15}}> Processing Image </Text>
-                <ActivityIndicator size = "large" />
+                    <Text style = {{fontSize: 20}}> Please wait ! </Text>
+                    <Text style = {{fontSize: 15}}> Processing Image </Text>
+                    <ActivityIndicator size = "large" />
                 </View>
             );
         } else {

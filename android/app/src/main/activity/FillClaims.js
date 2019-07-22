@@ -3,6 +3,8 @@ import { Button, ScrollView, Text, View, StyleSheet} from 'react-native';
 import { Input, Avatar, Image } from 'react-native-elements';
 import Styles from '../style/EditStyle';
 import ClaimButton from '../component/ClaimButton';
+import moment from 'moment';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class FillClaims extends Component{
     state = {
@@ -13,20 +15,28 @@ export default class FillClaims extends Component{
         invalidDate: false,
         invalidPrice: false,
         invalidTime: false,
+        lateSubmit: false,
+        earlySubmit: false,
     }
 
     checkClaim = () =>
     {
         let valid = false;
+
         // regular expression to match required date format
-        dFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+        dFormat = /^\d{2}\/\d{2}\/\d{4}$/;
 
         if (this.state.date.trim() != '') {
-            if (new Date(this.formatDate(this.state.date)) == 'Invalid Date') {
+            if (this.state.date.match(dFormat)) {
+                if (new Date(this.formatDate(this.state.date)) == 'Invalid Date') {
+                    this.setState({ invalidDate: true });
+                    valid = true;
+                } else {
+                    this.setState({ invalidDate: false });
+                }
+            } else {
                 this.setState({ invalidDate: true });
                 valid = true;
-            } else {
-                this.setState({ invalidDate: false });
             }
         } else {
                 this.setState({ invalidDate: true });
@@ -59,13 +69,49 @@ export default class FillClaims extends Component{
         }
 
        pFormat = /^\$\d{1,3}\.\d{2}$/;
-       if ((this.state.price != '' && !this.state.price.match(pFormat)) || this.state.price.trim() == '') {
+       if (this.state.price.trim() == '' || (this.state.price != '' && !this.state.price.match(pFormat))) {
           this.setState({ invalidPrice: true });
           valid = true;
        } else {
            this.setState({ invalidPrice: false });
        }
-       return valid;
+
+       if (!valid) {
+            valid = this.checkLateSubmission();
+       }
+       console.log(valid);
+       //return valid;
+       return true;
+    }
+
+    checkLateSubmission = () => {
+        const claimDate =  moment(this.formatDate(this.state.date) + " " + this.state.time);
+        const date = moment(this.formatDate(this.state.date)).startOf('month');
+        let today = moment();
+        const monthApart = date.diff(today, 'months');
+        if (monthApart < 0) {
+            // When submitted claim is previous month
+            if (monthApart == -1) {
+                if (today.get('date') > 14) {
+                    this.setState({ lateSubmit: true });
+                    return true;
+                }
+            } else {
+                 // When submitted claim is longer than one month
+                this.setState({ lateSubmit: true });
+                return true;
+            }
+        } else if (claimDate.get('date') > today.get('date')) {
+            // When the submitted claim date is in future
+            this.setState({ earlySubmit: true });
+            return true;
+        } else if (claimDate.get('date') == today.get('date')) {
+            // When the claim date is the same
+            if (claimDate.diff(today, 'second') > 0) {
+                this.setState({ earlySubmit: true });
+                return true;
+            }
+        }
     }
 
     formatDate(date) {
@@ -121,7 +167,37 @@ export default class FillClaims extends Component{
                     time = {this.state.time}
                     uri = {this.state.uri}
                     validate = { this.checkClaim }/>
-             </ScrollView>
+
+                <ConfirmDialog
+                    messageStyle = {{ alignSelf: 'center', color: "black"}}
+                    dialogStyle = {{ borderRadius: 20 }}
+                    message = "Claim is only allows to claim within 15 days after the claim month"
+                    visible = { this.state.lateSubmit }
+                    onTouchOutside = {() => this.setState({lateSubmit: false}) }
+                    positiveButton = {{
+                        fontSize: 70,
+                        title: "Confirm",
+                        onPress: () => {
+                            this.setState({ lateSubmit: false });
+                        }
+                    }}
+                />
+
+                <ConfirmDialog
+                    messageStyle = {{ alignSelf: 'center', color: "black"}}
+                    dialogStyle = {{ borderRadius: 20}}
+                    message = "Claim cannot be make in advance"
+                    visible = { this.state.earlySubmit }
+                    onTouchOutside = {() => this.setState({earlySubmit: false}) }
+                    positiveButton = {{
+                        fontSize: 70,
+                        title: "Confirm",
+                        onPress: () => {
+                            this.setState({ earlySubmit: false });
+                        }
+                    }}
+                />
+            </ScrollView>
         );
     }
 }
