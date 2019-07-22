@@ -109,7 +109,7 @@ export default class History extends Component{
                 { (this.state.done && this.state.data.length < 1) &&
                         <View style = {{ height: 600, justifyContent: 'center' }}>
                             <Text style = {{ textAlign: 'center', fontSize: 20 }}>
-                                Yeah ! No Claim !
+                                No claim found !
                             </Text>
                         </View>
                 }

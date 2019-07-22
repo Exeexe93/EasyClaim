@@ -11,9 +11,15 @@ export default class ForgotPassword extends Component{
     state = {
         email: '',
         visible: false,
+        error: false,
+        errorMessage: '',
     }
 
     resetPassword = () => {
+        if (this.state.email == '') {
+            this.setState({ errorMessage: 'Please input your email !'});
+            this.setState({ error: true });
+        } else {
         firebase.auth().fetchSignInMethodsForEmail(this.state.email)
             .then((data) => {
                 if(data.length != 0) {
@@ -21,29 +27,22 @@ export default class ForgotPassword extends Component{
                     firebase
                         .auth().sendPasswordResetEmail(this.state.email)
                         .then(() => {this.setState({ visible: true });})
-                        .catch((error) => this.setState({ visible: true }))
+                        .catch((error) => {
+                                this.setState({ errorMessage: error.message});
+                                this.setState({ error: true });
+                            })
                 } else {
                     // When account not registered
-                    Alert.alert(
-                      'Invalid email',
-                      'Email has not been registered',
-                      [
-                        {text: 'OK', onPress: () => {}},
-                      ],
-                      {cancelable: false},
-                    );
+                      this.setState({ errorMessage: 'Email has not been registered !'});
+                      this.setState({ error: true });
                 }}
             )
             .catch((data) => {
-                              Alert.alert(
-                                'Invalid input',
-                                'Please key in a valid email',
-                                [
-                                  {text: 'OK', onPress: () => {}},
-                                ],
-                                {cancelable: false},
-                              );}
+                    this.setState({errorMessage: 'Please key in a valid email !'});
+                    this.setState({ error: true });
+                }
             );
+        }
     }
 
     render() {
@@ -77,7 +76,9 @@ export default class ForgotPassword extends Component{
                        containerStyle = { Styles.retrieveButton }
                        buttonStyle = {{borderRadius: 80}}/>
                    <ConfirmDialog
-                       messageStyle = {{ alignSelf: 'center'}}
+                       messageStyle = {{ alignSelf: 'center', color: "black"}}
+                       dialogStyle = {{ borderRadius: 20 }}
+                       buttonsStyle = {{ alignItems: 'center' }}
                        message = "Please check your email!"
                        visible = { this.state.visible }
                        onTouchOutside = {() => this.setState({visible: false}) }
@@ -87,6 +88,21 @@ export default class ForgotPassword extends Component{
                            onPress: () => {
                                this.setState({ visible: false });
                                this.props.navigation.dispatch(Logout);
+                           }
+                       }}
+                   />
+                   <ConfirmDialog
+                       messageStyle = {{ alignSelf: 'center', color: "black"}}
+                       dialogStyle = {{ borderRadius: 20 }}
+                       buttonsStyle = {{ alignItems: 'center' }}
+                       message = { this.state.errorMessage }
+                       visible = { this.state.error }
+                       onTouchOutside = {() => this.setState({ error: false }) }
+                       positiveButton = {{
+                           fontSize: 70,
+                           title: "Confirm",
+                           onPress: () => {
+                               this.setState({ error: false });
                            }
                        }}
                    />

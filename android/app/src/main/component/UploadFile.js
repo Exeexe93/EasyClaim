@@ -24,6 +24,4 @@ class uploadButton extends Component {
     }
 }
 
-
-
 export default withNavigation(uploadButton);

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, ImageBackground, TextInput, Text, View } from 'react-native';
+import { ImageBackground, TextInput, Text, View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import Styles from '../style/LoginStyle';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'react-native-firebase';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 const goToMain = StackActions.reset({
   index: 0,
@@ -19,28 +20,30 @@ export default class Login extends Component{
       password: '',
       errorMessage: null,
       error: false,
+      notVerified: false,
   }
 
   handleLogin = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-            const user = firebase.auth().currentUser;
-            if (user.emailVerified) {
-                this.props.navigation.dispatch(goToMain)
-            } else {
-                Alert.alert(
-                  'Email has not been verified',
-                  'Please verify your email !',
-                  [
-                    {text: 'OK', onPress: () => {}},
-                  ],
-                  {cancelable: false},
-                );
-            }
-        }).catch(error => this.updateError(error))
-      }
+    if (this.state.email == '') {
+        this.setState({ errorMessage: 'Please input your email'});
+        this.setState({ error: true });
+    } else if (this.state.password == '') {
+        this.setState({ errorMessage: 'Please input your password'});
+        this.setState({ error: true });
+    } else {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+          .then(() => {
+                const user = firebase.auth().currentUser;
+                if (user.emailVerified) {
+                    this.props.navigation.dispatch(goToMain)
+                } else {
+                    this.setState({ notVerified: true });
+                }
+            }).catch(error => this.updateError(error))
+    }
+  }
 
   updateError(error) {
         this.setState({ errorMessage: error.message });
@@ -108,33 +111,23 @@ export default class Login extends Component{
                         </Text>
                     </View>
                 </View>
+                <ConfirmDialog
+                   messageStyle = {{ alignSelf: 'center', color: "black"}}
+                   dialogStyle = {{ borderRadius: 20 }}
+                   buttonsStyle = {{ alignItems: 'center' }}
+                   message = 'Please verify your email !'
+                   visible = { this.state.notVerified }
+                   onTouchOutside = {() => this.setState({ notVerified: false }) }
+                   positiveButton = {{
+                       fontSize: 70,
+                       title: "Confirm",
+                       onPress: () => {
+                           this.setState({ notVerified: false });
+                       }
+                   }}
+               />
             </ImageBackground>
             </View>
         );
   }
 }
-
- //<ForgetButton/>
-// <View style = {Styles.textBox}>
-// <TextInput
-//     maxLength = {25}
-//     placeholderTextColor = {'white'}
-//     placeholder = "Email"
-//     style = {Styles.textInput}
-//     selectionColor = {'skyblue'}
-//     underlineColorAndroid = {'skyblue'}
-//     onChangeText={(email) => this.setState({email})}
-//     value = {this.state.email}/>
-// </View>
-//                    <View style = {Styles.textBox}>
-//<TextInput
-//    maxLength = {20}
-//    placeholderTextColor = {'white'}
-//    placeholder = "Password"
-//    secureTextEntry = { true }
-//    style = {Styles.textInput}
-//    selectionColor = {'skyblue'}
-//    underlineColorAndroid = {'skyblue'}
-//    onChangeText={(password) => this.setState({password})}
-//    value = {this.state.password}/>
-//                 </View>

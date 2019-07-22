@@ -8,13 +8,13 @@ class DeleteIcon extends Component {
     deleteClaim = () => {
         const sortDate = this.splitDate(this.props.date);
         firebase.database()
-            .ref('Transport Claim/' + global.currentId + "/" + sortDate + "/" + this.props.time)
+            .ref('Transport Claim/' + global.currentId + "/" + sortDate + " " + this.props.time)
             .remove().then(() => this.deletePic(sortDate));
     }
 
     deletePic(date) {
         firebase.storage()
-            .ref('Transport Claim/' + global.currentId + "/" + date + "/" + this.props.time + "/image.jpg")
+            .ref('Transport Claim/' + global.currentId + "/" + date + " " + this.props.time + "/image.jpg")
             .delete().then(() => this.props.navigation.navigate('Submission', {refresh: true}));
     }
 

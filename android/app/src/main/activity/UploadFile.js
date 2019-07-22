@@ -4,6 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import RNMlKit from 'react-native-firebase-mlkit';
 import { withNavigation } from 'react-navigation';
 import ImagePicker from 'react-native-image-picker';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 class UploadFile extends Component{
 
@@ -19,6 +20,8 @@ class UploadFile extends Component{
         time: '',
         price: '',
         uri: '',
+        error: false,
+        errorMessage: '',
     }
 
     selectPhotoTapped() {
@@ -36,15 +39,8 @@ class UploadFile extends Component{
 
             if (response.didCancel) { }
             else if (response.error) {
-               Alert.alert(
-                 'Error',
-                 ' ',
-                 [
-                   {text: response.error, onPress: () => {}},
-                   {text: 'OK', onPress: () => {}},
-                 ],
-                 {cancelable: false},
-               );
+                this.setState({ errorMessage: response.error });
+                this.setState({ error: true });
             } else {
                 this.processingImage(response.uri);
             }
@@ -115,18 +111,35 @@ class UploadFile extends Component{
 
     render() {
         return (
-            <Button
-                title = "Select Image"
-                icon = {
-                         <Icon
-                           name = "image-search-outline"
-                           size = { 30 }
-                           type = "material-community"
-                         />
-                }
-                containerStyle = {{ width : 200, marginTop: 20 }}
-                titleStyle = {{ marginHorizontal : 10 }}
-                onPress = { this.selectPhotoTapped.bind(this) }/>
+            <>
+                <Button
+                    title = "Select Image"
+                    icon = {
+                             <Icon
+                               name = "image-search-outline"
+                               size = { 30 }
+                               type = "material-community"
+                             />
+                    }
+                    containerStyle = {{ width : 200, marginTop: 20 }}
+                    titleStyle = {{ marginHorizontal : 10 }}
+                    onPress = { this.selectPhotoTapped.bind(this) }/>
+                <ConfirmDialog
+                   messageStyle = {{ alignSelf: 'center', color: "black"}}
+                   dialogStyle = {{ borderRadius: 20 }}
+                   buttonsStyle = {{ alignItems: 'center' }}
+                   message = { this.state.errorMessage }
+                   visible = { this.state.error }
+                   onTouchOutside = {() => this.setState({ error: false }) }
+                   positiveButton = {{
+                       fontSize: 70,
+                       title: "Confirm",
+                       onPress: () => {
+                           this.setState({ error: false });
+                       }
+                   }}
+               />
+           </>
         );
     }
 }

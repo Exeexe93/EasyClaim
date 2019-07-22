@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button } from 'react-native-elements'
 import Styles from '../style/ButtonStyle';
 import { withNavigation } from 'react-navigation';
 import firebase from 'react-native-firebase';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 class ClaimButton extends Component {
+
+    state = {
+        error: false,
+        errorMessage: '',
+    }
+
     getImageUrl(id, sortDate, time, price) {
         firebase.storage()
             .ref('Transport Claim/' + id + "/" + sortDate + " " + time + "/image.jpg")
@@ -49,15 +56,13 @@ class ClaimButton extends Component {
         if (!this.props.validate()) {
             this.uploadClaim(global.currentId, this.props.uri,
                 this.props.date, this.props.time, this.props.price);
-            Alert.alert(
-                  'Claim Success',
-                  ' ',
-                  [
-                    {text: 'OK', onPress: () => this.props.navigation.navigate('Home')},
-                  ],
-                  {cancelable: false},
-            );
+              this.showError('Claim success !');
         }
+    }
+
+    showError(errorMessage) {
+        this.setState({ errorMessage: errorMessage });
+        this.setState({ error: true });
     }
 
     render() {
@@ -68,6 +73,22 @@ class ClaimButton extends Component {
                     title = "Confirm"
                     color =  "#2699FB"
                     containerStyle = { Styles.claimButton }/>
+                <ConfirmDialog
+                   messageStyle = {{ alignSelf: 'center', color: "black"}}
+                   dialogStyle = {{ borderRadius: 20, width: "70%", alignSelf: 'center' }}
+                   buttonsStyle = {{ alignItems: 'center' }}
+                   message = { this.state.errorMessage }
+                   visible = { this.state.error }
+                   onTouchOutside = {() => this.setState({ error: false }) }
+                   positiveButton = {{
+                       fontSize: 70,
+                       title: "Confirm",
+                       onPress: () => {
+                           this.setState({ error: false });
+                           this.props.navigation.navigate('Home');
+                       }
+                   }}
+               />
             </View>
         );
     }

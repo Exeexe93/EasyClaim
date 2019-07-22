@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Alert, TextInput, Text, ScrollView} from 'react-native';
+import { TextInput, Text, ScrollView} from 'react-native';
 import { Avatar, Header, Image } from 'react-native-elements';
 import MenuButton from '../component/MenuButton';
 import BackIcon from '../component/BackIcon';
 import SaveIcon from '../component/SaveIcon';
 import Styles from '../style/ProfileStyle';
 import ImagePicker from 'react-native-image-picker';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class EditProfile extends Component{
 
@@ -22,6 +23,8 @@ export default class EditProfile extends Component{
         gender: ' ',
         picUrl: ' ',
         selectedPic: null,
+        alert: false,
+        errorMessage: '',
    }
 
    componentDidMount() {
@@ -54,15 +57,8 @@ export default class EditProfile extends Component{
 
      if (response.didCancel) {
      } else if (response.error) {
-            Alert.alert(
-              'Alert',
-              ' ',
-              [
-                {text: response.error, onPress: () => {}},
-                {text: 'OK', onPress: () => {}},
-              ],
-              {cancelable: false},
-            );
+        this.setState({ errorMessage: response.error });
+        this.setState({ alert: true });
      } else if (response.customButton) {
      } else {
         this.setState({
@@ -126,6 +122,20 @@ export default class EditProfile extends Component{
                         style = {Styles.editText}
                         onChangeText={ (gender) => this.setState({gender}) }
                         value = { this.state.gender }/>
+                    <ConfirmDialog
+                        messageStyle = {{ alignSelf: 'center', color: "black" }}
+                        dialogStyle = {{ borderRadius: 20 }}
+                        message = { this.state.errorMessage }
+                        visible = { this.state.alert }
+                        onTouchOutside = {() => this.setState({alert: false}) }
+                        positiveButton = {{
+                            fontSize: 70,
+                            title: "Confirm",
+                            onPress: () => {
+                                this.setState({ alert: false });
+                            }
+                        }}
+                    />
                 </ScrollView>
         );
   }

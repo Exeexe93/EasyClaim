@@ -25,20 +25,21 @@ class ReviewButton extends Component {
     deletePost(id, date, time) {
         const sortDate = this.splitDate(date);
         firebase.database()
-            .ref('Transport Claim/' + id + "/" + sortDate + "/" + time)
+            .ref('Transport Claim/' + id + "/" + sortDate + " " + time)
             .remove().then(() => this.uploadInfo(id));
     }
 
     uploadInfo(id) {
         const sortDate = this.splitDate(this.props.date);
         firebase.database()
-            .ref('Transport Claim/' + id + "/" + sortDate + "/" + this.props.time)
+            .ref('Transport Claim/' + id + "/" + sortDate + " " + this.props.time)
             .set(
             {
                 date: sortDate,
                 time: this.props.time,
                 price: this.props.price,
                 picUri: this.props.picUri,
+                submitted: false,
             }
         ).then(() => this.props.navigation.navigate('Submission', {refresh: true}));
     }

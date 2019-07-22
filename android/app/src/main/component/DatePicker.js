@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, View, Modal } from 'react-native';
 import { Button, Icon, Header, ButtonGroup } from 'react-native-elements';
 import moment from 'moment';
 import CalendarPicker from 'react-native-calendar-picker';
 import Styles from '../style/DatePickerStyle';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class DatePicker extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ export default class DatePicker extends Component {
       selectedEndDate: null,
       modalVisible: false,
       selectedIndex: null,
+      error: false,
+      errorMessage: '',
     };
     this.updateIndex = this.updateIndex.bind(this);
     this.allocateDate = this.allocateDate.bind(this);
@@ -76,15 +79,12 @@ export default class DatePicker extends Component {
   }
 
   checkDates(startDate, endDate) {
-        if (endDate == '') {
-            Alert.alert(
-              'End date required',
-              'Please select end date',
-              [
-                {text: 'OK', onPress: () => {} },
-              ],
-              {cancelable: false},
-            );
+        if (startDate == '') {
+            this.setState({ errorMessage: 'Please select start date !'});
+            this.setState({ error: true });
+        } else if (endDate == '') {
+            this.setState({ errorMessage: 'Please select end date !'});
+            this.setState({ error: true });
         } else {
             this.setState({ modalVisible: false });
             this.props.getSearchDates(startDate, endDate);
@@ -116,7 +116,6 @@ export default class DatePicker extends Component {
               transparent = { false }
               visible = { this.state.modalVisible }
             >
-
                 <View style = { Styles.container }>
                     <Header
                         containerStyle = { Styles.headerContainer }
@@ -164,6 +163,21 @@ export default class DatePicker extends Component {
                         title = "Search"
                         onPress = { () => this.checkDates(startDate, endDate)}
                     />
+                    <ConfirmDialog
+                       messageStyle = {{ alignSelf: 'center', color: "black"}}
+                       dialogStyle = {{ borderRadius: 20, width: "80%", alignSelf: 'center' }}
+                       buttonsStyle = {{ alignItems: 'center' }}
+                       message = { this.state.errorMessage }
+                       visible = { this.state.error }
+                       onTouchOutside = {() => this.setState({ error: false }) }
+                       positiveButton = {{
+                           fontSize: 70,
+                           title: "Confirm",
+                           onPress: () => {
+                               this.setState({ error: false });
+                           }
+                       }}
+                   />
                 </View>
             </Modal>
         </>

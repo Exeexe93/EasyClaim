@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, TextInput, Text, View, ScrollView } from 'react-native';
+import { TextInput, Text, View, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Styles from '../style/RegisterStyle';
 import firebase from 'react-native-firebase';
 import { StackActions, NavigationActions } from 'react-navigation';
-import GenderDropDown from '../drop-down-box/GenderDropDown'
+import GenderDropDown from '../drop-down-box/GenderDropDown';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 const goToMain = StackActions.reset({
       index: 0,
@@ -25,30 +26,42 @@ export default class Register extends Component{
         gender: '',
         errorMessage: '',
         error: false,
+        emailSent: false,
     }
 
     handleSignUp = () => {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.state.email, this.state.password)
-          .then(() => {
-                const user = firebase.auth().currentUser;
-                const { name, position, company, picture, gender }  = this.state;
-                this.uploadProfile(user.uid, name, position, company, picture, gender);
-                //this.props.navigation.dispatch(goToMain);
-                // Send user email
-                user.sendEmailVerification()
-                    .then(() => Alert.alert(
-                                  'An email has been send to ' + user.email,
-                                  'Please verify your email',
-                                  [
-                                    {text: 'OK', onPress: () => this.props.navigation.navigate('Login')},
-                                  ],
-                                  {cancelable: false},
-                                )
-                        )
-          })
-          .catch(error => this.updateError(error))
+        if (this.state.name == '') {
+            this.setState({ errorMessage: 'Please input your name' });
+            this.setState({ error: true });
+        } else if (this.state.position == '') {
+            this.setState({ errorMessage: 'Please input your position' });
+            this.setState({ error: true });
+        } else if (this.state.company == '') {
+            this.setState({ errorMessage: 'Please input your company' });
+            this.setState({ error: true });
+        } else if (this.state.email == '') {
+            this.setState({ errorMessage: 'Please input your email' });
+            this.setState({ error: true });
+        } else if (this.state.password == '') {
+            this.setState({ errorMessage: 'Please input your password' });
+            this.setState({ error: true });
+        } else if (this.state.gender == '') {
+            this.setState({ errorMessage: 'Please input your gender' });
+            this.setState({ error: true });
+        } else {
+            firebase
+              .auth()
+              .createUserWithEmailAndPassword(this.state.email, this.state.password)
+              .then(() => {
+                    const user = firebase.auth().currentUser;
+                    const { name, position, company, picture, gender }  = this.state;
+                    this.uploadProfile(user.uid, name, position, company, picture, gender);
+                    // Send user email
+                    user.sendEmailVerification()
+                        .then(() => this.setState({ emailSent: true }))
+              })
+              .catch(error => this.updateError(error))
+        }
     }
 
     uploadProfile(id, name, position, company, picture, gender) {
@@ -71,8 +84,8 @@ export default class Register extends Component{
     }
 
     getGender(gender) {
-        this.setState({gender});
         this.setPicture(gender);
+        this.setState({gender});
     }
 
     setPicture(gender) {
@@ -142,6 +155,21 @@ export default class Register extends Component{
                         onPress = { this.handleSignUp }
                         title = "Sign Up"/>
                 </View>
+                <ConfirmDialog
+                   messageStyle = {{ alignSelf: 'center', color: "black"}}
+                   dialogStyle = {{ borderRadius: 20 }}
+                   buttonsStyle = {{ alignItems: 'center' }}
+                   message = {'An email has been send to ' + this.state.email}
+                   visible = { this.state.emailSent }
+                   onTouchOutside = {() => this.setState({ emailSent: false }) }
+                   positiveButton = {{
+                       fontSize: 70,
+                       title: "Confirm",
+                       onPress: () => {
+                           this.setState({ emailSent: false });
+                       }
+                   }}
+               />
             </ScrollView>
         );
     }
