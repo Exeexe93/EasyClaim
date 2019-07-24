@@ -10,7 +10,7 @@ export default class FillClaims extends Component{
     state = {
         date: this.props.navigation.getParam('date'),
         time: this.props.navigation.getParam('time'),
-        price: this.props.navigation.getParam('price'),
+        price: this.props.navigation.getParam('amount'),
         uri: this.props.navigation.getParam('uri'),
         invalidDate: false,
         invalidPrice: false,
@@ -151,12 +151,12 @@ export default class FillClaims extends Component{
                         onChangeText = { (time) => this.setState({time}) }
                         value = { this.state.time }/>
                     <Input
-                        label = 'Price'
+                        label = 'Amount'
                         placeholder = '$0.00'
                         labelStyle = { Styles.label }
                         inputStyle = { Styles.text }
                         containerStyle = { Styles.inputContainer }
-                        errorMessage = {this.state.invalidPrice? 'Please input price in $0.00' : ''}
+                        errorMessage = {this.state.invalidPrice? 'Please input amount in $0.00' : ''}
                         errorStyle = { Styles.error }
                         onChangeText = { (price) => this.setState({price}) }
                         value = { this.state.price }/>

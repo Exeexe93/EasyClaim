@@ -54,10 +54,10 @@ export default class Login extends Component{
         return (
             <View style = {Styles.container}>
             <ImageBackground source =
-                            {{
-                                uri: "http://sf.co.ua/15/05/wallpaper-1167a.jpg"
-                            }}
-                            style = {{ width: '100%', height: '100%' }}>
+                {{
+                    uri: "http://sf.co.ua/15/05/wallpaper-1167a.jpg"
+                }}
+                style = {{ width: '100%', height: '100%' }}>
                 <View style = {Styles.logoBox}>
                     <Text style = {Styles.logo}>
                         EasyClaim

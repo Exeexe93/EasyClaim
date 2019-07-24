@@ -36,7 +36,7 @@ export default class History extends Component{
     getRangeDate = (startDate, endDate) => {
         this.setState({data: [], done: false});
         firebase.database().ref("Transport Claim/" + global.currentId)
-            .orderByChild('date').startAt(startDate).endAt(endDate)
+            .orderByChild('Date').startAt(startDate).endAt(endDate)
             .once('value').then((data) => {
                 this.getInfo(data.toJSON());
             }
@@ -45,11 +45,9 @@ export default class History extends Component{
 
     getInfo = (info) => {
         for (date in info) {
-            //for (time in info[date]) {
                 let result = this.state.data;
                 result.push(info[date]);
                 this.setState({ data:  result });
-            //}
         }
         this.ascendingSort(this.state.data);
         this.setState({ done: true });
@@ -64,7 +62,7 @@ export default class History extends Component{
         //result.sort((a, b) => compare(a, b));
         // Convert the date into dd/mm/yyyy instead of yyyy-mm-dd
         for (item in result) {
-            result[item].date = result[item].date.split('-').reverse().join('/');
+            result[item].Date = result[item].Date.split('-').reverse().join('/');
         }
         this.setState({ data: result });
     }
@@ -83,8 +81,8 @@ export default class History extends Component{
       <ListItem
         containerStyle = {{ backgroundColor: '#F1F9FF' }}
         bottomDivider =  {true }
-        title = { item.date }
-        subtitle = { item.price }
+        title = { item.Date }
+        subtitle = { item.Amount }
         rightIcon = {<Icon name = "arrow-right" size = { 15 }
             onPress = {() => this.props.navigation.navigate('ReviewClaim', {
                             item: item,

@@ -14,7 +14,7 @@ class DeleteIcon extends Component {
 
     deletePic(date) {
         firebase.storage()
-            .ref('Transport Claim/' + global.currentId + "/" + date + " " + this.props.time + "/image.jpg")
+            .refFromURL(this.props.picUri)
             .delete().then(() => this.props.navigation.navigate('Submission', {refresh: true}));
     }
 

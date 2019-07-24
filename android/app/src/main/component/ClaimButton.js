@@ -24,11 +24,11 @@ class ClaimButton extends Component {
             .ref('Transport Claim/' + id + "/" + sortDate + " " + time)
             .set(
             {
-                picUri: picUri,
-                date: sortDate,
-                time: time,
-                price: price,
-                submitted: false,
+                Link: picUri,
+                Date: sortDate,
+                Time: time,
+                Amount: price,
+                Submitted: false,
             }
         );
     }

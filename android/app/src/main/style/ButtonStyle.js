@@ -10,6 +10,7 @@ const Styles = StyleSheet.create({
         alignSelf: 'center',
         width: 150,
         height: 40,
+        marginTop: 20,
         marginBottom: 50,
     },
     reviewButton: {

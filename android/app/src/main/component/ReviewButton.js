@@ -35,11 +35,11 @@ class ReviewButton extends Component {
             .ref('Transport Claim/' + id + "/" + sortDate + " " + this.props.time)
             .set(
             {
-                date: sortDate,
-                time: this.props.time,
-                price: this.props.price,
-                picUri: this.props.picUri,
-                submitted: false,
+                Date: sortDate,
+                Time: this.props.time,
+                Amount: this.props.price,
+                Link: this.props.picUri,
+                Submitted: false,
             }
         ).then(() => this.props.navigation.navigate('Submission', {refresh: true}));
     }

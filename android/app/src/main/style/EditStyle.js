@@ -4,20 +4,20 @@ const Styles = StyleSheet.create({
       textContainer: {
             flex: 1,
             backgroundColor: '#F1F9FF',
-            marginVertical: 20,
+
       },
       error: {
             color: 'red',
             fontSize: 12
       },
       label: {
-            fontSize: 18,
+            fontSize: 16,
       },
       title: {
-            fontSize: 20,
+            fontSize: 16,
             textAlign: 'left',
-            paddingLeft: 20,
-            marginVertical: 10,
+            paddingLeft: 40,
+            marginVertical: 20,
       },
       text: {
             fontWeight: 'bold',
@@ -33,16 +33,21 @@ const Styles = StyleSheet.create({
             paddingVertical: 20
       },
       picture: {
-            width: 400,
+            width: '90%',
             height: 350,
+            alignSelf: 'center'
       },
       inputContainer: {
             width: '70%',
-            alignSelf: 'center'
+            alignSelf: 'center',
+            marginTop: 10,
       },
       avatar: {
             alignSelf: 'center',
             marginVertical: 30
+      },
+      highlight: {
+        marginTop: 20,
       }
 })
 

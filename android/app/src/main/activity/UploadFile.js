@@ -18,7 +18,7 @@ class UploadFile extends Component{
         textBlocks: [],
         date: '',
         time: '',
-        price: '',
+        amount: '',
         uri: '',
         error: false,
         errorMessage: '',
@@ -56,7 +56,7 @@ class UploadFile extends Component{
         {
             date: this.state.date,
             time: this.state.time,
-            price: this.state.price,
+            amount: this.state.amount,
             uri: this.state.uri,
         });
     }
@@ -104,7 +104,7 @@ class UploadFile extends Component{
             }
             if (!isNaN(number)) {
                 number = '$' + number;
-                this.setState({ price: number });
+                this.setState({ amount: number });
             }
         }
     }

@@ -9,10 +9,10 @@ import Styles from '../style/EditStyle';
 export default class Main extends Component{
 
     state = {
-        time: this.props.navigation.getParam('item').time,
-        date: this.props.navigation.getParam('item').date,
-        price: this.props.navigation.getParam('item').price,
-        picUri: this.props.navigation.getParam('item').picUri,
+        time: this.props.navigation.getParam('item').Time,
+        date: this.props.navigation.getParam('item').Date,
+        price: this.props.navigation.getParam('item').Amount,
+        picUri: this.props.navigation.getParam('item').Link,
         invalidDate: false,
         invalidPrice: false,
         invalidTime: false,
@@ -73,10 +73,10 @@ export default class Main extends Component{
     }
 
     checkEdit = () => {
-        if (this.state.date != this.props.navigation.getParam('item').date ||
-            this.state.time != this.props.navigation.getParam('item').time) {
+        if (this.state.date != this.props.navigation.getParam('item').Date ||
+            this.state.time != this.props.navigation.getParam('item').Time) {
             return 2;
-        } else if (this.state.price != this.props.navigation.getParam('item').price) {
+        } else if (this.state.price != this.props.navigation.getParam('item').Amount) {
             // If price is edit
             return 1;
         } else {
@@ -92,13 +92,15 @@ export default class Main extends Component{
                         rightComponent =
                         {
                             <DeleteIcon
-                                time = { this.props.navigation.getParam('item').time }
-                                date = { this.props.navigation.getParam('item').date }/>
+                                time = { this.props.navigation.getParam('item').Time }
+                                date = { this.props.navigation.getParam('item').Date }
+                                picUri = { this.state.picUri }/>
                         }
                     />
                     <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
                                     style = { Styles.textContainer }>
                         <TouchableHighlight
+                            style = {Styles.highlight}
                             onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: this.state.picUri})}>
                             <Image
                               source = {{ uri: this.state.picUri }}
@@ -126,7 +128,7 @@ export default class Main extends Component{
                             onChangeText = { (time) => this.setState({time}) }
                             value = { this.state.time }/>
                         <Input
-                            label = 'Price'
+                            label = 'Amount'
                             placeholder = '$0.00'
                             labelStyle = { Styles.label }
                             inputStyle = { Styles.text }
@@ -139,8 +141,8 @@ export default class Main extends Component{
                             editing = { this.props.navigation.getParam('editing') }
                             checkEdit = { this.checkEdit }
                             date = { this.state.date }
-                            originalDate = { this.props.navigation.getParam('item').date }
-                            originalTime = { this.props.navigation.getParam('item').time }
+                            originalDate = { this.props.navigation.getParam('item').Date }
+                            originalTime = { this.props.navigation.getParam('item').Time }
                             time = { this.state.time }
                             price = { this.state.price }
                             picUri = { this.state.picUri }
@@ -153,6 +155,7 @@ export default class Main extends Component{
                 <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
                                 style = { Styles.textContainer }>
                     <TouchableHighlight
+                        style = {Styles.highlight}
                         onPress = {() => this.props.navigation.navigate('ShowImage', {fileUri: this.state.picUri})}>
                         <Image
                           source = {{ uri: this.state.picUri }}
@@ -172,7 +175,7 @@ export default class Main extends Component{
                         { this.state.time }
                     </Text>
                     <Text style = { Styles.title }>
-                        Price:
+                        Amount:
                     </Text>
                     <Text style = { Styles.text }>
                         { this.state.price }

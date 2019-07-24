@@ -89,7 +89,7 @@ export default class Camera extends Component {
                 this.props.navigation.navigate('FillClaims',
                     {
                         uri: uri,
-                        price: this.state.price,
+                        amount: this.state.price,
                         time: this.state.time,
                         date: this.state.date,
                     });

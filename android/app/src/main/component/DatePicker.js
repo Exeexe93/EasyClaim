@@ -47,7 +47,8 @@ export default class DatePicker extends Component {
     if (index == 0) {
         this.setState({ selectedStartDate: today, selectedEndDate: today});
     } else if (index == 1) {
-        this.setState({ selectedStartDate: moment(today.startOf('week')), selectedEndDate: moment(today.endOf('week'))});
+        this.setState({ selectedStartDate: moment(today.startOf('week')),
+            selectedEndDate: moment(today.endOf('week'))});
     } else {
         this.setState({
             selectedStartDate: moment(today.startOf('month')),

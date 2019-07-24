@@ -17,8 +17,10 @@
     "react-native-elements": "^1.1.0",
     "react-native-firebase": "^5.5.3",
     "react-native-firebase-mlkit": "^0.6.2",
+    "react-native-fs": "^2.13.3",
     "react-native-gesture-handler": "^1.3.0",
     "react-native-image-picker": "^0.28.1",
+    "react-native-mail": "^4.0.0",
     "react-native-material-dropdown": "git+https://github.com/harshitjee/react-native-material-dropdown.git",
     "react-native-modal-datetime-picker": "^7.5.0",
     "react-native-paper": "^2.16.0",
@@ -26,7 +28,8 @@
     "react-native-simple-dialogs": "^1.1.0",
     "react-native-text-detector": "0.0.6",
     "react-native-vector-icons": "^6.4.2",
-    "react-navigation": "^3.11.0"
+    "react-navigation": "^3.11.0",
+    "xlsx": "^0.14.4"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",
