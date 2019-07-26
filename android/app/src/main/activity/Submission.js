@@ -27,6 +27,10 @@ export default class Submission extends Component{
         this.refresh.remove();
     }
 
+    updateScreen = () => {
+        this.getJsonFile();
+    }
+
     getJsonFile = () => {
         if (this.props.navigation.getParam('refresh')) {
             this.setState({result: [], done: false});
@@ -79,7 +83,6 @@ export default class Submission extends Component{
             }
             this.setState({ result:  result });
         }
-        //this.ascendingSort(this.state.result);
         this.setState({ done: true });
     }
 
@@ -206,7 +209,8 @@ export default class Submission extends Component{
                                         data = {this.state.sendDetails}
                                         month = {this.state.month}
                                         totalAmt = {this.state.totalAmt}
-                                        name = {this.state.name}/>}
+                                        name = {this.state.name}
+                                        refresh = {this.updateScreen}/>}
                 />
                 { this.state.done == false &&
                     <View style = {{ height: 600, justifyContent: 'center', flexDirection: 'column' }}>
