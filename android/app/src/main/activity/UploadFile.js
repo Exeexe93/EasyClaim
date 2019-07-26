@@ -4,7 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import RNMlKit from 'react-native-firebase-mlkit';
 import { withNavigation } from 'react-navigation';
 import ImagePicker from 'react-native-image-picker';
-import { ConfirmDialog } from 'react-native-simple-dialogs';
+import { ConfirmDialog, ProgressDialog } from 'react-native-simple-dialogs';
 
 class UploadFile extends Component{
 
@@ -22,6 +22,7 @@ class UploadFile extends Component{
         uri: '',
         error: false,
         errorMessage: '',
+        onProcess: false,
     }
 
     selectPhotoTapped() {
@@ -48,10 +49,12 @@ class UploadFile extends Component{
     }
 
     processingImage = async(uri) => {
+        this.setState({ onProcess: true });
         this.setState({ uri: uri });
         const cloudTextRecognition = await RNMlKit.cloudTextRecognition(uri);
         this.setState({ textBlocks: cloudTextRecognition });
         this.state.textBlocks.map(this.searchInfo);
+        this.setState({ onProcess: false });
         this.props.navigation.navigate('FillClaims',
         {
             date: this.state.date,
@@ -124,6 +127,14 @@ class UploadFile extends Component{
                     containerStyle = {{ width : 200, marginTop: 20 }}
                     titleStyle = {{ marginHorizontal : 10 }}
                     onPress = { this.selectPhotoTapped.bind(this) }/>
+                <ProgressDialog
+                     visible={this.state.onProcess}
+                     activityIndicatorSize = {'large'}
+                     titleStyle = {{ alignSelf: 'center'}}
+                      dialogStyle = {{ borderRadius: 20, width: '90%', alignSelf:'center' }}
+                     title = "Please wait"
+                     message="Processing Image ..."
+                 />
                 <ConfirmDialog
                    messageStyle = {{ alignSelf: 'center', color: "black"}}
                    dialogStyle = {{ borderRadius: 20 }}

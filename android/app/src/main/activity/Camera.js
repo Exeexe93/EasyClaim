@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { Slider, Icon } from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
 import RNMlKit from 'react-native-firebase-mlkit';
 import Styles from'../style/CameraStyle';
+import { ProgressDialog } from 'react-native-simple-dialogs';
 
 const flashModeOrder = {
   off: 'on',
@@ -173,21 +174,18 @@ export default class Camera extends Component {
     }
 
     render() {
-        const { loading } = this.state;
-        if (loading) {
-            return (
-                <View style = {{ flex:1 , backgroundColor: 'white', alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style = {{fontSize: 20}}> Please wait ! </Text>
-                    <Text style = {{fontSize: 15}}> Processing Image </Text>
-                    <ActivityIndicator size = "large" />
-                </View>
-            );
-        } else {
-            return (
-                <View style = { Styles.container }>
-                    {this.renderCamera()}
-                </View>
-            );
-        }
+        return (
+            <View style = { Styles.container }>
+                {this.renderCamera()}
+                <ProgressDialog
+                     visible={this.state.loading}
+                     activityIndicatorSize = {'large'}
+                     titleStyle = {{ alignSelf: 'center'}}
+                      dialogStyle = {{ borderRadius: 20, width: '90%', alignSelf:'center' }}
+                     title = "Please wait"
+                     message="Processing Image ..."
+                 />
+            </View>
+        );
     }
 }
