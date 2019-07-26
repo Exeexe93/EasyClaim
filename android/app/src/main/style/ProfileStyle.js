@@ -10,23 +10,27 @@ const Styles = StyleSheet.create({
         height: 200
   },
   name: {
-        paddingTop: 50,
+        paddingTop: 20,
+        fontWeight: 'bold',
         paddingBottom: 10,
         paddingHorizontal: 30,
-        fontSize: 16,
-        alignSelf: 'flex-start'
+        fontSize: 20,
+        alignSelf: 'center'
+  },
+  gender: {
+        fontSize: 14,
+        alignSelf: 'center'
   },
   text: {
-        paddingVertical: 10,
-        paddingHorizontal: 30,
-        fontSize: 16,
-        alignSelf: 'flex-start'
+        marginTop: 15,
+        fontSize: 15,
+        alignSelf: 'center'
   },
   editText: {
         paddingVertical: 10,
         paddingHorizontal: 30,
         fontSize: 16,
-        alignSelf: 'center'
+        alignSelf: 'center',
   }
 });
 

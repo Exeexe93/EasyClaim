@@ -3,8 +3,33 @@ import { Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import firebase from 'react-native-firebase';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 class EditIcon extends Component {
+
+    state = {
+        noName: false,
+        noCompany: false,
+        noPosition: false,
+        noGender: false,
+        wrongGender: false,
+    }
+
+    checkInput = () => {
+        if (this.props.name == '') {
+            this.setState({ noName: true });
+        } else if (this.props.company == '') {
+            this.setState({ noCompany: true });
+        } else if (this.props.position == '') {
+            this.setState({ noPosition: true });
+        } else if (this.props.gender == '') {
+            this.setState({ noGender: true });
+        } else if (this.props.gender != 'Male' && this.props.gender != 'Female') {
+            this.setState({ wrongGender: true });
+        } else {
+            this.updateStatus();
+        }
+    }
 
     updateProfile(id, picUrl) {
        if (picUrl != this.props.picUrl) {
@@ -64,14 +89,88 @@ class EditIcon extends Component {
 
     render() {
         return (
+                <>
                 <Icon
                     name = 'done'
                     type = 'material'
                     size = { 25 }
-                    onPress = { () => {
-                        this.updateStatus();
-
-                }}/>
+                    onPress = { this.checkInput }/>
+                <ConfirmDialog
+                   messageStyle = {{ alignSelf: 'center', color: "black"}}
+                   dialogStyle = {{ borderRadius: 20 }}
+                   buttonsStyle = {{ alignItems: 'center' }}
+                   message = 'Please input your name'
+                   visible = { this.state.noName }
+                   onTouchOutside = {() => this.setState({ noName: false }) }
+                   positiveButton = {{
+                       fontSize: 70,
+                       title: "Confirm",
+                       onPress: () => {
+                           this.setState({ noName: false });
+                       }
+                   }}
+               />
+               <ConfirmDialog
+                  messageStyle = {{ alignSelf: 'center', color: "black"}}
+                  dialogStyle = {{ borderRadius: 20 }}
+                  buttonsStyle = {{ alignItems: 'center' }}
+                  message = 'Please input your position'
+                  visible = { this.state.noPosition }
+                  onTouchOutside = {() => this.setState({ noPosition: false }) }
+                  positiveButton = {{
+                      fontSize: 70,
+                      title: "Confirm",
+                      onPress: () => {
+                          this.setState({ noPosition: false });
+                      }
+                  }}
+              />
+             <ConfirmDialog
+                messageStyle = {{ alignSelf: 'center', color: "black"}}
+                dialogStyle = {{ borderRadius: 20 }}
+                buttonsStyle = {{ alignItems: 'center' }}
+                message = 'Please input your company'
+                visible = { this.state.noCompany }
+                onTouchOutside = {() => this.setState({ noCompany: false }) }
+                positiveButton = {{
+                    fontSize: 70,
+                    title: "Confirm",
+                    onPress: () => {
+                        this.setState({ noCompany: false });
+                    }
+                }}
+             />
+            <ConfirmDialog
+              messageStyle = {{ alignSelf: 'center', color: "black"}}
+              dialogStyle = {{ borderRadius: 20 }}
+              buttonsStyle = {{ alignItems: 'center' }}
+              message = 'Please input your gender'
+              visible = { this.state.noGender }
+              onTouchOutside = {() => this.setState({ noGender: false }) }
+              positiveButton = {{
+                  fontSize: 70,
+                  title: "Confirm",
+                  onPress: () => {
+                      this.setState({ noGender: false });
+                  }
+              }}
+            />
+             <ConfirmDialog
+                messageStyle = {{ alignSelf: 'center', color: "black"}}
+                dialogStyle = {{ borderRadius: 20 }}
+                buttonsStyle = {{ alignItems: 'center' }}
+                message = 'Please input either Male or Female for gender'
+                visible = { this.state.wrongGender }
+                onTouchOutside = {() => this.setState({ wrongGender: false }) }
+                positiveButton = {{
+                    fontSize: 70,
+                    title: "Confirm",
+                    onPress: () => {
+                        this.setState({ wrongGender: false });
+                    }
+                }}
+            />
+        </>
         );
     }
 }
