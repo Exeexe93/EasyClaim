@@ -5,6 +5,7 @@ import MenuButton from '../component/MenuButton';
 import Icon from 'react-native-vector-icons/Feather';
 import firebase from 'react-native-firebase';
 import DatePicker from '../component/DatePicker';
+import moment from 'moment';
 
 export default class History extends Component{
 
@@ -24,8 +25,14 @@ export default class History extends Component{
 
     getJsonFile = () => {
         if (this.props.navigation.getParam('refresh')) {
+
+            // Calcualate today date and three month before
+            const today = moment().format('YYYY-MM-DD');
+            const threeMonth = moment().startOf('month').subtract(2, 'months').format('YYYY-MM-DD');
+
             this.setState({data: [], done: false});
             firebase.database().ref("Transport Claim/" + global.currentId)
+            .orderByChild('Date').startAt(threeMonth).endAt(today)
             .once('value').then((data) => {
                     this.getInfo(data.toJSON());
                 }
@@ -56,10 +63,6 @@ export default class History extends Component{
     ascendingSort = (data) => {
         var result = data;
 
-        //function compare(a, b) {
-        //    return  b.date - a.date;
-        //
-        //result.sort((a, b) => compare(a, b));
         // Convert the date into dd/mm/yyyy instead of yyyy-mm-dd
         for (item in result) {
             result[item].Date = result[item].Date.split('-').reverse().join('/');
@@ -72,6 +75,7 @@ export default class History extends Component{
     }
 
     formatDate(date) {
+        // Convert from dd/mm/yyyy to yyyy-mm-dd
         return date.split('/').reverse().join('-');
     }
 
