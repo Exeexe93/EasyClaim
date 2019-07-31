@@ -16,7 +16,7 @@ export default class Submission extends Component{
         sendDetails: [],
         month: [],
         totalAmt: [],
-        name: null,
+        profile: null,
     };
 
     componentDidMount() {
@@ -40,16 +40,14 @@ export default class Submission extends Component{
                     this.getInfo(data.toJSON());
                 }
             );
-        }
 
-        if (this.state.name == null) {
             firebase.database().ref('Users/' + global.currentId )
-                    .once('value').then((data) => this.getProfileName(data.val()));
+                .once('value').then((data) => this.getProfile(data.val()));
         }
     };
 
-    getProfileName(value) {
-         this.setState({ name: value.name });
+    getProfile(value) {
+         this.setState({ profile: value });
     }
 
     getInfo = (info) => {
@@ -186,12 +184,12 @@ export default class Submission extends Component{
             </Text>
         </View>
         <View style = {{ alignSelf: 'center', marginRight: 10 }}>
-            <Icon
-                name = "arrow-right" size = { 15 }
-                onPress = {() => this.props.navigation.navigate('ReviewClaim', {
-                                item: item,
-                                editing: true,
-                          })}
+                                         <Icon
+                                             name = "arrow-right" size = { 15 }
+                                             onPress = {() => this.props.navigation.navigate('ReviewClaim', {
+                                                             item: item,
+                                                             editing: true,
+                                                       })}
             />
         </View>
       </View>
@@ -209,7 +207,7 @@ export default class Submission extends Component{
                                         data = {this.state.sendDetails}
                                         month = {this.state.month}
                                         totalAmt = {this.state.totalAmt}
-                                        name = {this.state.name}
+                                        profile = {this.state.profile}
                                         refresh = {this.updateScreen}/>}
                 />
                 { this.state.done == false &&

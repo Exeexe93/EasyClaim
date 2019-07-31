@@ -81,7 +81,10 @@ export default class ForgotPassword extends Component{
                        buttonsStyle = {{ alignItems: 'center' }}
                        message = "Please check your email!"
                        visible = { this.state.visible }
-                       onTouchOutside = {() => this.setState({visible: false}) }
+                       onTouchOutside = {() => {
+                                            this.setState({visible: false});
+                                            this.props.navigation.dispatch(Logout);
+                                        }}
                        positiveButton = {{
                            fontSize: 70,
                            title: "Confirm",

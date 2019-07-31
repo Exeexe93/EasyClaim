@@ -23,13 +23,12 @@ export default class Excel extends Component {
             header: {header:["Date","Time","Amount","Link"], cellDates: true},
             month: this.props.month,
             totalAmt: this.props.totalAmt,
-            noData: false,
 		};
 		this.exportFile = this.exportFile.bind(this);
 	};
 
     noInput = () => {
-        if (this.state.data.length == 0) {
+        if (this.props.data.length == 0) {
             this.setState({noData: true});
             return true;
         }
@@ -76,7 +75,7 @@ export default class Excel extends Component {
     handleEmail = (path) => {
         Mailer.mail({
           subject: 'Claim Summary',
-          recipients: ['engxuanen@gmail.com'],
+          recipients: [this.props.profile.email],
           ccRecipients: [''],
           bccRecipients: [''],
           body: '<b> Hi\n this is the claim summary</b>',
@@ -86,15 +85,14 @@ export default class Excel extends Component {
             type: 'xlsx',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
           }
         }, (error, event) => {
-            console.warn(error);
             if (error == 'not_available') {
                 Alert.alert('No mail detected', 'Please install a email application');
             }
-        });
+        })
 
         //Update the status of the application
         for (item in this.state.data) {
-            this.updateStatus(this.state.data[item]);
+          this.updateStatus(this.state.data[item]);
         }
         this.props.refresh();
       }
@@ -115,7 +113,7 @@ export default class Excel extends Component {
 
             /* write file */
             const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
-            const file = EDP + "Claims Summary - " + this.props.name + ".xlsx";
+            const file = EDP + "Claims Summary - " + this.props.profile.name + ".xlsx";
 
             writeFile(file, wbout, 'ascii').then((res) => {
                     this.checkPermission(file);

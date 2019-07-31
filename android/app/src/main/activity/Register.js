@@ -23,6 +23,7 @@ export default class Register extends Component{
         picture: '',
         email: '',
         password: '',
+        confirmPass: '',
         gender: '',
         errorMessage: '',
         error: false,
@@ -30,23 +31,29 @@ export default class Register extends Component{
     }
 
     handleSignUp = () => {
-        if (this.state.name == '') {
+        if (this.state.name.trim() == '') {
             this.setState({ errorMessage: 'Please input your name' });
             this.setState({ error: true });
-        } else if (this.state.position == '') {
+        } else if (this.state.position.trim() == '') {
             this.setState({ errorMessage: 'Please input your position' });
             this.setState({ error: true });
         } else if (this.state.company == '') {
             this.setState({ errorMessage: 'Please input your company' });
             this.setState({ error: true });
-        } else if (this.state.email == '') {
+        } else if (this.state.email.trim() == '') {
             this.setState({ errorMessage: 'Please input your email' });
             this.setState({ error: true });
-        } else if (this.state.password == '') {
+        } else if (this.state.password.trim() == '') {
             this.setState({ errorMessage: 'Please input your password' });
             this.setState({ error: true });
-        } else if (this.state.gender == '') {
+        } else if (this.state.gender.trim() == '') {
             this.setState({ errorMessage: 'Please input your gender' });
+            this.setState({ error: true });
+        } else if (this.state.confirmPass.trim() == '') {
+            this.setState({ errorMessage: 'Please input for confirm password'});
+            this.setState({ error: true });
+        } else if (this.state.confirmPass != this.state.password) {
+            this.setState({ errorMessage: 'Passwords do not match'});
             this.setState({ error: true });
         } else {
             firebase
@@ -55,7 +62,7 @@ export default class Register extends Component{
               .then(() => {
                     const user = firebase.auth().currentUser;
                     const { name, position, company, picture, gender }  = this.state;
-                    this.uploadProfile(user.uid, name, position, company, picture, gender);
+                    this.uploadProfile(user.uid, name, position, company, picture, gender, email);
                     // Send user email
                     user.sendEmailVerification()
                         .then(() => this.setState({ emailSent: true }))
@@ -64,7 +71,7 @@ export default class Register extends Component{
         }
     }
 
-    uploadProfile(id, name, position, company, picture, gender) {
+    uploadProfile(id, name, position, company, picture, gender, email) {
         firebase.database()
             .ref('Users/' + id)
             .set(
@@ -74,6 +81,7 @@ export default class Register extends Component{
                 company: company,
                 picture: picture,
                 gender: gender,
+                email: email,
             }
         );
     }
@@ -146,6 +154,13 @@ export default class Register extends Component{
                             secureTextEntry = { true }
                             onChangeText={(password) => this.setState({password})}
                             value = {this.state.password}/>
+                        <TextInput
+                            placeholder = 'Confirm password'
+                            style = { Styles.textInput }
+                            selectionColor = {'skyblue'}
+                            secureTextEntry = { true }
+                            onChangeText={(confirmPass) => this.setState({confirmPass})}
+                            value = {this.state.confirmPass}/>
                         <GenderDropDown callback = { this.getGender.bind(this) }/>
                 </View>
                 <View style ={ Styles.button }>
@@ -161,12 +176,16 @@ export default class Register extends Component{
                    buttonsStyle = {{ alignItems: 'center' }}
                    message = {'An email has been send to ' + this.state.email}
                    visible = { this.state.emailSent }
-                   onTouchOutside = {() => this.setState({ emailSent: false }) }
+                   onTouchOutside = {() => {
+                                        this.setState({ emailSent: false });
+                                        this.props.navigation.navigate('Login');
+                                         }}
                    positiveButton = {{
                        fontSize: 70,
                        title: "Confirm",
                        onPress: () => {
                            this.setState({ emailSent: false });
+                           this.props.navigation.navigate('Login');
                        }
                    }}
                />
