@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Button, ScrollView, Text, View, StyleSheet} from 'react-native';
-import { Input, Avatar, Image } from 'react-native-elements';
+import { Icon, Input, Avatar, Image } from 'react-native-elements';
 import Styles from '../style/EditStyle';
 import ClaimButton from '../component/ClaimButton';
 import moment from 'moment';
+import DateTimePicker from "react-native-modal-datetime-picker";
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class FillClaims extends Component{
@@ -17,6 +18,8 @@ export default class FillClaims extends Component{
         invalidTime: false,
         lateSubmit: false,
         earlySubmit: false,
+        dateVisible: false,
+        timeVisible: false,
     }
 
     checkClaim = () =>
@@ -118,6 +121,18 @@ export default class FillClaims extends Component{
         return date.split('/').reverse().join('-');
     }
 
+    handleDate = (date) => {
+        const output = moment(date).format("DD/MM/YYYY");
+        this.setState({ date: output });
+        this.setState({ dateVisible: false });
+    }
+
+    handleTime = (time) => {
+        const output = moment(time).format("HH:mm");
+        this.setState({ time: output });
+        this.setState({ timeVisible: false });
+    }
+
     render() {
         return (
             <ScrollView keyboardDismissMode = "on-drag" overScrollMode = "always"
@@ -130,26 +145,44 @@ export default class FillClaims extends Component{
                   source = {{ uri: this.state.uri }}
                 />
                 <View style = { Styles.textContainer }>
-                    <Input
-                        label = 'Date'
-                        placeholder = 'dd/mm/yyyy'
-                        labelStyle = { Styles.label }
-                        inputStyle = { Styles.text }
-                        containerStyle = { Styles.inputContainer }
-                        errorMessage = {this.state.invalidDate? 'Please input date in dd/mm/yyyy' : ''}
-                        errorStyle = { Styles.error }
-                        onChangeText = { (date) => this.setState({date}) }
-                        value = { this.state.date }/>
-                    <Input
-                        label = 'Time'
-                        placeholder = 'hh:mm'
-                        labelStyle = { Styles.label }
-                        inputStyle = { Styles.text }
-                        containerStyle = { Styles.inputContainer }
-                        errorMessage = {this.state.invalidTime? 'Please input time in hh:mm' : ''}
-                        errorStyle = { Styles.error }
-                        onChangeText = { (time) => this.setState({time}) }
-                        value = { this.state.time }/>
+                    <View style = {{ flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+                        <Input
+                            label = 'Date'
+                            placeholder = 'dd/mm/yyyy'
+                            labelStyle = { Styles.label }
+                            inputStyle = { Styles.text }
+                            containerStyle = { Styles.inputContainer }
+                            errorMessage = {this.state.invalidDate? 'Please input date in dd/mm/yyyy' : ''}
+                            errorStyle = { Styles.error }
+                            onChangeText = { (date) => this.setState({date}) }
+                            value = { this.state.date }/>
+
+                            <Icon
+                                name = "calendar"
+                                type = 'antdesign'
+                                size = { 25 }
+                                containerStyle = {{ alignSelf: 'flex-end'}}
+                                onPress = { () => this.setState({ dateVisible: true }) }/>
+                    </View>
+                    <View style = {{ flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+                        <Input
+                            label = 'Time'
+                            placeholder = 'hh:mm'
+                            labelStyle = { Styles.label }
+                            inputStyle = { Styles.text }
+                            containerStyle = { Styles.inputContainer }
+                            errorMessage = {this.state.invalidTime? 'Please input time in hh:mm' : ''}
+                            errorStyle = { Styles.error }
+                            onChangeText = { (time) => this.setState({time}) }
+                            value = { this.state.time }/>
+
+                            <Icon
+                                name = "access-time"
+                                type = 'material'
+                                size = { 25 }
+                                containerStyle = {{ alignSelf: 'flex-end'}}
+                                onPress = { () => this.setState({ timeVisible: true }) }/>
+                    </View>
                     <Input
                         label = 'Amount'
                         placeholder = '$0.00'
@@ -196,6 +229,21 @@ export default class FillClaims extends Component{
                             this.setState({ earlySubmit: false });
                         }
                     }}
+                />
+
+                <DateTimePicker
+                    mode = "date"
+                    isVisible = { this.state.dateVisible }
+                    onConfirm = { this.handleDate }
+                    onCancel = { () => this.setState({ dateVisible: false}) }
+                />
+
+                <DateTimePicker
+                    mode = 'time'
+                    timePickerModeAndroid = 'clock'
+                    isVisible = { this.state.timeVisible }
+                    onConfirm = { this.handleTime }
+                    onCancel = { () => this.setState({ timeVisible: false}) }
                 />
             </ScrollView>
         );

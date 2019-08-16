@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Button, ScrollView,
             Text, View, StyleSheet } from 'react-native';
-import { Input, Image, Header } from 'react-native-elements';
+import { Input, Image, Header, Icon } from 'react-native-elements';
+import DateTimePicker from "react-native-modal-datetime-picker";
 import ReviewButton from '../component/ReviewButton';
 import DeleteIcon from '../component/DeleteIcon';
 import Styles from '../style/EditStyle';
+import moment from 'moment';
 
 export default class Main extends Component{
 
@@ -16,6 +18,8 @@ export default class Main extends Component{
         invalidDate: false,
         invalidPrice: false,
         invalidTime: false,
+        dateVisible: false,
+        timeVisible: false,
     }
 
     checkForm = () =>
@@ -83,6 +87,19 @@ export default class Main extends Component{
             return 0;
         }
     }
+
+    handleDate = (date) => {
+        const output = moment(date).format("DD/MM/YYYY");
+        this.setState({ date: output });
+        this.setState({ dateVisible: false });
+    }
+
+    handleTime = (time) => {
+        const output = moment(time).format("HH:mm");
+        this.setState({ time: output });
+        this.setState({ timeVisible: false });
+    }
+
     render() {
         if (this.props.navigation.getParam('editing')) {
             return (
@@ -107,26 +124,45 @@ export default class Main extends Component{
                               style = { Styles.picture }
                             />
                         </TouchableHighlight>
-                        <Input
-                            label = 'Date'
-                            placeholder = 'dd/mm/yyyy'
-                            labelStyle = { Styles.label }
-                            inputStyle = { Styles.text }
-                            containerStyle = { Styles.inputContainer }
-                            errorMessage = {this.state.invalidDate? 'Please input date in dd/mm/yyyy' : ''}
-                            errorStyle = { Styles.error }
-                            onChangeText = { (date) => this.setState({date}) }
-                            value = { this.state.date }/>
-                        <Input
-                            label = 'Time'
-                            placeholder = 'hh:mm'
-                            labelStyle = { Styles.label }
-                            inputStyle = { Styles.text }
-                            containerStyle = { Styles.inputContainer }
-                            errorMessage = {this.state.invalidTime? 'Please input time in hh:mm' : ''}
-                            errorStyle = { Styles.error }
-                            onChangeText = { (time) => this.setState({time}) }
-                            value = { this.state.time }/>
+
+                        <View style = {{ flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+                            <Input
+                                label = 'Date'
+                                placeholder = 'dd/mm/yyyy'
+                                labelStyle = { Styles.label }
+                                inputStyle = { Styles.text }
+                                containerStyle = { Styles.inputContainer }
+                                errorMessage = {this.state.invalidDate? 'Please input date in dd/mm/yyyy' : ''}
+                                errorStyle = { Styles.error }
+                                onChangeText = { (date) => this.setState({date}) }
+                                value = { this.state.date }/>
+
+                            <Icon
+                                name = "calendar"
+                                type = 'antdesign'
+                                size = { 25 }
+                                containerStyle = {{ alignSelf: 'flex-end'}}
+                                onPress = { () => this.setState({ dateVisible: true }) }/>
+                        </View>
+                        <View style = {{ flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+                            <Input
+                                label = 'Time'
+                                placeholder = 'hh:mm'
+                                labelStyle = { Styles.label }
+                                inputStyle = { Styles.text }
+                                containerStyle = { Styles.inputContainer }
+                                errorMessage = {this.state.invalidTime? 'Please input time in hh:mm' : ''}
+                                errorStyle = { Styles.error }
+                                onChangeText = { (time) => this.setState({time}) }
+                                value = { this.state.time }/>
+
+                                <Icon
+                                    name = "access-time"
+                                    type = 'material'
+                                    size = { 25 }
+                                    containerStyle = {{ alignSelf: 'flex-end'}}
+                                    onPress = { () => this.setState({ timeVisible: true }) }/>
+                        </View>
                         <Input
                             label = 'Amount'
                             placeholder = '$0.00'
@@ -147,6 +183,22 @@ export default class Main extends Component{
                             price = { this.state.price }
                             picUri = { this.state.picUri }
                             validate = { this.checkForm }/>
+
+                        <DateTimePicker
+                            mode = "date"
+                            date = {new Date(this.formatDate(this.state.date))}
+                            isVisible = { this.state.dateVisible }
+                            onConfirm = { this.handleDate }
+                            onCancel = { () => this.setState({ dateVisible: false}) }
+                        />
+
+                        <DateTimePicker
+                            mode = 'time'
+                            timePickerModeAndroid = 'clock'
+                            isVisible = { this.state.timeVisible }
+                            onConfirm = { this.handleTime }
+                            onCancel = { () => this.setState({ timeVisible: false}) }
+                        />
                     </ScrollView>
                 </>
             );
