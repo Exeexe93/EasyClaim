@@ -61,6 +61,9 @@ export default class ForgotPassword extends Component{
                 <Text style = { Styles.logo }>
                     EasyClaim
                 </Text>
+                <Text style = { Styles.description }>
+                    Please input your email address!
+                </Text>
                 <View style = { Styles.textContainer}>
                         <TextInput
                             placeholder = 'Email'

@@ -29,8 +29,8 @@ class UploadFile extends Component{
 
         const options = {
             quality: 1.0,
-            maxWidth: 500,
-            maxHeight: 500,
+            maxWidth: 800,
+            maxHeight: 1700,
             storageOptions: {
                 skipBackup: true,
             },
@@ -90,7 +90,7 @@ class UploadFile extends Component{
         }
         if (posOfColon != -1 && posOfPlus != -1) {
             // Time in 04:39 +0800
-            const time = value.substr(posOfColon - 2, 5);
+            const time = value.substr(posOfPlus - 6, 5);
             this.setState({ time: time });
         }
     }

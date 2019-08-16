@@ -27,10 +27,9 @@ const Styles = StyleSheet.create({
         alignSelf: 'center'
   },
   editText: {
-        paddingVertical: 10,
-        paddingHorizontal: 30,
         fontSize: 16,
         alignSelf: 'center',
+        width: '60%',
   }
 });
 

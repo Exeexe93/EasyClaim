@@ -101,6 +101,8 @@ export default class EditProfile extends Component{
                         <TextInput
                             underlineColorAndroid = 'blue'
                             style = {Styles.editText}
+                            maxLength = { 27 }
+                            textAlign = { 'center' }
                             onChangeText={ (name) => this.setState({name}) }
                             value = { this.state.name }/>
                         <Text style = {Styles.text}>
@@ -109,6 +111,8 @@ export default class EditProfile extends Component{
                         <TextInput
                             underlineColorAndroid = 'blue'
                             style = {Styles.editText}
+                            maxLength = { 27 }
+                            textAlign = { 'center' }
                             onChangeText={ (company) => this.setState({company}) }
                             value = { this.state.company }/>
                         <Text style = {Styles.text}>
@@ -117,6 +121,8 @@ export default class EditProfile extends Component{
                         <TextInput
                             underlineColorAndroid = 'blue'
                             style = {Styles.editText}
+                            maxLength = { 27 }
+                            textAlign = { 'center' }
                             onChangeText={ (position) => this.setState({position}) }
                             value = { this.state.position }/>
                         <Text style = {Styles.text}>
@@ -125,6 +131,8 @@ export default class EditProfile extends Component{
                         <TextInput
                             underlineColorAndroid = 'blue'
                             style = {Styles.editText}
+                            maxLength = { 27 }
+                            textAlign = { 'center' }
                             onChangeText={ (gender) => this.setState({gender}) }
                             value = { this.state.gender }/>
                     </View>

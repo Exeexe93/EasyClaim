@@ -28,7 +28,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center'
   },
   textContainer: {
-        paddingTop: 60,
+        paddingTop: '10%',
         paddingBottom: 20,
   },
   button: {
@@ -43,6 +43,10 @@ const Styles = StyleSheet.create({
       alignSelf: 'center',
       width: 150,
       height: 40,
+  },
+  description: {
+      fontSize: 14,
+      textAlign: 'center',
   },
 });
 
